@@ -187,7 +187,7 @@ class Index extends Component {
             <TextField
               name="note"
               autoComplete="off"
-              label="Note (Optional)"
+              label="Location"
               margin="normal"
               multiline
               rows="10"
@@ -198,12 +198,19 @@ class Index extends Component {
               color="primary"
               className={classes.formButton}
               type="submit">
-              Add / Update note
+              Add / Update location
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              type="download">
+              Download Location History 
             </Button>
           </form>
         </Paper>
         <pre className={classes.pre}>
-          Below is a list of pre-created accounts information for add/update note:
+          Below is a list of pre-created accounts information for location tracking:
           <br/><br/>
           accounts = { JSON.stringify(accounts, null, 2) }
         </pre>
