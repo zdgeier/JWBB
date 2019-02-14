@@ -49,6 +49,18 @@ const styles = theme => ({
   },
 });
 
+function exportToCsvFile(jsonData) {
+  let csvStr = JSON.stringify(jsonData);
+  let dataUri = 'data:application/json;charset=utf-8,'+ csvStr;
+  
+  let exportFileDefaultName = 'data.json';
+  
+  let linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.click();
+}
+
 // Index component
 class Index extends Component {
 
@@ -131,6 +143,17 @@ class Index extends Component {
     }).then(result => this.setState({ noteTable: result.rows }));
   }
 
+  downloadTable() {
+    const rpc = new JsonRpc(endpoint);
+    rpc.get_table_rows({
+      "json": true,
+      "code": "notechainacc",   // contract who owns the table
+      "scope": "notechainacc",  // scope of the table
+      "table": "notestruct",    // name of the table as specified by the contract abi
+      "limit": 100,
+    }).then(result => exportToCsvFile(result.rows));
+  }
+
   componentDidMount() {
     this.getTable();
   }
@@ -200,14 +223,14 @@ class Index extends Component {
               type="submit">
               Add / Update location
             </Button>
-            <Button
+          </form>
+          <Button
               variant="contained"
               color="primary"
               className={classes.formButton}
-              type="download">
+              onClick={() => this.downloadTable()}>
               Download Location History 
-            </Button>
-          </form>
+          </Button>
         </Paper>
         <pre className={classes.pre}>
           Below is a list of pre-created accounts information for location tracking:
