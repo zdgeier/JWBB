@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchain.mobile.actions.note
 
 /**
  * Copyright 2013-present memtrip LTD.

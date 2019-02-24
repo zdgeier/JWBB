@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchain.mobile.actions.note
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.ChildCompress

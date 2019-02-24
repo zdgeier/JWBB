@@ -1,6 +1,5 @@
-package com.vtblockchain.mobile
+package com.vtblockchain.mobile.actions.note
 
-import android.util.Log
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse
 import com.memtrip.eos.chain.actions.transaction.ChainTransaction
@@ -25,7 +24,6 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
         args: Args,
         transactionContext: TransactionContext
     ): Single<ChainResponse<TransactionCommitted>> {
-        Log.d("doingit", "good")
         return push(
             transactionContext.expirationDate,
             asList(ActionAbi(

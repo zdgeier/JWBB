@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchain.mobile.actions.note
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import java.util.Date

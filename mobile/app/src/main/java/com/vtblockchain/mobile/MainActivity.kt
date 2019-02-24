@@ -2,12 +2,12 @@ package com.vtblockchain.mobile
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.core.crypto.EosPrivateKey
+import com.vtblockchain.mobile.actions.note.NoteTransfer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                     EosPrivateKey(privateKey.text.toString()),
                     transactionDefaultExpiry()
                 )
-            )
+            ).blockingGet()
         } }
 
 
