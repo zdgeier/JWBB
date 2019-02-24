@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import com.google.android.material.textfield.TextInputEditText
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.core.crypto.EosPrivateKey
@@ -19,7 +20,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val button : Button = findViewById(R.id.button)
+        val button : Button = findViewById(R.id.submit)
+        val account : TextInputEditText = findViewById(R.id.account)
+        val privateKey : TextInputEditText = findViewById(R.id.privateKey)
+        val location : TextInputEditText = findViewById(R.id.location)
+
         button.setOnClickListener { GlobalScope.launch {
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -29,31 +34,18 @@ class MainActivity : AppCompatActivity() {
 
             val api = Api(Config.LOCAL_API_BASE_URL, okHttpClient.build())
 
-            val boi = EosPrivateKey("5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5")
-
-            /**
-             * First account
-             */
-            val transfer1 = NoteTransfer(api.chain).update(
+            NoteTransfer(api.chain).update(
                 "notechainacc",
                 NoteTransfer.Args(
-                    "useraaaaaaaa",
-                    "IT WORKS"
+                    account.text.toString(),
+                    location.text.toString()
                 ),
                 TransactionContext(
-                    "useraaaaaaaa",
-                    boi,
+                    account.text.toString(),
+                    EosPrivateKey(privateKey.text.toString()),
                     transactionDefaultExpiry()
                 )
-            ).subscribe ({ response ->
-                if (response.isSuccessful) {
-                    val info = response.body!!
-                } else {
-                    val errorBody = response.errorBody!!
-                }
-            }, { error ->
-                error.printStackTrace()
-            })
+            )
         } }
 
 
