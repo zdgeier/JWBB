@@ -3,6 +3,7 @@ package com.vtblockchain.mobile
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.core.crypto.EosPrivateKey
@@ -18,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        GlobalScope.launch {
+        val button : Button = findViewById(R.id.button)
+        button.setOnClickListener { GlobalScope.launch {
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .connectTimeout(3, TimeUnit.SECONDS)
@@ -46,16 +48,14 @@ class MainActivity : AppCompatActivity() {
             ).subscribe ({ response ->
                 if (response.isSuccessful) {
                     val info = response.body!!
-                    Log.d("resposne", info.transaction_id)
                 } else {
                     val errorBody = response.errorBody!!
                 }
             }, { error ->
                 error.printStackTrace()
             })
+        } }
 
 
-
-        }
     }
 }
