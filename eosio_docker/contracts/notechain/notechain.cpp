@@ -57,8 +57,7 @@ CONTRACT notechain : public eosio::contract {
       // to sign the action with the given account
       require_auth( user );
 
-      // create new / update note depends whether the user account exist or not
-      // insert new note
+      // insert new location
       _notes.emplace( _self, [&]( auto& new_user ) {
         new_user.prim_key    = _notes.available_primary_key();
         new_user.user        = user;

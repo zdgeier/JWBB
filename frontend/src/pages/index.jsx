@@ -105,7 +105,7 @@ class Index extends Component {
     const signatureProvider = new JsSignatureProvider([privateKey]);
     const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
     try {
-      const result = await api.transact({
+      var trans = {
         actions: [{
           account: "notechainacc",
           name: actionName,
@@ -115,10 +115,15 @@ class Index extends Component {
           }],
           data: actionData,
         }]
-      }, {
+      };
+      console.log(trans)
+      
+      var trans2 = {
         blocksBehind: 3,
         expireSeconds: 30,
-      });
+      };
+
+      const result = await api.transact(trans, trans2);
 
       console.log(result);
       this.getTable();
