@@ -1,5 +1,6 @@
 package com.vtblockchain.mobile
 
+import android.util.Log
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse
 import com.memtrip.eos.chain.actions.transaction.ChainTransaction
@@ -12,24 +13,24 @@ import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
 import java.util.Arrays.asList
 
-class TransferChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
+class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
         val account: String,
         val note: String
     )
 
-    fun transfer(
+    fun update(
         contract: String,
         args: Args,
         transactionContext: TransactionContext
     ): Single<ChainResponse<TransactionCommitted>> {
-
+        Log.d("doingit", "good")
         return push(
             transactionContext.expirationDate,
             asList(ActionAbi(
                 contract,
-                "transfer",
+                "update",
                 asList(TransactionAuthorizationAbi(
                     transactionContext.authorizingAccountName,
                     "active")),

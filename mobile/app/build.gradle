@@ -39,6 +39,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation ("com.memtrip.eos-jvm:eos-http-rpc:1.0.0-beta01") {
         exclude group: "com.lambdaworks", module: "scrypt"
     }
