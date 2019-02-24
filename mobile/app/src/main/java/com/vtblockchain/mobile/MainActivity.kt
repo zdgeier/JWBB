@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.model.info.Info
+import com.memtrip.eos.core.crypto.EosPrivateKey
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -23,16 +23,13 @@ class MainActivity : AppCompatActivity() {
                 .writeTimeout(3, TimeUnit.SECONDS)
 
             val api = Api("http://10.0.0.52:8888/", okHttpClient.build())
-            api.chain.getInfo().subscribe({ response ->
-                if (response.isSuccessful) {
-                    val info: Info = response.body()!!
-                    Log.d("response", info.head_block_id)
-                } else {
-                    val errorBody = response.errorBody()!!
-                }
-            }, { error ->
-                error.printStackTrace()
-            })
+
+            val signatureProviderPrivateKey = EosPrivateKey("5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5")
+
+            /**
+             * First account
+             */
+            val firstAccountPrivateKey = EosPrivateKey()
         }
     }
 }
