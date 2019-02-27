@@ -18,6 +18,7 @@ nodeos -e -p eosio -d /mnt/dev/data \
   --plugin eosio::http_plugin \
   --http-server-address=0.0.0.0:8888 \
   --access-control-allow-origin=* \
+  --delete-all-blocks \
   --contracts-console \
   --verbose-http-errors &
 sleep 1s

@@ -27,8 +27,9 @@ CONTRACT notechain : public eosio::contract {
 
     TABLE notestruct {
       uint64_t      prim_key;  // primary key
-      name          user;      // account name for the user
-      std::string   note;      // the note message
+      name          user;
+      float         xval;      // account name for the user
+      float         yval;      // account name for the user
       uint64_t      timestamp; // the store the last update block time
 
       // primary key
@@ -53,7 +54,7 @@ CONTRACT notechain : public eosio::contract {
                 contract( receiver, code, ds ),
                 _notes( receiver, receiver.value ) {}
 
-    ACTION update( name user, std::string& note ) {
+    ACTION update( name user, float xval, float yval ) {
       // to sign the action with the given account
       require_auth( user );
 
@@ -61,7 +62,8 @@ CONTRACT notechain : public eosio::contract {
       _notes.emplace( _self, [&]( auto& new_user ) {
         new_user.prim_key    = _notes.available_primary_key();
         new_user.user        = user;
-        new_user.note        = note;
+        new_user.xval        = xval;
+        new_user.yval        = yval;
         new_user.timestamp   = now();
       });
     }

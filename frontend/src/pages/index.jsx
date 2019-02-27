@@ -81,7 +81,8 @@ class Index extends Component {
     // collect form data
     let account = event.target.account.value;
     let privateKey = event.target.privateKey.value;
-    let note = event.target.note.value;
+    let xval = event.target.xval.value;
+    let yval = event.target.yval.value;
 
     // prepare variables for the switch below to send transactions
     let actionName = "";
@@ -93,7 +94,8 @@ class Index extends Component {
         actionName = "update";
         actionData = {
           user: account,
-          note: note,
+          xval: xval,
+          yval: yval
         };
         break;
       default:
@@ -168,7 +170,7 @@ class Index extends Component {
     const { classes } = this.props;
 
     // generate each note as a card
-    const generateCard = (key, timestamp, user, note) => (
+    const generateCard = (key, timestamp, user, note, xval, yval) => (
       <Card className={classes.card} key={key}>
         <CardContent>
           <Typography variant="headline" component="h2">
@@ -178,13 +180,13 @@ class Index extends Component {
             {new Date(timestamp*1000).toString()}
           </Typography>
           <Typography component="pre">
-            {note}
+            {xval}|{yval}
           </Typography>
         </CardContent>
       </Card>
     );
     let noteCards = noteTable.map((row, i) =>
-      generateCard(i, row.timestamp, row.user, row.note));
+      generateCard(i, row.timestamp, row.user, row.note, row.xval, row.yval));
 
     return (
       <div>
@@ -213,12 +215,17 @@ class Index extends Component {
               fullWidth
             />
             <TextField
-              name="note"
+              name="xval"
               autoComplete="off"
-              label="Location"
+              label="xval"
               margin="normal"
-              multiline
-              rows="10"
+              fullWidth
+            />
+            <TextField
+              name="yval"
+              autoComplete="off"
+              label="yval"
+              margin="normal"
               fullWidth
             />
             <Button
