@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 .readTimeout(3, TimeUnit.SECONDS)
                 .writeTimeout(3, TimeUnit.SECONDS)
 
-            val api = Api(Config.LOCAL_API_BASE_URL, okHttpClient.build())
+            val api = Api(Config.REMOTE_API_BASE_URL, okHttpClient.build())
 
             NoteTransfer(api.chain).update(
                 "notechainacc",
