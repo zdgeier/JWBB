@@ -67,7 +67,7 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      noteTable: [] // to store the table rows from smart contract
+      attendance_table: [] // to store the table rows from smart contract
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
   }
@@ -84,7 +84,6 @@ class Index extends Component {
     let xval = event.target.xval.value;
     let yval = event.target.yval.value;
     let crn = event.target.crn.value;
-
     // prepare variables for the switch below to send transactions
     let actionName = "";
     let actionData = {};
@@ -92,7 +91,7 @@ class Index extends Component {
     // define actionName and action according to event type
     switch (event.type) {
       case "submit":
-        actionName = "update";
+        actionName = "record";
         actionData = {
           user: account,
           xval: xval,
@@ -111,7 +110,7 @@ class Index extends Component {
     try {
       var trans = {
         actions: [{
-          account: "notechainacc",
+          account: "lokchain",
           name: actionName,
           authorization: [{
             actor: account,
@@ -138,7 +137,6 @@ class Index extends Component {
       }
     }
   }
-
 
   // push transactions to the blockchain by using eosjs
   async handleAddClass(event) {
@@ -175,6 +173,7 @@ class Index extends Component {
         return;
     }
 
+    
     // eosjs function call: connect to the blockchain
     const rpc = new JsonRpc(endpoint);
     const signatureProvider = new JsSignatureProvider([privateKey]);
@@ -182,7 +181,7 @@ class Index extends Component {
     try {
       var trans = {
         actions: [{
-          account: "notechainacc",
+          account: "lokchain",
           name: actionName,
           authorization: [{
             actor: account,
@@ -212,26 +211,28 @@ class Index extends Component {
 
 
 
+
+
   // gets table data from the blockchain
-  // and saves it into the component state: "noteTable"
+  // and saves it into the component state: "attendanceTable"
   getTable() {
     const rpc = new JsonRpc(endpoint);
     rpc.get_table_rows({
       "json": true,
-      "code": "notechainacc",   // contract who owns the table
-      "scope": "notechainacc",  // scope of the table
-      "table": "notestruct",    // name of the table as specified by the contract abi
+      "code": "lokchain",   // contract who owns the table
+      "scope": "lokchain",  // scope of the table
+      "table": "attendance",    // name of the table as specified by the contract abi
       "limit": 100,
-    }).then(result => this.setState({ noteTable: result.rows }));
+    }).then(result => this.setState({ attendance_table: result.rows }));
   }
 
   downloadTable() {
     const rpc = new JsonRpc(endpoint);
     rpc.get_table_rows({
       "json": true,
-      "code": "notechainacc",   // contract who owns the table
-      "scope": "notechainacc",  // scope of the table
-      "table": "notestruct",    // name of the table as specified by the contract abi
+      "code": "lokchain",   // contract who owns the table
+      "scope": "lokchain",  // scope of the table
+      "table": "attendance",    // name of the table as specified by the contract abi
       "limit": 100,
     }).then(result => exportToCsvFile(result.rows));
   }
@@ -241,7 +242,7 @@ class Index extends Component {
   }
 
   render() {
-    const { noteTable } = this.state;
+    const { attendance_table } = this.state;
     const { classes } = this.props;
 
     // generate each note as a card
@@ -260,7 +261,7 @@ class Index extends Component {
         </CardContent>
       </Card>
     );
-    let noteCards = noteTable.map((row, i) =>
+    let noteCards = attendance_table.map((row, i) =>
       generateCard(i, row.timestamp, row.user, row.note, row.xval, row.yval));
 
     return (
@@ -376,6 +377,7 @@ class Index extends Component {
               Add Class
             </Button>
           </form>
+
           <Button
               variant="contained"
               color="primary"
