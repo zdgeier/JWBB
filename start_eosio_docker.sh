@@ -6,8 +6,9 @@ cd "$(dirname "$0")/eosio_docker"
 
 if [ -e "data/initialized" ]
 then
-    script="./scripts/continue_blockchain.sh"
-else
+    script="./scripts/init_blockchain.sh"
+#    script="./scripts/continue_blockchain.sh"
+else   
     script="./scripts/init_blockchain.sh"
 fi
 

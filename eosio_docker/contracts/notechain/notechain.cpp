@@ -39,12 +39,27 @@ CONTRACT notechain : public eosio::contract {
       uint64_t get_by_user() const { return user.value; }
     };
 
+    TABLE classbounds {
+      uint64_t 		crn; //class crn
+      float			x_min; //min x coord
+      float			x_max; //max x coord
+      float			y_min; //min y coord
+      float			y_max; //max y coord
+
+      // set crn as primary key
+      auto primary_key() const { return crn; }
+    };
+
     // create a multi-index table and support secondary key
     typedef eosio::multi_index< name("notestruct"), notestruct,
       indexed_by< name("getbyuser"), const_mem_fun<notestruct, uint64_t, &notestruct::get_by_user> >
       > note_table;
 
+    typedef eosio::multi_index< name("classbounds"), classbounds> class_table;
+
+
     note_table _notes;
+    class_table _classes;
 
   public:
     using contract::contract;
@@ -52,23 +67,49 @@ CONTRACT notechain : public eosio::contract {
     // constructor
     notechain( name receiver, name code, datastream<const char*> ds ):
                 contract( receiver, code, ds ),
-                _notes( receiver, receiver.value ) {}
+                _notes( receiver, receiver.value ),
+                _classes( receiver, receiver.value ) {}
 
-    ACTION update( name user, float xval, float yval ) {
+    ACTION update( name user, float xval, float yval, uint64_t crn ) {
       // to sign the action with the given account
       require_auth( user );
 
-      // insert new location
-      _notes.emplace( _self, [&]( auto& new_user ) {
-        new_user.prim_key    = _notes.available_primary_key();
-        new_user.user        = user;
-        new_user.xval        = xval;
-        new_user.yval        = yval;
-        new_user.timestamp   = now();
+      for (auto& item : _classes) {
+      	if(item.crn == crn) {
+      		if(xval >= item.x_min && xval <= item.x_max && yval >= item.y_min && yval <= item.y_max){
+      				  	  // insert new location
+		      _notes.emplace( _self, [&]( auto& new_user ) {
+		        new_user.prim_key    = _notes.available_primary_key();
+		        new_user.user        = user;
+		        new_user.xval        = xval;
+		        new_user.yval        = yval;
+		        new_user.timestamp   = now();
+		      });      			
+      		}
+      		else{
+      			eosio::print("Outside of class bounds");	
+      		}
+      		return;
+      	}
+      }
+      eosio::print("Given CRN doesn't exist");
+    }
+
+    ACTION create(name user, uint64_t crn, float x_min, float x_max, float y_min, float y_max) {
+
+    	require_auth( user );
+
+    	_classes.emplace( _self, [&]( auto& new_class ) {
+        new_class.crn    	   = crn;
+        new_class.x_min        = x_min;
+        new_class.x_max        = x_max;
+        new_class.y_min        = y_min;
+        new_class.y_max        = y_max;
       });
+      eosio::print("New class created");
     }
 
 };
 
-// specify the contract name, and export a public action: update
-EOSIO_DISPATCH( notechain, (update) )
+// specify the contract name, and export a public action: update and create
+EOSIO_DISPATCH( notechain, (update) (create))

@@ -83,6 +83,7 @@ class Index extends Component {
     let privateKey = event.target.privateKey.value;
     let xval = event.target.xval.value;
     let yval = event.target.yval.value;
+    let crn = event.target.crn.value;
 
     // prepare variables for the switch below to send transactions
     let actionName = "";
@@ -95,7 +96,8 @@ class Index extends Component {
         actionData = {
           user: account,
           xval: xval,
-          yval: yval
+          yval: yval,
+          crn: crn
         };
         break;
       default:
@@ -136,6 +138,79 @@ class Index extends Component {
       }
     }
   }
+
+
+  // push transactions to the blockchain by using eosjs
+  async handleAddClass(event) {
+    // stop default behaviour
+    event.preventDefault();
+
+    // collect form data
+    let account = event.target.account.value;
+    let privateKey = event.target.privateKey.value;
+    let crn = event.target.crn.value;
+    let x_min = event.target.x_min.value;
+    let x_max = event.target.x_max.value;
+    let y_min = event.target.y_min.value;
+    let y_max = event.target.y_max.value;
+
+    // prepare variables for the switch below to send transactions
+    let actionName = "";
+    let actionData = {};
+
+    // define actionName and action according to event type
+    switch (event.type) {
+      case "submit":
+        actionName = "create";
+        actionData = {
+          user: account,
+          crn: crn,
+          x_min: x_min,
+          x_max: x_max,
+          y_min: y_min,
+          y_max: y_max,
+        };
+        break;
+      default:
+        return;
+    }
+
+    // eosjs function call: connect to the blockchain
+    const rpc = new JsonRpc(endpoint);
+    const signatureProvider = new JsSignatureProvider([privateKey]);
+    const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
+    try {
+      var trans = {
+        actions: [{
+          account: "notechainacc",
+          name: actionName,
+          authorization: [{
+            actor: account,
+            permission: 'active',
+          }],
+          data: actionData,
+        }]
+      };
+      console.log(trans)
+      
+      var trans2 = {
+        blocksBehind: 3,
+        expireSeconds: 30,
+      };
+
+      const result = await api.transact(trans, trans2);
+
+      console.log(result);
+      this.getTable();
+    } catch (e) {
+      console.log('Caught exception: ' + e);
+      if (e instanceof RpcError) {
+        console.log(JSON.stringify(e.json, null, 2));
+      }
+    }
+  }
+
+
 
   // gets table data from the blockchain
   // and saves it into the component state: "noteTable"
@@ -215,6 +290,13 @@ class Index extends Component {
               fullWidth
             />
             <TextField
+              name="crn"
+              autoComplete="off"
+              label="crn"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
               name="xval"
               autoComplete="off"
               label="xval"
@@ -234,6 +316,64 @@ class Index extends Component {
               className={classes.formButton}
               type="submit">
               Add / Update location
+            </Button>
+          </form>
+          <form onSubmit={this.handleAddClass}>
+            <TextField
+              name="account"
+              autoComplete="off"
+              label="Account"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="privateKey"
+              autoComplete="off"
+              label="Private key"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="crn"
+              autoComplete="off"
+              label="crn"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="x_min"
+              autoComplete="off"
+              label="x_min"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="x_max"
+              autoComplete="off"
+              label="x_max"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="y_min"
+              autoComplete="off"
+              label="y_min"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="y_max"
+              autoComplete="off"
+              label="y_max"
+              margin="normal"
+              fullWidth
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              type="submit">
+              Add Class
             </Button>
           </form>
           <Button
