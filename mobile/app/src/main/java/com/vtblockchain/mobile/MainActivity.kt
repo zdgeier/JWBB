@@ -32,13 +32,14 @@ class MainActivity : AppCompatActivity() {
                 .readTimeout(3, TimeUnit.SECONDS)
                 .writeTimeout(3, TimeUnit.SECONDS)
 
-            val api = Api(Config.REMOTE_API_BASE_URL, okHttpClient.build())
+            val api = Api(Config.LOCAL_HOST_API_BASE_URL, okHttpClient.build())
 
             NoteTransfer(api.chain).update(
                 "notechainacc",
                 NoteTransfer.Args(
                     account.text.toString(),
-                    location.text.toString()
+                    location.text.toString().split(",")[0].toFloat(),
+                    location.text.toString().split(",")[1].toFloat()
                 ),
                 TransactionContext(
                     account.text.toString(),

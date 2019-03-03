@@ -18,17 +18,21 @@ package com.vtblockchain.mobile.actions.note
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.AccountNameCompress
-import com.memtrip.eos.abi.writer.StringCompress
+import com.memtrip.eos.abi.writer.FloatCompress
 
 @Abi
 data class NoteArgs (
     val account: String,
-    val note: String
+    val xval: Float,
+    val yval: Float
 ) {
 
     val getAccount: String
         @AccountNameCompress get() = account
 
-    val getNote: String
-        @StringCompress get() = note
+    val getXVal: Float
+        @FloatCompress get() = xval
+
+    val getYVal: Float
+        @FloatCompress get() = yval
 }

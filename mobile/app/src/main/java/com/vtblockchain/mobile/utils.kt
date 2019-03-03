@@ -5,6 +5,7 @@ import java.util.Calendar
 
 class Config {
     companion object {
+        const val LOCAL_HOST_API_BASE_URL = "http://192.168.1.103:8888/"
         const val LOCAL_API_BASE_URL = "http://10.0.0.52:8888/"
         const val REMOTE_API_BASE_URL = "http://34.73.70.194:8888/"
     }
