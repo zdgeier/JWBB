@@ -1,5 +1,5 @@
 #include <eosiolib/eosio.hpp>
-
+#include <list>
 using namespace eosio;
 
 // Smart Contract Name: notechain
@@ -39,11 +39,7 @@ CONTRACT lokchain : public eosio::contract {
 
     TABLE classes {
       uint64_t 		crn; //class crn
-      float			x_min; //min x coord
-      float			x_max; //max x coord
-      float			y_min; //min y coord
-      float			y_max; //max y coord
-
+      std::list<std::pair<float,float>> coordinates; //list of coordinates
       // set crn as primary key
       auto primary_key() const { return crn; }
     };
@@ -74,7 +70,8 @@ CONTRACT lokchain : public eosio::contract {
       for (auto& item : _classes) {
       	if(item.crn == crn) {
       		//check if the student is inside the class boundaries
-      		if(xval >= item.x_min && xval <= item.x_max && yval >= item.y_min && yval <= item.y_max){
+      		//if(xval >= item.x_min && xval <= item.x_max && yval >= item.y_min && yval <= item.y_max){
+      		if(true){ //TODO: REPLACE THIS WITH PROPER LIST CHECKING
       		  // insert new location
 		      _attendance.emplace( _self, [&]( auto& new_user ) {
 		        new_user.prim_key    = _attendance.available_primary_key();
@@ -93,18 +90,17 @@ CONTRACT lokchain : public eosio::contract {
       eosio::print("Given CRN doesn't exist...");
     }
 
+    //TODO:UDPATE TO PROPERLY CREATE A SERIES OF COORDINATES OR A SERIES OF KNOWN EDGES
     ACTION create(name user, uint64_t crn, float x_min, float x_max, float y_min, float y_max) {
     	// to sign the action with the given account
     	require_auth( user );
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = crn;
-	        new_class.x_min        = x_min;
-	        new_class.x_max        = x_max;
-	        new_class.y_min        = y_min;
-	        new_class.y_max        = y_max;
-      });
-      eosio::print("New class created");
+	        new_class.coordinates.emplace_front(std::make_pair(x_min, y_min));
+	        new_class.coordinates.emplace_front(std::make_pair(x_max, y_max));
+      	});
+      	eosio::print("New class created");
     }
 };
 
