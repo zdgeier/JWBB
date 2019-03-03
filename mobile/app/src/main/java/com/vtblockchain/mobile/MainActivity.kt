@@ -38,7 +38,8 @@ class MainActivity : AppCompatActivity() {
                 "notechainacc",
                 NoteTransfer.Args(
                     account.text.toString(),
-                    location.text.toString()
+                    location.text.toString().split(",")[0].toFloat(),
+                    location.text.toString().split(",")[1].toFloat()
                 ),
                 TransactionContext(
                     account.text.toString(),

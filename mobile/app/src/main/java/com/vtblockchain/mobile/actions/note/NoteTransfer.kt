@@ -16,7 +16,8 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
         val account: String,
-        val note: String
+        val xval: Float,
+        val yval: Float
     )
 
     fun update(
@@ -43,7 +44,8 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
             NoteBody(
                 NoteArgs(
                     args.account,
-                    args.note
+                    args.xval,
+                    args.yval
                 )
             )
         ).toHex()
