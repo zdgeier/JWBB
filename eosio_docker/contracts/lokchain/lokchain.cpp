@@ -1,5 +1,6 @@
 #include <eosiolib/eosio.hpp>
 #include <list>
+#include <vector>
 using namespace eosio;
 
 // Smart Contract Name: notechain
@@ -40,6 +41,7 @@ CONTRACT lokchain : public eosio::contract {
     TABLE classes {
       uint64_t 		crn; //class crn
       std::list<std::pair<float,float>> coordinates; //list of coordinates
+
       // set crn as primary key
       auto primary_key() const { return crn; }
     };
@@ -90,15 +92,19 @@ CONTRACT lokchain : public eosio::contract {
       eosio::print("Given CRN doesn't exist...");
     }
 
-    //TODO:UDPATE TO PROPERLY CREATE A SERIES OF COORDINATES OR A SERIES OF KNOWN EDGES
-    ACTION create(name user, uint64_t crn, float x_min, float x_max, float y_min, float y_max) {
+    ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys) {
     	// to sign the action with the given account
     	require_auth( user );
 
+    	std::list<std::pair<float,float>> coordinates;
+    	//Assumes every x has a matching y 
+    	for (int i = 0; i < xs.size(); i++){
+    		coordinates.push_back(std::make_pair(xs[i], xs[i]));
+    	}
+
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = crn;
-	        new_class.coordinates.emplace_front(std::make_pair(x_min, y_min));
-	        new_class.coordinates.emplace_front(std::make_pair(x_max, y_max));
+	        new_class.coordinates  = coordinates;
       	});
       	eosio::print("New class created");
     }
