@@ -19,6 +19,12 @@ const endpoint = "http://localhost:8888";
 
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
+// eslint-disable-next-line
+const klasses = [
+  {"crn":"100", "bounds":"(0,0),(100,100)"},
+  {"crn":"200", "bounds":"(200,200),(250,250)"},
+  {"crn":"500", "bounds":"(500,500),(600,600)"}
+]
 const accounts = [
   {"name":"useraaaaaaaa", "privateKey":"5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", "publicKey":"EOS6kYgMTCh1iqpq9XGNQbEi8Q6k5GujefN9DSs55dcjVyFAq7B6b"},
   {"name":"useraaaaaaab", "privateKey":"5KLqT1UFxVnKRWkjvhFur4sECrPhciuUqsYRihc1p9rxhXQMZBg", "publicKey":"EOS78RuuHNgtmDv9jwAzhxZ9LmC6F295snyQ9eUDQ5YtVHJ1udE6p"},
@@ -209,10 +215,6 @@ class Index extends Component {
     }
   }
 
-
-
-
-
   // gets table data from the blockchain
   // and saves it into the component state: "attendanceTable"
   getTable() {
@@ -235,6 +237,49 @@ class Index extends Component {
       "table": "attendance",    // name of the table as specified by the contract abi
       "limit": 100,
     }).then(result => exportToCsvFile(result.rows));
+  }
+
+  //creates a default set of classes
+  async populate() {
+    // collect form data
+    let account = "useraaaaaaaa";
+    let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5";
+    let actionName = "populate"
+    let actionData =  {user: account};
+   
+    // eosjs function call: connect to the blockchain
+    const rpc = new JsonRpc(endpoint);
+    const signatureProvider = new JsSignatureProvider([privateKey]);
+    const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
+    try {
+      var trans = {
+        actions: [{
+          account: "lokchain",
+          name: actionName,
+          authorization: [{
+            actor: account,
+            permission: 'active',
+          }],
+          data: actionData,
+        }]
+      };
+      console.log(trans)
+      
+      var trans2 = {
+        blocksBehind: 3,
+        expireSeconds: 30,
+      };
+
+      const result = await api.transact(trans, trans2);
+
+      console.log(result);
+      this.getTable();
+    } catch (e) {
+      console.log('Caught exception: ' + e);
+      if (e instanceof RpcError) {
+        console.log(JSON.stringify(e.json, null, 2));
+      }
+    }
   }
 
   componentDidMount() {
@@ -385,9 +430,18 @@ class Index extends Component {
               onClick={() => this.downloadTable()}>
               Download Location History 
           </Button>
+          <Button
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              onClick={() => this.populate()}>
+              Populate Classes
+          </Button>
         </Paper>
         <pre className={classes.pre}>
           Below is a list of pre-created accounts information for location tracking:
+          <br/><br/>
+          classes = { JSON.stringify(klasses, null, 2) }
           <br/><br/>
           accounts = { JSON.stringify(accounts, null, 2) }
         </pre>

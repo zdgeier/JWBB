@@ -1,5 +1,6 @@
 #include <eosiolib/eosio.hpp>
 #include <list>
+#include <iterator>
 #include <vector>
 using namespace eosio;
 
@@ -71,20 +72,24 @@ CONTRACT lokchain : public eosio::contract {
 
       for (auto& item : _classes) {
       	if(item.crn == crn) {
+      		auto iter = item.coordinates.begin();
+      		auto a = *iter;
+      		auto b = *(std::next(iter));
       		//check if the student is inside the class boundaries
-      		//if(xval >= item.x_min && xval <= item.x_max && yval >= item.y_min && yval <= item.y_max){
-      		if(true){ //TODO: REPLACE THIS WITH PROPER LIST CHECKING
-      		  // insert new location
-		      _attendance.emplace( _self, [&]( auto& new_user ) {
-		        new_user.prim_key    = _attendance.available_primary_key();
-		        new_user.user        = user;
-		        new_user.xval        = xval;
-		        new_user.yval        = yval;
-		        new_user.timestamp   = now();
-		      });      			
+      		//TODO: Update so it work with all polygons
+      		if(xval >= a.first && xval <= b.first 
+      			&& yval >= a.second && yval <= b.second){
+		        _attendance.emplace( _self, [&]( auto& new_user ) {
+			        new_user.prim_key    = _attendance.available_primary_key();
+			        new_user.user        = user;
+			        new_user.xval        = xval;
+			        new_user.yval        = yval;
+			        new_user.timestamp   = now();
+		        });     
+		        eosio::print("Attendance recorded!"); 			
       		}
       		else{
-      			eosio::print("Outside of class bounds");	
+      			eosio::print("TRUANT:Outside of class bounds!");	
       		}
       		return;
       	}
@@ -99,7 +104,7 @@ CONTRACT lokchain : public eosio::contract {
     	std::list<std::pair<float,float>> coordinates;
     	//Assumes every x has a matching y 
     	for (int i = 0; i < xs.size(); i++){
-    		coordinates.push_back(std::make_pair(xs[i], xs[i]));
+    		coordinates.push_back(std::make_pair(xs[i], ys[i]));
     	}
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
@@ -108,7 +113,42 @@ CONTRACT lokchain : public eosio::contract {
       	});
       	eosio::print("New class created");
     }
+
+    //populates to classes table with set values
+    ACTION populate(name user){
+    	require_auth( user );
+
+    	std::list<std::pair<float,float>> coordinates1;
+    	std::list<std::pair<float,float>> coordinates2;
+    	std::list<std::pair<float,float>> coordinates3;
+
+    	coordinates1.push_back(std::make_pair(0, 0));
+    	coordinates1.push_back(std::make_pair(100, 100));
+
+    	coordinates2.push_back(std::make_pair(200, 200));
+    	coordinates2.push_back(std::make_pair(250, 250));
+
+    	coordinates3.push_back(std::make_pair(500, 500));
+    	coordinates3.push_back(std::make_pair(600, 600));
+
+    	_classes.emplace( _self, [&]( auto& new_class ) {
+	        new_class.crn    	   = 100;
+	        new_class.coordinates  = coordinates1;
+      	});
+
+    	_classes.emplace( _self, [&]( auto& new_class ) {
+	        new_class.crn    	   = 200;
+	        new_class.coordinates  = coordinates2;
+      	});
+
+    	_classes.emplace( _self, [&]( auto& new_class ) {
+	        new_class.crn    	   = 500;
+	        new_class.coordinates  = coordinates3;
+      	});
+
+      	eosio::print("Classes populated");
+    }
 };
 
 // specify the contract name, and export a public action: update and create
-EOSIO_DISPATCH( lokchain, (record) (create))
+EOSIO_DISPATCH( lokchain, (record) (create) (populate))
