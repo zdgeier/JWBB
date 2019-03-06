@@ -47,6 +47,10 @@ CONTRACT lokchain : public eosio::contract {
       auto primary_key() const { return crn; }
     };
 
+    TABLE global {
+    	uint64_t primary_key() const { return 0; }
+    }
+
     // create a multi-index table and support secondary key
     typedef eosio::multi_index< name("attendance"), attendance,
       indexed_by< name("getbyuser"), const_mem_fun<attendance, uint64_t, &attendance::get_by_user> >
@@ -54,8 +58,11 @@ CONTRACT lokchain : public eosio::contract {
 
     typedef eosio::multi_index< name("classes"), classes> class_table;
 
+    typedef eosio::multi_index< name("global"), classes> global_table;
+
     attendance_table _attendance;
     class_table _classes;
+    global_table _global;
 
   public:
     using contract::contract;
@@ -64,7 +71,8 @@ CONTRACT lokchain : public eosio::contract {
     lokchain( name receiver, name code, datastream<const char*> ds ):
                 contract( receiver, code, ds ),
                 _attendance( receiver, receiver.value ),
-                _classes( receiver, receiver.value ) {}
+                _classes( receiver, receiver.value ) ,
+                _global( receiver, receiver.value ) {}
 
     ACTION record( name user, float xval, float yval, uint64_t crn ) {
       // to sign the action with the given account
@@ -89,7 +97,7 @@ CONTRACT lokchain : public eosio::contract {
 		        eosio::print("Attendance recorded!"); 			
       		}
       		else{
-      			eosio::print("TRUANT:Outside of class bounds!");	
+      			eosio::print("TRUANT: Outside of class bounds!");	
       		}
       		return;
       	}
