@@ -14,6 +14,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,12 +30,11 @@ android {
 
 configurations.all {
     exclude group: 'com.google.guava', module: 'listenablefuture'
-    exclude group: "com.memtrip.eos-jvm", module:"eos-abi-writer"
-    exclude group: "com.lambdaworks", module: "scrypt"
 }
 
 
 dependencies {
+    //implementation 'com.android.support:multidex:1.0.3'
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
@@ -42,15 +42,22 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    implementation ("com.memtrip.eos-jvm:eos-http-rpc:1.0.0-beta01")
-    implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-beta01")
-    implementation ("com.memtrip.eos-jvm:eos-core:1.0.0-beta01")
-    implementation group: 'org.freemarker', name: 'freemarker', version:'2.3.28'
-    implementation group: 'com.google.googlejavaformat', name: 'google-java-format', version:'1.6'
-    implementation files("libs/eos-abi-writer-1.0.0-beta01.jar")
-    kapt files("libs/eos-abi-writer-preprocessor-1.0.0-beta01.jar")
+    implementation ("com.memtrip.eos-jvm:eos-http-rpc:1.0.0-beta02") {
+        exclude group: "com.lambdaworks", module: "scrypt"
+    }
+    implementation ("com.memtrip.eos-jvm:eos-core:1.0.0-beta02") {
+        exclude group: "com.lambdaworks", module: "scrypt"
+    }
+    implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-beta02") {
+        exclude group: "com.lambdaworks", module: "scrypt"
+    }
+    implementation ("com.memtrip.eos-jvm:eos-abi-writer:1.0.0-beta02") {
+        exclude group: "com.lambdaworks", module: "scrypt"
+    }
+    kapt 'com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-beta02'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 }
