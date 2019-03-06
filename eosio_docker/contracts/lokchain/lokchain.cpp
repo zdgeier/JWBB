@@ -49,7 +49,7 @@ CONTRACT lokchain : public eosio::contract {
 
     TABLE global {
     	uint64_t primary_key() const { return 0; }
-    }
+    };
 
     // create a multi-index table and support secondary key
     typedef eosio::multi_index< name("attendance"), attendance,
