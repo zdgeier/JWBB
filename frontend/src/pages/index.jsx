@@ -108,7 +108,6 @@ function exportToCsvFile(jsonData) {
 
 // Index component
 class Index extends Component {
-
     constructor(props) {
         super(props)
         this.state = {

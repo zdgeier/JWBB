@@ -1,13 +1,19 @@
 import React, {Component} from 'react';
-import GeofencerStyles from './Geofencer.css';
+import './Geofencer.css';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 import './bootstrap.min.css';
+import Button from "@material-ui/core/Button";
+
+import {Api, JsonRpc, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
+import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
+import {TextDecoder, TextEncoder} from 'text-encoding';
 
 let map;
 let bounds = new window.google.maps.LatLngBounds();
 let sub_area;
 let coordinates = [];
 let color = ['#FF0000', '#4286f4', '#ffff00', '#ff00b2', '#bb00ff', '#00ffff', '#26ff00', '#00ff87'];
+const endpoint = "http://localhost:8888";
 
 class Geofencer extends Component {
 
@@ -15,15 +21,16 @@ class Geofencer extends Component {
         super(props);
         this.state = {
             options: [],
-            selectedOptions: []
-        }
+            selectedOption: [],
+        };
         this._handleSearch = this._handleSearch.bind(this);
         this.renderCoordinate = this.renderCoordinate.bind(this);
-
+        this.renderToMaps = this.renderToMaps.bind(this);
+        this._createClass = this._createClass.bind(this);
     }
 
     componentDidMount() {
-        this._initMap()
+        this._initMap();
     }
 
     _initMap() {
@@ -42,7 +49,6 @@ class Geofencer extends Component {
     }
 
     _handleSearch(query) {
-        console.log("search!");
         if (!query) {
             return;
         }
@@ -67,46 +73,115 @@ class Geofencer extends Component {
                 coordinates.push({"lat": location[1], "lng": location[0]});
                 bounds.extend({"lat": location[1], "lng": location[0]});
             }
-            position++
+            position++;
             return true;
         });
     }
 
     renderToMaps(selectedOptions) {
-        selectedOptions.forEach((option) => {
+        if (selectedOptions.length === 0) { // If the change was to remove a previously chosen selection by clicking on the 'x'
+            this.setState({
+                options: [],
+                selectedOption: [],
+            });
+        } else { // Normal, new selection
+            selectedOptions.forEach((option) => {
 
-            if (option.geojson.type === "MultiPolygon") {
-                this.renderCoordinate(option.geojson.coordinates[0][0]);
-            } else if (option.geojson.type === "Polygon") {
-                this.renderCoordinate(option.geojson.coordinates[0]);
-            } else {
-                alert('option.geojson.type: MultiPolygon & Polygon');
-            }
+                if (option.geojson.type === "MultiPolygon") {
+                    this.renderCoordinate(option.geojson.coordinates[0][0]);
+                } else if (option.geojson.type === "Polygon") {
+                    this.renderCoordinate(option.geojson.coordinates[0]);
+                } else {
+                    alert('option.geojson.type: MultiPolygon & Polygon');
+                }
 
-            if (coordinates.length > 1) {
-                sub_area = new window.google.maps.Polygon({
-                    paths: coordinates,
-                    strokeColor: color[1],
-                    strokeOpacity: 0.8,
-                    strokeWeight: 2,
-                    fillColor: color[1],
-                    fillOpacity: 0.35,
-                    editable: true
-                });
+                if (coordinates.length > 1) {
+                    sub_area = new window.google.maps.Polygon({
+                        paths: coordinates,
+                        strokeColor: color[1],
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: color[1],
+                        fillOpacity: 0.35,
+                        editable: true
+                    });
 
-                sub_area.setMap(map);
-                map.setOptions({maxZoom: 15});
-                map.fitBounds(bounds);
-
-                coordinates = [];
-            }
-        })
+                    sub_area.setMap(map);
+                    map.setOptions({maxZoom: 15});
+                    map.fitBounds(bounds);
+                    this.setState({
+                        options: [],
+                        selectedOption: coordinates, // soft copy aliasing fine here because reference lost in next line anyway
+                    });
+                    coordinates = [];
+                }
+            })
+        }
     }
 
-    _handleChange(option) {
-        console.log("change!");
+    _handleChange(selectedOption) {
         this._initMap();
-        this.renderToMaps(option);
+        this.renderToMaps(selectedOption);
+    }
+
+    async _createClass(event) {
+        // stop default behaviour
+        event.preventDefault();
+        // collect form data
+        let account = "useraaaaaaaa";
+        let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5";
+        let crn = 92748;
+
+        let x_bounds = [];
+        let y_bounds = [];
+
+        for (let coordinate of this.state.selectedOption) {
+            console.log(coordinate);
+            x_bounds.push(coordinate.lng);
+            y_bounds.push(coordinate.lat);
+        }
+
+        let actionName = "create";
+        let actionData = {
+            user: account,
+            crn: crn,
+            xs: x_bounds,
+            ys: y_bounds,
+        };
+
+        // eosjs function call: connect to the blockchain
+        const rpc = new JsonRpc(endpoint);
+        const signatureProvider = new JsSignatureProvider([privateKey]);
+        const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder()});
+        try {
+            var trans = {
+                actions: [{
+                    account: "lokchain",
+                    name: actionName,
+                    authorization: [{
+                        actor: account,
+                        permission: 'active',
+                    }],
+                    data: actionData,
+                }]
+            };
+            console.log(trans);
+
+            var trans2 = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+            };
+
+            const result = await
+                api.transact(trans, trans2);
+
+            console.log(result);
+        } catch (e) {
+            console.log('Caught exception: ' + e);
+            if (e instanceof RpcError) {
+                console.log(JSON.stringify(e.json, null, 2));
+            }
+        }
     }
 
     render() {
@@ -136,7 +211,13 @@ class Geofencer extends Component {
                         </div>
                     )}/>
 
-                <div className="maps" id="map"></div>
+                <div className="maps" id="map"/>
+                <div className="createClassButtonContainer">
+                    <Button variant="contained" className="createClassButton" color="primary"
+                            onClick={this._createClass}>
+                        Create class
+                    </Button>
+                </div>
             </div>
         );
     }
