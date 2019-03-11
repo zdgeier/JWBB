@@ -1,1 +1,1 @@
-include ':app', ':eos-abi-writer', ':eos-abi-writer-preprocessor'
+include ':app'
