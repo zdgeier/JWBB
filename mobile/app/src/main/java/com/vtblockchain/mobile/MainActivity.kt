@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import android.os.StrictMode
+import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
     fun checkPermission() {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         val button : Button = findViewById(R.id.submit)
         val account : TextInputEditText = findViewById(R.id.account)
         val privateKey : TextInputEditText = findViewById(R.id.privateKey)
+        val crn : EditText = findViewById(R.id.crn)
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -75,11 +77,12 @@ class MainActivity : AppCompatActivity() {
                     ).show()
 
                     NoteTransfer(api.chain).update(
-                        "notechainacc",
+                        "lokchain",
                         NoteTransfer.Args(
                             account.text.toString(),
                             currentLat.toFloat(),
-                            currentLong.toFloat()
+                            currentLong.toFloat(),
+                            crn.text.toString().toInt()
                         ),
                         TransactionContext(
                             account.text.toString(),
