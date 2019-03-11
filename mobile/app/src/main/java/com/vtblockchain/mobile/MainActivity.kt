@@ -28,6 +28,9 @@ import android.location.LocationManager
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
+import android.os.StrictMode
+
+
 
 
 
@@ -66,6 +69,11 @@ class MainActivity : AppCompatActivity() {
         val privateKey : TextInputEditText = findViewById(R.id.privateKey)
         val location : TextInputEditText = findViewById(R.id.location)
 
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+        }
+
         val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         button.setOnClickListener { GlobalScope.launch {
@@ -87,28 +95,28 @@ class MainActivity : AppCompatActivity() {
                     currentLong = location.longitude
                     Toast.makeText(
                         this@MainActivity,
-                        "lat " + location.latitude + "\nlong " + location.longitude,
+                        "lat " + currentLat + "\nlong " + currentLong,
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    NoteTransfer(api.chain).update(
+                        "notechainacc",
+                        NoteTransfer.Args(
+                            account.text.toString(),
+                            currentLat.toFloat(),
+                            currentLong.toFloat()
+                        ),
+                        TransactionContext(
+                            account.text.toString(),
+                            EosPrivateKey(privateKey.text.toString()),
+                            transactionDefaultExpiry()
+                        )
+                    ).blockingGet()
                 }
                     .addOnFailureListener { e -> e.printStackTrace() }
             } catch(e : SecurityException) {
                 e.printStackTrace()
             }
-
-            NoteTransfer(api.chain).update(
-                "notechainacc",
-                NoteTransfer.Args(
-                    account.text.toString(),
-                    currentLat.toFloat(),
-                    currentLong.toFloat()
-                ),
-                TransactionContext(
-                    account.text.toString(),
-                    EosPrivateKey(privateKey.text.toString()),
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
         } }
 
 
