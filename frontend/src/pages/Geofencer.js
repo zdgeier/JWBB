@@ -12,7 +12,6 @@ let color = ['#FF0000', '#4286f4', '#ffff00', '#ff00b2', '#bb00ff', '#00ffff', '
 class Geofencer extends Component {
 
     constructor(props) {
-        console.log("fuk ye");
         super(props);
         this.state = {
             options: [],

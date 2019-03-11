@@ -24,9 +24,9 @@ const endpoint = "http://localhost:8888";
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
 const klasses = [
-  {"crn":"100", "bounds":"(0,0),(100,100)"},
-  {"crn":"200", "bounds":"(200,200),(250,250)"},
-  {"crn":"500", "bounds":"(500,500),(600,600)"}
+    {"crn": "100", "bounds": "(0,0),(100,100)"},
+    {"crn": "200", "bounds": "(200,200),(250,250)"},
+    {"crn": "500", "bounds": "(500,500),(600,600)"}
 ]
 const accounts = [
     {
@@ -106,8 +106,6 @@ function exportToCsvFile(jsonData) {
 }
 
 
-
-
 // Index component
 class Index extends Component {
 
@@ -117,6 +115,7 @@ class Index extends Component {
             noteTable: [] // to store the table rows from smart contract
         };
         this.handleFormEvent = this.handleFormEvent.bind(this);
+        this.handleAddClass = this.handleAddClass.bind(this);
     }
 
     // generic function to handle form events (e.g. "submit" / "reset")
@@ -138,91 +137,18 @@ class Index extends Component {
 
         // define actionName and action according to event type
         switch (event.type) {
-          case "submit":
-            actionName = "record";
-            actionData = {
-              user: account,
-              xval: xval,
-              yval: yval,
-              crn: crn
-            };
-            break;
-          default:
-            return;
+            case "submit":
+                actionName = "record";
+                actionData = {
+                    user: account,
+                    xval: xval,
+                    yval: yval,
+                    crn: crn
+                };
+                break;
+            default:
+                return;
         }
-
-        // eosjs function call: connect to the blockchain
-        const rpc = new JsonRpc(endpoint);
-        const signatureProvider = new JsSignatureProvider([privateKey]);
-        const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder()});
-        try {
-              var trans = {
-                actions: [{
-                  account: "lokchain",
-                  name: actionName,
-                  authorization: [{
-                    actor: account,
-                    permission: 'active',
-                  }],
-                  data: actionData,
-                }]
-              };
-              console.log(trans)
-
-            var trans2 = {
-                blocksBehind: 3,
-                expireSeconds: 30,
-            };
-
-            const result = await api.transact(trans, trans2);
-
-            console.log(result);
-            this.getTable();
-        } catch (e) {
-            console.log('Caught exception: ' + e);
-            if (e instanceof RpcError) {
-                console.log(JSON.stringify(e.json, null, 2));
-            }
-        }
-    }
-
-// push transactions to the blockchain by using eosjs
-  async handleAddClass(event) {
-    // stop default behaviour
-    event.preventDefault();
-
-    // collect form data
-    let account = event.target.account.value;
-    let privateKey = event.target.privateKey.value;
-    let crn = event.target.crn.value;
-    let x_min = event.target.x_min.value;
-    let x_max = event.target.x_max.value;
-    let y_min = event.target.y_min.value;
-    let y_max = event.target.y_max.value;
-
-    // prepare variables for the switch below to send transactions
-    let actionName = "";
-    let actionData = {};
-
-    // define actionName and action according to event type
-    switch (event.type) {
-      case "submit":
-        actionName = "create";
-        actionData = {
-          user: account,
-          crn: crn,
-          x_min: x_min,
-          x_max: x_max,
-          y_min: y_min,
-          y_max: y_max,
-        };
-        break;
-      default:
-        return;
-    }
-
-
- 
 
         // eosjs function call: connect to the blockchain
         const rpc = new JsonRpc(endpoint);
@@ -231,13 +157,13 @@ class Index extends Component {
         try {
             var trans = {
                 actions: [{
-                  account: "lokchain",
-                  name: actionName,
-                  authorization: [{
-                    actor: account,
-                    permission: 'active',
-                  }],
-                  data: actionData,
+                    account: "lokchain",
+                    name: actionName,
+                    authorization: [{
+                        actor: account,
+                        permission: 'active',
+                    }],
+                    data: actionData,
                 }]
             };
             console.log(trans)
@@ -259,73 +185,144 @@ class Index extends Component {
         }
     }
 
-      // gets table data from the blockchain
-      // and saves it into the component state: "attendanceTable"
-      getTable() {
-        const rpc = new JsonRpc(endpoint);
-        rpc.get_table_rows({
-          "json": true,
-          "code": "lokchain",   // contract who owns the table
-          "scope": "lokchain",  // scope of the table
-          "table": "attendance",    // name of the table as specified by the contract abi
-          "limit": 100,
-        }).then(result => this.setState({ attendance_table: result.rows }));
-      }
+// push transactions to the blockchain by using eosjs
+    async handleAddClass(event) {
+        // stop default behaviour
+        event.preventDefault();
 
-      downloadTable() {
+        // collect form data
+        let account = event.target.account.value;
+        let privateKey = event.target.privateKey.value;
+        let crn = event.target.crn.value;
+        let x_min = event.target.x_min.value;
+        let x_max = event.target.x_max.value;
+        let y_min = event.target.y_min.value;
+        let y_max = event.target.y_max.value;
+        let x_bounds = [x_min, x_max];
+        let y_bounds = [y_min, y_max];
+
+        // prepare variables for the switch below to send transactions
+        let actionName = "";
+        let actionData = {};
+
+        // define actionName and action according to event type
+        switch (event.type) {
+            case "submit":
+                actionName = "create";
+                actionData = {
+                    user: account,
+                    crn: crn,
+                    xs: x_bounds,
+                    ys: y_bounds,
+                };
+                break;
+            default:
+                return;
+        }
+
+
+        // eosjs function call: connect to the blockchain
+        const rpc = new JsonRpc(endpoint);
+        const signatureProvider = new JsSignatureProvider([privateKey]);
+        const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder()});
+        try {
+            var trans = {
+                actions: [{
+                    account: "lokchain",
+                    name: actionName,
+                    authorization: [{
+                        actor: account,
+                        permission: 'active',
+                    }],
+                    data: actionData,
+                }]
+            };
+            console.log(trans)
+
+            var trans2 = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+            };
+
+            const result = await api.transact(trans, trans2);
+
+            console.log(result);
+            this.getTable();
+        } catch (e) {
+            console.log('Caught exception: ' + e);
+            if (e instanceof RpcError) {
+                console.log(JSON.stringify(e.json, null, 2));
+            }
+        }
+    }
+
+    // gets table data from the blockchain
+    // and saves it into the component state: "attendanceTable"
+    getTable() {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
-          "json": true,
-          "code": "lokchain",   // contract who owns the table
-          "scope": "lokchain",  // scope of the table
-          "table": "attendance",    // name of the table as specified by the contract abi
-          "limit": 100,
+            "json": true,
+            "code": "lokchain",   // contract who owns the table
+            "scope": "lokchain",  // scope of the table
+            "table": "attendance",    // name of the table as specified by the contract abi
+            "limit": 100,
+        }).then(result => this.setState({attendance_table: result.rows}));
+    }
+
+    downloadTable() {
+        const rpc = new JsonRpc(endpoint);
+        rpc.get_table_rows({
+            "json": true,
+            "code": "lokchain",   // contract who owns the table
+            "scope": "lokchain",  // scope of the table
+            "table": "attendance",    // name of the table as specified by the contract abi
+            "limit": 100,
         }).then(result => exportToCsvFile(result.rows));
-      }
+    }
 
 
     //creates a default set of classes
-  async populate() {
-    // collect form data
-    let account = "useraaaaaaaa";
-    let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5";
-    let actionName = "populate"
-    let actionData =  {user: account};
-   
-    // eosjs function call: connect to the blockchain
-    const rpc = new JsonRpc(endpoint);
-    const signatureProvider = new JsSignatureProvider([privateKey]);
-    const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
-    try {
-      var trans = {
-        actions: [{
-          account: "lokchain",
-          name: actionName,
-          authorization: [{
-            actor: account,
-            permission: 'active',
-          }],
-          data: actionData,
-        }]
-      };
-      console.log(trans)
-      
-      var trans2 = {
-        blocksBehind: 3,
-        expireSeconds: 30,
-      };
+    async populate() {
+        // collect form data
+        let account = "useraaaaaaaa";
+        let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5";
+        let actionName = "populate"
+        let actionData = {user: account};
 
-      const result = await api.transact(trans, trans2);
+        // eosjs function call: connect to the blockchain
+        const rpc = new JsonRpc(endpoint);
+        const signatureProvider = new JsSignatureProvider([privateKey]);
+        const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder()});
+        try {
+            var trans = {
+                actions: [{
+                    account: "lokchain",
+                    name: actionName,
+                    authorization: [{
+                        actor: account,
+                        permission: 'active',
+                    }],
+                    data: actionData,
+                }]
+            };
+            console.log(trans)
 
-      console.log(result);
-      this.getTable();
-    } catch (e) {
-      console.log('Caught exception: ' + e);
-      if (e instanceof RpcError) {
-        console.log(JSON.stringify(e.json, null, 2));
-      }
+            var trans2 = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+            };
+
+            const result = await api.transact(trans, trans2);
+
+            console.log(result);
+            this.getTable();
+        } catch (e) {
+            console.log('Caught exception: ' + e);
+            if (e instanceof RpcError) {
+                console.log(JSON.stringify(e.json, null, 2));
+            }
+        }
     }
-  }
 
 
     componentDidMount() {
@@ -382,11 +379,11 @@ class Index extends Component {
                             fullWidth
                         />
                         <TextField
-                          name="crn"
-                          autoComplete="off"
-                          label="crn"
-                          margin="normal"
-                          fullWidth
+                            name="crn"
+                            autoComplete="off"
+                            label="crn"
+                            margin="normal"
+                            fullWidth
                         />
                         <TextField
                             name="xval"
@@ -410,64 +407,64 @@ class Index extends Component {
                             Add / Update location
                         </Button>
                     </form>
-            <form onSubmit={this.handleAddClass}>
-            <TextField
-              name="account"
-              autoComplete="off"
-              label="Account"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="privateKey"
-              autoComplete="off"
-              label="Private key"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="crn"
-              autoComplete="off"
-              label="crn"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="x_min"
-              autoComplete="off"
-              label="x_min"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="x_max"
-              autoComplete="off"
-              label="x_max"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="y_min"
-              autoComplete="off"
-              label="y_min"
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              name="y_max"
-              autoComplete="off"
-              label="y_max"
-              margin="normal"
-              fullWidth
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.formButton}
-              type="submit">
-              Add Class
-            </Button>
-          </form>
+                    <form onSubmit={this.handleAddClass}>
+                        <TextField
+                            name="account"
+                            autoComplete="off"
+                            label="Account"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <TextField
+                            name="privateKey"
+                            autoComplete="off"
+                            label="Private key"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <TextField
+                            name="crn"
+                            autoComplete="off"
+                            label="crn"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <TextField
+                            name="x_min"
+                            autoComplete="off"
+                            label="x_min"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <TextField
+                            name="x_max"
+                            autoComplete="off"
+                            label="x_max"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <TextField
+                            name="y_min"
+                            autoComplete="off"
+                            label="y_min"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <TextField
+                            name="y_max"
+                            autoComplete="off"
+                            label="y_max"
+                            margin="normal"
+                            fullWidth
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            className={classes.formButton}
+                            type="submit">
+                            Add Class
+                        </Button>
+                    </form>
                     <Button
                         variant="contained"
                         color="primary"
@@ -476,19 +473,19 @@ class Index extends Component {
                         Download Location History
                     </Button>
 
-                              <Button
-              variant="contained"
-              color="primary"
-              className={classes.formButton}
-              onClick={() => this.populate()}>
-              Populate Classes
-          </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.formButton}
+                        onClick={() => this.populate()}>
+                        Populate Classes
+                    </Button>
                 </Paper>
                 <pre className={classes.pre}>
           Below is a list of pre-created accounts information for location tracking:
           <br/><br/>
-          classes = { JSON.stringify(klasses, null, 2) }
-          <br/><br/>
+          classes = {JSON.stringify(klasses, null, 2)}
+                    <br/><br/>
           accounts = {JSON.stringify(accounts, null, 2)}
         </pre>
             </div>
@@ -525,7 +522,6 @@ class AppHeader extends React.Component {
                         <Tab value={1} label="Blockchain stuff"/>
                     </Tabs>
                 </Paper>
-                {console.log(value)}
                 {value === 0 && <Geofencer/>}
                 {value === 1 && <IndexComponent/>}
             </div>
