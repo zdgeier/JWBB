@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import android.os.StrictMode
+import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
     fun checkPermission() {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         val button : Button = findViewById(R.id.submit)
         val account : TextInputEditText = findViewById(R.id.account)
         val privateKey : TextInputEditText = findViewById(R.id.privateKey)
+        val crn : EditText = findViewById(R.id.crn)
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -65,28 +67,38 @@ class MainActivity : AppCompatActivity() {
 
             try {
                 mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    // GPS location can be null if GPS is switched off
-                    val currentLat = location.latitude
-                    val currentLong = location.longitude
-                    Toast.makeText(
-                        this@MainActivity,
-                        "lat " + currentLat + "\nlong " + currentLong,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (location != null) {
+                        // GPS location can be null if GPS is switched off
+                        val currentLat = location.latitude
+                        val currentLong = location.longitude
+                        Toast.makeText(
+                            this@MainActivity,
+                            "lat " + currentLat + "\nlong " + currentLong,
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    NoteTransfer(api.chain).update(
-                        "notechainacc",
-                        NoteTransfer.Args(
-                            account.text.toString(),
-                            currentLat.toFloat(),
-                            currentLong.toFloat()
-                        ),
-                        TransactionContext(
-                            account.text.toString(),
-                            EosPrivateKey(privateKey.text.toString()),
-                            transactionDefaultExpiry()
-                        )
-                    ).blockingGet()
+                        NoteTransfer(api.chain).update(
+                            "lokchain",
+                            NoteTransfer.Args(
+                                account.text.toString(),
+                                currentLat.toFloat(),
+                                currentLong.toFloat(),
+                                crn.text.toString().toLong()
+                            ),
+                            TransactionContext(
+                                account.text.toString(),
+                                EosPrivateKey(privateKey.text.toString()),
+                                transactionDefaultExpiry()
+                            )
+                        ).blockingGet()
+                    }
+                    else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "GPS unavailable",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
                     .addOnFailureListener { e -> e.printStackTrace() }
             } catch(e : SecurityException) {
