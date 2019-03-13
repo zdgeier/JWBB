@@ -18,7 +18,7 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
         val account: String,
         val xval: Float,
         val yval: Float,
-        val crn: Int
+        val crn: Long
     )
 
     fun update(

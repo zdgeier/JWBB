@@ -67,29 +67,38 @@ class MainActivity : AppCompatActivity() {
 
             try {
                 mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    // GPS location can be null if GPS is switched off
-                    val currentLat = location.latitude
-                    val currentLong = location.longitude
-                    Toast.makeText(
-                        this@MainActivity,
-                        "lat " + currentLat + "\nlong " + currentLong,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (location != null) {
+                        // GPS location can be null if GPS is switched off
+                        val currentLat = location.latitude
+                        val currentLong = location.longitude
+                        Toast.makeText(
+                            this@MainActivity,
+                            "lat " + currentLat + "\nlong " + currentLong,
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                    NoteTransfer(api.chain).update(
-                        "lokchain",
-                        NoteTransfer.Args(
-                            account.text.toString(),
-                            currentLat.toFloat(),
-                            currentLong.toFloat(),
-                            crn.text.toString().toInt()
-                        ),
-                        TransactionContext(
-                            account.text.toString(),
-                            EosPrivateKey(privateKey.text.toString()),
-                            transactionDefaultExpiry()
-                        )
-                    ).blockingGet()
+                        NoteTransfer(api.chain).update(
+                            "lokchain",
+                            NoteTransfer.Args(
+                                account.text.toString(),
+                                currentLat.toFloat(),
+                                currentLong.toFloat(),
+                                crn.text.toString().toLong()
+                            ),
+                            TransactionContext(
+                                account.text.toString(),
+                                EosPrivateKey(privateKey.text.toString()),
+                                transactionDefaultExpiry()
+                            )
+                        ).blockingGet()
+                    }
+                    else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "GPS unavailable",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
                     .addOnFailureListener { e -> e.printStackTrace() }
             } catch(e : SecurityException) {

@@ -16,17 +16,14 @@ package com.vtblockchain.mobile.actions.note
  * limitations under the License.
  */
 
-import com.memtrip.eos.abi.writer.Abi
-import com.memtrip.eos.abi.writer.AccountNameCompress
-import com.memtrip.eos.abi.writer.FloatCompress
-import com.memtrip.eos.abi.writer.IntCompress
+import com.memtrip.eos.abi.writer.*
 
 @Abi
 data class NoteArgs (
     val account: String,
     val xval: Float,
     val yval: Float,
-    val crn: Int
+    val crn: Long
 ) {
 
     val getAccount: String
@@ -38,6 +35,7 @@ data class NoteArgs (
     val getYVal: Float
         @FloatCompress get() = yval
 
-    val getCRN: Int
-        @IntCompress get() = crn
+    val getCRN: Long
+        @LongCompress get() = crn
+
 }
