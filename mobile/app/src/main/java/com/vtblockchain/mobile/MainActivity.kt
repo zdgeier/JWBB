@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        NoteTransfer(api.chain).update(
+                        NoteTransfer(api.chain).record(
                             "lokchain",
                             NoteTransfer.Args(
                                 account.text.toString(),
@@ -101,7 +101,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                     .addOnFailureListener { e -> e.printStackTrace() }
-            } catch(e : SecurityException) {
+            }
+            catch(e : SecurityException) {
                 e.printStackTrace()
             }
         } }
