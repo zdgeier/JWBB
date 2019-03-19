@@ -1,8 +1,11 @@
 package com.vtblockchain.mobile
 
+import android.os.Bundle;
+import android.util.Log;
+import com.ramotion.circlemenu.CircleMenuView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
@@ -46,67 +49,115 @@ class MainActivity : AppCompatActivity() {
 
         checkPermission()
 
-        val button : Button = findViewById(R.id.submit)
-        val account : TextInputEditText = findViewById(R.id.account)
-        val privateKey : TextInputEditText = findViewById(R.id.privateKey)
-        val crn : EditText = findViewById(R.id.crn)
-
+        //val button : Button = findViewById(R.id.submit)
+        //val account : TextInputEditText = findViewById(R.id.account)
+        //val privateKey : TextInputEditText = findViewById(R.id.privateKey)
+        val account = "useraaaaaaaa"
+        val privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5"
+        val crn: EditText = findViewById(R.id.crn)
+        var crnValue : Long = 0
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
-
         val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        button.setOnClickListener { GlobalScope.launch {
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .connectTimeout(3, TimeUnit.SECONDS)
-                .readTimeout(3, TimeUnit.SECONDS)
-                .writeTimeout(3, TimeUnit.SECONDS)
+        fun send() {
+            GlobalScope.launch {
 
-            val api = Api(Config.LOCAL_HOST_API_BASE_URL, okHttpClient.build())
 
-            try {
-                mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    if (location != null) {
-                        // GPS location can be null if GPS is switched off
-                        val currentLat = location.latitude
-                        val currentLong = location.longitude
-                        Toast.makeText(
-                            this@MainActivity,
-                            "lat " + currentLat + "\nlong " + currentLong,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .connectTimeout(3, TimeUnit.SECONDS)
+                    .readTimeout(3, TimeUnit.SECONDS)
+                    .writeTimeout(3, TimeUnit.SECONDS)
 
-                        NoteTransfer(api.chain).record(
-                            "lokchain",
-                            NoteTransfer.Args(
-                                account.text.toString(),
-                                currentLat.toFloat(),
-                                currentLong.toFloat(),
-                                crn.text.toString().toLong()
-                            ),
-                            TransactionContext(
-                                account.text.toString(),
-                                EosPrivateKey(privateKey.text.toString()),
-                                transactionDefaultExpiry()
-                            )
-                        ).blockingGet()
+                val api = Api(Config.LOCAL_HOST_API_BASE_URL, okHttpClient.build())
+
+                try {
+                    mFusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                        if (location != null) {
+                            // GPS location can be null if GPS is switched off
+                            val currentLat = location.latitude
+                            val currentLong = location.longitude
+                            Toast.makeText(
+                                this@MainActivity,
+                                "lat " + currentLat + "\nlong " + currentLong,
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            if(crn.text.toString() != ""){
+                                crnValue = crn.text.toString().toLong()
+                            }
+                            NoteTransfer(api.chain).record(
+                                "lokchain",
+                                NoteTransfer.Args(
+                                    //account.text.toString(),
+                                    account,
+                                    currentLat.toFloat(),
+                                    currentLong.toFloat(),
+                                    crnValue
+                                ),
+                                TransactionContext(
+                                    //account.text.toString(),
+                                    account,
+                                    //EosPrivateKey(privateKey.text.toString()),
+                                    EosPrivateKey(privateKey),
+                                    transactionDefaultExpiry()
+                                )
+                            ).blockingGet()
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "GPS unavailable",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                    else {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "GPS unavailable",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                        .addOnFailureListener { e -> e.printStackTrace() }
+                } catch (e: SecurityException) {
+                    e.printStackTrace()
                 }
-                    .addOnFailureListener { e -> e.printStackTrace() }
             }
-            catch(e : SecurityException) {
-                e.printStackTrace()
+        }
+
+        val menu: CircleMenuView = findViewById(R.id.circle_menu);
+        menu.setEventListener(object : CircleMenuView.EventListener() {
+            override fun onMenuOpenAnimationStart(view: CircleMenuView) {
+                Log.d("D", "onMenuOpenAnimationStart")
             }
-        } }
 
+            override fun onMenuOpenAnimationEnd(view: CircleMenuView) {
+                Log.d("D", "onMenuOpenAnimationEnd")
+            }
 
+            override fun onMenuCloseAnimationStart(view: CircleMenuView) {
+                Log.d("D", "onMenuCloseAnimationStart")
+            }
+
+            override fun onMenuCloseAnimationEnd(view: CircleMenuView) {
+                Log.d("D", "onMenuCloseAnimationEnd")
+            }
+
+            override fun onButtonClickAnimationStart(view: CircleMenuView, index: Int) {
+                send()
+                Log.d("D", "onButtonClickAnimationStart| index: $index")
+            }
+
+            override fun onButtonClickAnimationEnd(view: CircleMenuView, index: Int) {
+                Log.d("D", "onButtonClickAnimationEnd| index: $index")
+            }
+
+            override fun onButtonLongClick(view: CircleMenuView, index: Int): Boolean {
+                Log.d("D", "onButtonLongClick| index: $index")
+                return true
+            }
+
+            override fun onButtonLongClickAnimationStart(view: CircleMenuView, index: Int) {
+                Log.d("D", "onButtonLongClickAnimationStart| index: $index")
+            }
+
+            override fun onButtonLongClickAnimationEnd(view: CircleMenuView, index: Int) {
+                Log.d("D", "onButtonLongClickAnimationEnd| index: $index")
+            }
+        })
     }
 }
