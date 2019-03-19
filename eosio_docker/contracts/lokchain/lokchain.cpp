@@ -131,6 +131,7 @@ CONTRACT lokchain : public eosio::contract {
     	std::list<std::pair<float,float>> coordinates3;
 			std::list<std::pair<float,float>> coordinates4;
 			std::list<std::pair<float,float>> coordinates5;
+			std::list<std::pair<float,float>> coordinates6;
 
     	coordinates1.push_back(std::make_pair(0, 0));
     	coordinates1.push_back(std::make_pair(100, 100));
