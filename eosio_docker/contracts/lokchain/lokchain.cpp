@@ -129,6 +129,7 @@ CONTRACT lokchain : public eosio::contract {
     	std::list<std::pair<float,float>> coordinates1;
     	std::list<std::pair<float,float>> coordinates2;
     	std::list<std::pair<float,float>> coordinates3;
+			std::list<std::pair<float,float>> coordinates4;
 
     	coordinates1.push_back(std::make_pair(0, 0));
     	coordinates1.push_back(std::make_pair(100, 100));
@@ -138,6 +139,9 @@ CONTRACT lokchain : public eosio::contract {
 
     	coordinates3.push_back(std::make_pair(500, 500));
     	coordinates3.push_back(std::make_pair(600, 600));
+
+    	coordinates4.push_back(std::make_pair(36, -81));
+			coordinates4.push_back(std::make_pair(38, -79));
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 100;
@@ -152,6 +156,11 @@ CONTRACT lokchain : public eosio::contract {
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 500;
 	        new_class.coordinates  = coordinates3;
+      	});
+
+			_classes.emplace( _self, [&]( auto& new_class ) {
+	        new_class.crn    	   = 420;
+	        new_class.coordinates  = coordinates4;
       	});
 
       	eosio::print("Classes populated");
