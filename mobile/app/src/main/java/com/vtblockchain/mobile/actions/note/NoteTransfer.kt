@@ -21,7 +21,7 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
         val crn: Long
     )
 
-    fun update(
+    fun record(
         contract: String,
         args: Args,
         transactionContext: TransactionContext
@@ -30,7 +30,7 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
             transactionContext.expirationDate,
             asList(ActionAbi(
                 contract,
-                "update",
+                "record",
                 asList(TransactionAuthorizationAbi(
                     transactionContext.authorizingAccountName,
                     "active")),

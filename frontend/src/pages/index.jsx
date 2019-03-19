@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Api, JsonRpc, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
 import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import {TextDecoder, TextEncoder} from 'text-encoding';
+import { Parser as Json2csvParser } from 'json2csv';
 
 // material-ui dependencies
 import {withStyles} from '@material-ui/core/styles';
@@ -93,16 +94,25 @@ const tabStyles = theme => ({
     },
 });
 
-function exportToCsvFile(jsonData) {
-    let csvStr = JSON.stringify(jsonData);
-    let dataUri = 'data:application/json;charset=utf-8,' + csvStr;
+function exportToCsvFile(jsonData) {    
+    const fields = ['prim_key', 'user', 'xval', 'yval', 'timestamp'];
+    const opts = { fields };
+    
+    try {
+        const parser = new Json2csvParser(opts);
+        const csv = parser.parse(jsonData);
 
-    let exportFileDefaultName = 'data.json';
+        let dataUri = 'data:application/json;charset=utf-8,' + csv;
+        let exportFileDefaultName = 'data.csv';
+        let linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+    } catch (err) {
+        console.error(err);
+    }
 
-    let linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
+    
 }
 
 
