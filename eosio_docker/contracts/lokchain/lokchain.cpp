@@ -2,6 +2,7 @@
 #include <list>
 #include <iterator>
 #include <vector>
+#include "lokchain.hpp"
 using namespace eosio;
 
 // Smart Contract Name: notechain
@@ -77,16 +78,12 @@ CONTRACT lokchain : public eosio::contract {
     ACTION record( name user, float xval, float yval, uint64_t crn ) {
       // to sign the action with the given account
       require_auth( user );
-
+			std::pair<float, float> location = std::make_pair(xval, yval);
       for (auto& item : _classes) {
       	if(item.crn == crn) {
-      		auto iter = item.coordinates.begin();
-      		auto a = *iter;
-      		auto b = *(std::next(iter));
       		//check if the student is inside the class boundaries
       		//TODO: Update so it work with all polygons
-      		if(xval >= a.first && xval <= b.first 
-      			&& yval >= a.second && yval <= b.second){
+      		if(inside(item.coordinates, location)){
 		        _attendance.emplace( _self, [&]( auto& new_user ) {
 			        new_user.prim_key    = _attendance.available_primary_key();
 			        new_user.user        = user;
@@ -131,13 +128,19 @@ CONTRACT lokchain : public eosio::contract {
     	std::list<std::pair<float,float>> coordinates3;
 
     	coordinates1.push_back(std::make_pair(0, 0));
+			coordinates1.push_back(std::make_pair(0, 100));
     	coordinates1.push_back(std::make_pair(100, 100));
+			coordinates1.push_back(std::make_pair(100, 0));
 
     	coordinates2.push_back(std::make_pair(200, 200));
+			coordinates2.push_back(std::make_pair(200, 250));
     	coordinates2.push_back(std::make_pair(250, 250));
+			coordinates2.push_back(std::make_pair(250, 200));
 
     	coordinates3.push_back(std::make_pair(500, 500));
+			coordinates3.push_back(std::make_pair(500, 600));
     	coordinates3.push_back(std::make_pair(600, 600));
+			coordinates3.push_back(std::make_pair(600, 500));
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 100;
