@@ -9,6 +9,9 @@ import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import {TextDecoder, TextEncoder} from 'text-encoding';
 import TextField from "@material-ui/core/TextField/TextField";
 import withStyles from "@material-ui/core/es/styles/withStyles";
+import Slide from "@material-ui/core/Slide";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 
 let map;
 let bounds = new window.google.maps.LatLngBounds();
@@ -44,6 +47,7 @@ class outlinedTextField extends Component {
     render() {
         return (
             <TextField
+                open={this.props.open}
                 id="outlined-with-placeholder"
                 label="CRN"
                 placeholder="e.g. 12345"
@@ -51,6 +55,29 @@ class outlinedTextField extends Component {
                 margin="normal"
                 variant="outlined"
             />
+        );
+    }
+}
+
+function DialogTransition(props) {
+    return <Slide direction="up" {...props} />;
+}
+
+class SlidingFeedbackDialog extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <Dialog open={this.props.open}
+                    TransitionComponent={DialogTransition}
+                    keepMounted
+                    onClose={()=>{this.props.handleClose(this.props.success, false)}}>
+                <DialogContent>
+                    {this.props.success ? "huzzah!" : "Something didn't work. welp!"}
+                </DialogContent>
+            </Dialog>
         );
     }
 }
@@ -65,12 +92,15 @@ class Geofencer extends Component {
             options: [],
             selectedOption: [],
             crn: -1,
+            successDialogOpen: false,
+            failDialogOpen: false,
         };
         this._handleSearch = this._handleSearch.bind(this);
         this.renderCoordinate = this.renderCoordinate.bind(this);
         this.renderToMaps = this.renderToMaps.bind(this);
         this._createClass = this._createClass.bind(this);
         this._handleCRNChange = this._handleCRNChange.bind(this);
+        this._handleDialog = this._handleDialog.bind(this);
     }
 
     componentDidMount() {
@@ -173,7 +203,28 @@ class Geofencer extends Component {
         this.setState((prevState) => {
             let newState = Object.assign(prevState);
             newState.crn = crn;
+            return newState;
         });
+    }
+
+    _handleDialog(success, open) {
+        this.setState((prevState) => {
+            let newState = Object.assign(prevState);
+            if (open) {
+                if (success) {
+                    newState.successDialogOpen = true;
+                } else {
+                    newState.failDialogOpen = true;
+                }
+            } else {
+                if (success) {
+                    newState.successDialogOpen = false;
+                } else {
+                    newState.failDialogOpen = false;
+                }
+            }
+            return newState;
+        })
     }
 
     async _createClass(event) {
@@ -227,12 +278,14 @@ class Geofencer extends Component {
             const result = await
                 api.transact(trans, trans2);
 
+            this._handleDialog(true, true);
             console.log(result);
         } catch (e) {
             console.log('Caught exception: ' + e);
             if (e instanceof RpcError) {
                 console.log(JSON.stringify(e.json, null, 2));
             }
+            this._handleDialog(false, true);
         }
     }
 
@@ -268,6 +321,9 @@ class Geofencer extends Component {
                         Create class
                     </Button>
                 </div>
+                {console.log(this.state.successDialogOpen)}
+                <SlidingFeedbackDialog success={true} open={this.state.successDialogOpen} handleClose={this._handleDialog}/>
+                <SlidingFeedbackDialog success={false} open={this.state.failDialogOpen} handleClose={this._handleDialog}/>
             </div>
         );
     }
