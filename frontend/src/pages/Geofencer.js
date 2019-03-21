@@ -7,6 +7,8 @@ import Button from "@material-ui/core/Button";
 import {Api, JsonRpc, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
 import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import {TextDecoder, TextEncoder} from 'text-encoding';
+import TextField from "@material-ui/core/TextField/TextField";
+import withStyles from "@material-ui/core/es/styles/withStyles";
 
 let map;
 let bounds = new window.google.maps.LatLngBounds();
@@ -15,6 +17,46 @@ let coordinates = [];
 let color = ['#FF0000', '#4286f4', '#ffff00', '#ff00b2', '#bb00ff', '#00ffff', '#26ff00', '#00ff87'];
 const endpoint = "http://localhost:8888";
 
+const crnTextFieldstyles = theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+    },
+    dense: {
+        marginTop: 16,
+    },
+    menu: {
+        width: 200,
+    },
+});
+
+class outlinedTextField extends Component {
+
+    constructor(props) {
+        super(props);
+        this.onChangeHandler = this.props.onChangeHandler;
+    }
+
+    render() {
+        return (
+            <TextField
+                id="outlined-with-placeholder"
+                label="CRN"
+                placeholder="e.g. 12345"
+                onChange={this.onChangeHandler}
+                margin="normal"
+                variant="outlined"
+            />
+        );
+    }
+}
+
+let CrnTextField = withStyles(crnTextFieldstyles)(outlinedTextField);
+
 class Geofencer extends Component {
 
     constructor(props) {
@@ -22,11 +64,13 @@ class Geofencer extends Component {
         this.state = {
             options: [],
             selectedOption: [],
+            crn: -1,
         };
         this._handleSearch = this._handleSearch.bind(this);
         this.renderCoordinate = this.renderCoordinate.bind(this);
         this.renderToMaps = this.renderToMaps.bind(this);
         this._createClass = this._createClass.bind(this);
+        this._handleCRNChange = this._handleCRNChange.bind(this);
     }
 
     componentDidMount() {
@@ -107,7 +151,7 @@ class Geofencer extends Component {
                     });
 
                     sub_area.setMap(map);
-                    map.setOptions({maxZoom: 15});
+                    //map.setOptions({maxZoom: 15});
                     map.fitBounds(bounds);
                     this.setState({
                         options: [],
@@ -124,13 +168,21 @@ class Geofencer extends Component {
         this.renderToMaps(selectedOption);
     }
 
+    _handleCRNChange(event) {
+        let crn = event.target.value;
+        this.setState((prevState) => {
+            let newState = Object.assign(prevState);
+            newState.crn = crn;
+        });
+    }
+
     async _createClass(event) {
         // stop default behaviour
         event.preventDefault();
         // collect form data
         let account = "useraaaaaaaa";
         let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5";
-        let crn = 92748;
+        let crn = this.state.crn;
 
         let x_bounds = [];
         let y_bounds = [];
@@ -187,16 +239,14 @@ class Geofencer extends Component {
     render() {
         return (
             <div className="container" style={{height: `100%`}}>
+                <br/>
                 <div className="page-header">
                     <h1>Geofence</h1>
                 </div>
                 <p className="lead">
-                    <br></br>
-                    To create area geofencing we must find area boundaries and draw on google maps as polygon.
-                    Area boundaries feature not available in the Google Maps API.
-                    The solution is using OpenStreetMap API for getting area boundaries.
+                    Pick a CRN, pick a location, and create a geofenced class! Your students will hate you!
                 </p>
-                <br></br>&nbsp;
+                <CrnTextField onChangeHandler={this._handleCRNChange}/>
                 <AsyncTypeahead
                     align="justify"
                     multiple
