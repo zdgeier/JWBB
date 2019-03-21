@@ -1,5 +1,3 @@
-
-#include "lokchain.hpp"
 #include <stdio.h>
 #include <time.h>
 #include <list>
@@ -8,13 +6,21 @@
 #include <vector>
 #include <algorithm>
 
+// Given three colinear points x, a, b, 
+// Check is point x lies on line segment ab
 bool onSegment(std::pair<float, float> x, std::pair<float, float> a, std::pair<float, float> b){
 	return (x.first <= std::max(a.first, b.first) && x.first >= std::min(a.first, b.first) &&
 				x.second <= std::max(a.second, b.second) && x.second >= std::min (a.second, b.second));
 }
 
+// To find orientation of oredered triplet (x, a, b).
+// The function returns following values 
+// 0 --> x, a, b, are colinear
+// 1 --> Clockwise
+// 2 --> Counterclockwise
 int orientation(std::pair<float, float> x, std::pair<float, float> a, std::pair<float, float> b){
-	int val = (x.second * a.second) * (b.first * x.first) - (x.first - a.first) * (b.second - x.second);
+	int val = (x.second * a.second) * (b.first * x.first) - 
+				(x.first - a.first) * (b.second - x.second);
 
 	if(val == 0)
 		return 0;
@@ -50,26 +56,29 @@ bool inside(std::list<std::pair<float, float>> lst, std::pair<float, float> loca
 	auto iter = lst.begin();
 	std::pair<float, float> curr;
 
-	while(iter != lst.end()){
+	do{
 		curr = *iter;
-		next = *(std::next(iter));
-		if(iter == lst.end()){
+		if(std::next(iter) == lst.end()){
 			next = *(lst.begin());
+		}
+		else{
+			next = *(std::next(iter));
 		}
 		if (intersect(curr, next, location, extreme))
 		{
-			if(orientation(location, curr, extreme) == 0)
-				return onSegment(location, curr, extreme);
+			eosio::print(curr.first, curr.second, next.first , next.second, location.first, location.second, "and extreme intersect");
+			if(orientation(location, curr, next) == 0)
+				return onSegment(location, curr, next);
 
 			count++;
 		}
-
-	} 
-	
+		std::advance(iter,1);
+	}while(iter != lst.end());
+	eosio::print("count: ", count);
 	return (count & 1) == 1;
-
 }
 
+/*
 int main() {
 
 		time_t start;
@@ -96,6 +105,6 @@ int main() {
 
 		return 0;
 
-}
+}*/
 
 

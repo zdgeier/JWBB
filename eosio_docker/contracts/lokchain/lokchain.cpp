@@ -2,7 +2,8 @@
 #include <list>
 #include <iterator>
 #include <vector>
-#include "lokchain.hpp"
+#include <time.h>
+#include "test.cpp"
 using namespace eosio;
 
 // Smart Contract Name: notechain
@@ -99,7 +100,7 @@ CONTRACT lokchain : public eosio::contract {
       		return;
       	}
       }
-      eosio::print("Given CRN doesn't exist...");
+      eosio::print("CRN ", crn, " doesn't exist...");
     }
 
     ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys) {
@@ -112,11 +113,16 @@ CONTRACT lokchain : public eosio::contract {
     		coordinates.push_back(std::make_pair(xs[i], ys[i]));
     	}
 
-    	_classes.emplace( _self, [&]( auto& new_class ) {
-	        new_class.crn    	   = crn;
-	        new_class.coordinates  = coordinates;
-      	});
-      	eosio::print("New class created");
+      //try {
+      	_classes.emplace( _self, [&]( auto& new_class ) {
+  	        new_class.crn    	   = crn;
+  	        new_class.coordinates  = coordinates;
+        	});
+        eosio::print("New class created:  ", crn);
+      //}
+      //catch(const std::exception &e){
+      //  eosio::print("CRN ", crn, " already exists!");
+      //}
     }
 
     //populates to classes table with set values
