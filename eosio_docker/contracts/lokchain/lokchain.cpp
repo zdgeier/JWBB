@@ -92,7 +92,7 @@ CONTRACT lokchain : public eosio::contract {
 		        eosio::print("Attendance recorded!"); 			
       		}
       		else{
-      			eosio::print("TRUANT: Outside of class bounds!");	
+      			eosio::print("Outside of class bounds!");	
       		}
       		return;
       	}
@@ -108,6 +108,7 @@ CONTRACT lokchain : public eosio::contract {
     	//Assumes every x has a matching y 
     	for (int i = 0; i < xs.size(); i++){
     		coordinates.push_back(std::make_pair(xs[i], ys[i]));
+        eosio::print("<", xs[i], " , ", ys[i], ">\n");
     	}
 
 			_classes.emplace( _self, [&]( auto& new_class ) {

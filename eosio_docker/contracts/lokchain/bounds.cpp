@@ -9,9 +9,8 @@
 // Given three colinear points x, a, b, 
 // Check is point x lies on line segment ab
 bool onSegment(std::pair<float, float> x, std::pair<float, float> a, std::pair<float, float> b){
-	bool res =  (x.first <= std::max(a.first, b.first) && x.first >= std::min(a.first, b.first) &&
+	return (x.first <= std::max(a.first, b.first) && x.first >= std::min(a.first, b.first) &&
 				x.second <= std::max(a.second, b.second) && x.second >= std::min (a.second, b.second));
-	return res;
 }
 
 // To find orientation of oredered triplet (x, a, b).
