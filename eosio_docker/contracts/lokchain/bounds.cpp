@@ -9,8 +9,9 @@
 // Given three colinear points x, a, b, 
 // Check is point x lies on line segment ab
 bool onSegment(std::pair<float, float> x, std::pair<float, float> a, std::pair<float, float> b){
-	return (x.first <= std::max(a.first, b.first) && x.first >= std::min(a.first, b.first) &&
+	bool res =  (x.first <= std::max(a.first, b.first) && x.first >= std::min(a.first, b.first) &&
 				x.second <= std::max(a.second, b.second) && x.second >= std::min (a.second, b.second));
+	return res;
 }
 
 // To find orientation of oredered triplet (x, a, b).
@@ -18,8 +19,8 @@ bool onSegment(std::pair<float, float> x, std::pair<float, float> a, std::pair<f
 // 0 --> x, a, b, are colinear
 // 1 --> Clockwise
 // 2 --> Counterclockwise
-int orientation(std::pair<float, float> x, std::pair<float, float> a, std::pair<float, float> b){
-	int val = (x.second * a.second) * (b.first * x.first) - 
+float orientation(std::pair<float, float> x, std::pair<float, float> a, std::pair<float, float> b){
+	float val = (x.second - a.second) * (b.first - x.first) - 
 				(x.first - a.first) * (b.second - x.second);
 
 	if(val == 0)
@@ -29,10 +30,10 @@ int orientation(std::pair<float, float> x, std::pair<float, float> a, std::pair<
 
 bool intersect(std::pair<float, float> x, std::pair<float, float> y, std::pair<float, float> a, std::pair<float, float> b){
 
-	int o1 = orientation(y, x, a);
-	int o2 = orientation(y, x, b);
-	int o3 = orientation(b, a, x);
-	int o4 = orientation(b, a, y);
+	float o1 = orientation(y, x, a);
+	float o2 = orientation(y, x, b);
+	float o3 = orientation(b, a, x);
+	float o4 = orientation(b, a, y);
 
 	if(o1 != o2 && o3 != o4)
 		return true;
@@ -49,10 +50,10 @@ bool intersect(std::pair<float, float> x, std::pair<float, float> y, std::pair<f
 bool inside(std::list<std::pair<float, float>> lst, std::pair<float, float> location){
 	if(lst.size() < 3) return false;
 
-	std::pair<float, float> extreme = std::make_pair(100000, location.second);
+	std::pair<float, float> extreme = std::make_pair(100000.0, location.second);
 	std::pair<float, float> next;
 
-	int count = 0, i = 0;
+	float count = 0, i = 0;
 	auto iter = lst.begin();
 	std::pair<float, float> curr;
 
@@ -66,7 +67,6 @@ bool inside(std::list<std::pair<float, float>> lst, std::pair<float, float> loca
 		}
 		if (intersect(curr, next, location, extreme))
 		{
-			eosio::print(curr.first, curr.second, next.first , next.second, location.first, location.second, "and extreme intersect");
 			if(orientation(location, curr, next) == 0)
 				return onSegment(location, curr, next);
 
@@ -74,37 +74,5 @@ bool inside(std::list<std::pair<float, float>> lst, std::pair<float, float> loca
 		}
 		std::advance(iter,1);
 	}while(iter != lst.end());
-	eosio::print("count: ", count);
-	return (count & 1) == 1;
+	return (int(count) % 2) == 1;
 }
-
-/*
-int main() {
-
-		time_t start;
-		time_t end;
-		time(&start);
-    	std::list<std::pair<float,float>> coordinates1;
-
-    	coordinates1.push_back(std::make_pair(0, 0));
-		coordinates1.push_back(std::make_pair(0, 100));
-    	coordinates1.push_back(std::make_pair(100, 100));
-		coordinates1.push_back(std::make_pair(100, 0));
-
-		std::pair<float, float> location = std::make_pair(0, 0);
-
-		bool in = inside(coordinates1, location);
-
-
-
-		time(&end);
-		double seconds = difftime(start, end);
-
-		printf("%.f\n", seconds);
-
-
-		return 0;
-
-}*/
-
-

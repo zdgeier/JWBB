@@ -3,7 +3,7 @@
 #include <iterator>
 #include <vector>
 #include <time.h>
-#include "test.cpp"
+#include "bounds.cpp"
 using namespace eosio;
 
 // Smart Contract Name: notechain
@@ -16,10 +16,7 @@ using namespace eosio;
 //     timestamp(uint64): the store the last update block time
 //   classes: multi-index table to store class and boundaries 
 //     crn(uint64_t): class's crn; primary key
-//     x_min(float): minimum bound in the x-plane
-//     x_max(float): maximum bound in the x-plane
-//     y_min(float): minimum bound in the y-plane
-//     y_max(float): maximum bound in the y-plane
+//     coordinates(std::list<std::pair<float,float>>): list of bounds for the class
 // Public actions:
 //   recordAttendance => put the attendance record into the table
 //   createClass => create a class with given CRN and coordinate bounds
@@ -113,16 +110,11 @@ CONTRACT lokchain : public eosio::contract {
     		coordinates.push_back(std::make_pair(xs[i], ys[i]));
     	}
 
-      //try {
-      	_classes.emplace( _self, [&]( auto& new_class ) {
-  	        new_class.crn    	   = crn;
-  	        new_class.coordinates  = coordinates;
-        	});
-        eosio::print("New class created:  ", crn);
-      //}
-      //catch(const std::exception &e){
-      //  eosio::print("CRN ", crn, " already exists!");
-      //}
+			_classes.emplace( _self, [&]( auto& new_class ) {
+					new_class.crn    	   = crn;
+					new_class.coordinates  = coordinates;
+				});
+			eosio::print("New class created:  ", crn);
     }
 
     //populates to classes table with set values
@@ -133,20 +125,20 @@ CONTRACT lokchain : public eosio::contract {
     	std::list<std::pair<float,float>> coordinates2;
     	std::list<std::pair<float,float>> coordinates3;
 
-    	coordinates1.push_back(std::make_pair(0, 0));
-			coordinates1.push_back(std::make_pair(0, 100));
-    	coordinates1.push_back(std::make_pair(100, 100));
-			coordinates1.push_back(std::make_pair(100, 0));
+    	coordinates1.push_back(std::make_pair(0.0, 0.0));
+			coordinates1.push_back(std::make_pair(0.0, 100.0));
+    	coordinates1.push_back(std::make_pair(100.0, 100.0));
+			coordinates1.push_back(std::make_pair(100.0, 0.0));
 
-    	coordinates2.push_back(std::make_pair(200, 200));
-			coordinates2.push_back(std::make_pair(200, 250));
-    	coordinates2.push_back(std::make_pair(250, 250));
-			coordinates2.push_back(std::make_pair(250, 200));
+    	coordinates2.push_back(std::make_pair(200.0, 200.0));
+			coordinates2.push_back(std::make_pair(200.0, 250.0));
+    	coordinates2.push_back(std::make_pair(250.0, 250.0));
+			coordinates2.push_back(std::make_pair(250.0, 200.0));
 
-    	coordinates3.push_back(std::make_pair(500, 500));
-			coordinates3.push_back(std::make_pair(500, 600));
-    	coordinates3.push_back(std::make_pair(600, 600));
-			coordinates3.push_back(std::make_pair(600, 500));
+    	coordinates3.push_back(std::make_pair(500.0, 500.0));
+			coordinates3.push_back(std::make_pair(500.0, 600.0));
+    	coordinates3.push_back(std::make_pair(600.0, 600.0));
+			coordinates3.push_back(std::make_pair(600.0, 500.0));
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 100;
