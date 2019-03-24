@@ -240,8 +240,8 @@ class Geofencer extends Component {
 
         for (let coordinate of this.state.selectedOption) {
             console.log(coordinate);
-            x_bounds.push(coordinate.lng);
-            y_bounds.push(coordinate.lat);
+            x_bounds.push(coordinate.lat);
+            y_bounds.push(coordinate.lng);
         }
 
         let actionName = "create";

@@ -25,9 +25,9 @@ const endpoint = "http://localhost:8888";
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
 const klasses = [
-    {"crn": "100", "bounds": "(0,0),(100,100)"},
-    {"crn": "200", "bounds": "(200,200),(250,250)"},
-    {"crn": "500", "bounds": "(500,500),(600,600)"}
+    {"crn": "100", "bounds": "(0,0),(0, 100),(100,100),(100,0)"},
+    {"crn": "200", "bounds": "(200,200),(200,250),(250,250),(250,200)"},
+    {"crn": "500", "bounds": "(500,500),(500,600),(600,600),(600,500)"}
 ]
 const accounts = [
     {
@@ -378,6 +378,7 @@ class Index extends Component {
                             autoComplete="off"
                             label="Account"
                             margin="normal"
+                            defaultValue="useraaaaaaaa"
                             fullWidth
                         />
                         <TextField
@@ -385,6 +386,7 @@ class Index extends Component {
                             autoComplete="off"
                             label="Private key"
                             margin="normal"
+                            defaultValue="5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5"
                             fullWidth
                         />
                         <TextField
@@ -414,64 +416,6 @@ class Index extends Component {
                             className={classes.formButton}
                             type="submit">
                             Add / Update location
-                        </Button>
-                    </form>
-                    <form onSubmit={this.handleAddClass}>
-                        <TextField
-                            name="account"
-                            autoComplete="off"
-                            label="Account"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            name="privateKey"
-                            autoComplete="off"
-                            label="Private key"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            name="crn"
-                            autoComplete="off"
-                            label="crn"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            name="x_min"
-                            autoComplete="off"
-                            label="x_min"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            name="x_max"
-                            autoComplete="off"
-                            label="x_max"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            name="y_min"
-                            autoComplete="off"
-                            label="y_min"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <TextField
-                            name="y_max"
-                            autoComplete="off"
-                            label="y_max"
-                            margin="normal"
-                            fullWidth
-                        />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.formButton}
-                            type="submit">
-                            Add Class
                         </Button>
                     </form>
                     <Button
