@@ -6,7 +6,7 @@ set -o errexit
 echo "=== start blockchain with  ==="
 
 # set PATH
-PATH="$PATH:/opt/eosio/bin"
+PATH="$PATH:/opt/eosio/bin:./"
 
 set -m
 
@@ -21,6 +21,8 @@ nodeos -e -p eosio -d /mnt/dev/data \
   --plugin eosio::http_plugin \
   --http-server-address=0.0.0.0:8888 \
   --access-control-allow-origin=* \
+  --max-transaction-time 10000 \
+  --genesis-json ~/Documents/JWBB/eosio_docker/scripts/genesis.json \
   --contracts-console \
   --delete-all-blocks \
   --verbose-http-errors

@@ -16,6 +16,7 @@ frontend/build
 **/data/*
 
 # misc
+**/.vscode
 .DS_Store
 .env.local
 .env.development.local
