@@ -22,9 +22,7 @@ nodeos -e -p eosio -d /mnt/dev/data \
   --http-server-address=0.0.0.0:8888 \
   --access-control-allow-origin=* \
   --max-transaction-time 10000 \
-  --genesis-json ~/Documents/JWBB/eosio_docker/scripts/genesis.json \
   --contracts-console \
-  --delete-all-blocks \
   --verbose-http-errors
 
 # `--hard-replay` option is needed
