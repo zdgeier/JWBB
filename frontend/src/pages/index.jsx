@@ -342,7 +342,7 @@ class Index extends Component {
         const {noteTable} = this.state;
         const {classes} = this.props;
 
-        // generate each note as a card
+        // generate each record as a card
         const generateCard = (key, timestamp, user, note, xval, yval) => (
             <Card className={classes.card} key={key}>
                 <CardContent>
@@ -366,7 +366,7 @@ class Index extends Component {
                 <AppBar position="static" color="default">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
-                            Note Chain
+                            Lo-K-Chain
                         </Typography>
                     </Toolbar>
                 </AppBar>
