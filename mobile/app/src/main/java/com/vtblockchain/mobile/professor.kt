@@ -44,6 +44,10 @@ class professor : Fragment() {
                 ConnectionsStatusCodes.STATUS_OK -> {
                     Log.d("asdf", "Connection accepted")
                     status?.text = "Connection accepted ($endpointId)"
+
+                    val payload : Payload = Payload.fromBytes("HELLO THIS IS YOUR PROFESSOR SPEAKING".toByteArray())
+                    Nearby.getConnectionsClient(context!!).sendPayload(endpointId, payload)
+                    status?.text = "Sent payload to $endpointId"
                 }
                 ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                     Log.d("asdf", "Connection rejected")
@@ -81,6 +85,4 @@ class professor : Fragment() {
 
         return v
     }
-
-
 }

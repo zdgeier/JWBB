@@ -48,7 +48,7 @@ class student : Fragment() {
 
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endPointID: String, payload: Payload) {
-            status?.text = "Received payload from $endPointID: ${payload.asBytes().toString()}"
+            status?.text = "Received payload from $endPointID: ${String(payload.asBytes()!!)}"
         }
 
         override fun onPayloadTransferUpdate(endpointID: String, update: PayloadTransferUpdate) {
