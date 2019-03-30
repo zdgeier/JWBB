@@ -77,8 +77,7 @@ class professor : Fragment() {
         val v = inflater.inflate(R.layout.fragment_professor, container, false)
         status = v.findViewById(R.id.professorStatus)
 
-            startAdvertising()
-
+        startAdvertising()
 
         return v
     }
