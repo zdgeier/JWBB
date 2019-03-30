@@ -1,32 +1,39 @@
 package com.vtblockchain.mobile
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import com.google.android.material.textfield.TextInputEditText
-import com.memtrip.eos.chain.actions.transaction.TransactionContext
-import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.vtblockchain.mobile.actions.note.NoteTransfer
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.concurrent.TimeUnit
-import android.widget.Toast
-import com.google.android.gms.location.LocationServices
-import android.os.StrictMode
-import android.util.Log
-import android.widget.EditText
-import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.connection.*
-import com.google.android.gms.nearby.connection.DiscoveryOptions
-import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
-import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        var MY_PERMISSIONS_REQUEST_COURSE_LOCATION : Int = 0
+        var MY_PERMISSIONS_REQUEST_FINE_LOCATION : Int = 0
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (ContextCompat.checkSelfPermission(this@MainActivity,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this@MainActivity,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                MY_PERMISSIONS_REQUEST_COURSE_LOCATION
+            )
+        }
+        if (ContextCompat.checkSelfPermission(this@MainActivity,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this@MainActivity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_FINE_LOCATION
+            )
+        }
     }
 }
