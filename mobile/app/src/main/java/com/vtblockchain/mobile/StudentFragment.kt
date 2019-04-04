@@ -1,8 +1,5 @@
 package com.vtblockchain.mobile
 
-
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
@@ -13,38 +10,24 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.google.android.material.textfield.TextInputEditText
-import com.memtrip.eos.chain.actions.transaction.TransactionContext
-import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.rpc.Api
-import com.vtblockchain.mobile.Config.Companion.SERVICE_ID
-import com.vtblockchain.mobile.actions.note.NoteTransfer
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import java.util.concurrent.TimeUnit
+import kotlinx.serialization.json.Json
+import com.vtblockchain.mobile.MainActivity.Companion.SERVICE_ID
 
-/**
- * A simple [Fragment] subclass.
- *
- */
-class student : Fragment() {
-    val TAG = "student"
+class StudentFragment : Fragment() {
+    val TAG = "StudentFragment"
 
-    var mFusedLocationClient : FusedLocationProviderClient? = null
-    var nickname : String = "student nickname"
+    var nickname : String = "StudentFragment nickname"
 
     var button : Button? = null
     var status : TextView? = null
     var account : TextInputEditText? = null
     var privateKey : TextInputEditText? = null
     var crn : EditText? = null
+
+    var professorId : String? = null
 
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endPointID: String, payload: Payload) {
@@ -53,6 +36,21 @@ class student : Fragment() {
 
         override fun onPayloadTransferUpdate(endpointID: String, update: PayloadTransferUpdate) {
             //TODO("not implemented")
+        }
+    }
+
+    fun sendLocation() {
+        if (professorId != null) {
+            var locationPayload = LocationPayload(
+                account?.text.toString(), privateKey?.text.toString(), crn?.text.toString().toLong())
+            val jsonData = Json.stringify(LocationPayload.serializer(), locationPayload)
+
+            val payload : Payload = Payload.fromBytes(jsonData.toByteArray())
+            Nearby.getConnectionsClient(context!!).sendPayload(professorId!!, payload)
+            status?.text = "Sent ${String(payload.asBytes()!!)} to $professorId"
+        }
+        else {
+            status?.text = "Not connected to ProfessorFragment, cannot send payload"
         }
     }
 
@@ -67,6 +65,7 @@ class student : Fragment() {
                 ConnectionsStatusCodes.STATUS_OK -> {
                     Log.d("asdf", "Connection accepted")
                     status?.text = "Connection accepted ($endpointId)"
+                    professorId = endpointId
                 }
                 ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                     Log.d("asdf", "Connection rejected")
@@ -81,6 +80,7 @@ class student : Fragment() {
 
         override fun onDisconnected(endpointId: String) {
             status?.text = "Disconnected from $endpointId"
+            professorId = null
         }
     }
 
@@ -90,7 +90,7 @@ class student : Fragment() {
             Nearby.getConnectionsClient(context!!)
                 .requestConnection(nickname, endpointId, connectionLifecycleCallback)
             status?.text = "Endpoint found ($endpointId)"
-            Log.d("student", "Endpoint found ($endpointId)")
+            Log.d("StudentFragment", "Endpoint found ($endpointId)")
         }
 
         override fun onEndpointLost(endpointId: String) {
@@ -103,7 +103,7 @@ class student : Fragment() {
         Nearby.getConnectionsClient(context!!)
             .startDiscovery(SERVICE_ID, endpointDiscoveryCallback, discoveryOptions)
         status?.text = "Starting discovery $nickname"
-        Log.d("student", "Starting discovery $nickname")
+        Log.d("StudentFragment", "Starting discovery $nickname")
     }
 
     override fun onCreateView(
@@ -111,8 +111,6 @@ class student : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v =  inflater.inflate(R.layout.fragment_student, container, false)
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
         button = v.findViewById(R.id.submit)
         status = v.findViewById(R.id.studentStatus)
@@ -123,63 +121,10 @@ class student : Fragment() {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        button!!.setOnClickListener { sendLocationToChain() }
+        button!!.setOnClickListener { sendLocation() }
 
-            startDiscovery()
-
+        startDiscovery()
 
         return v
-    }
-
-    fun sendLocationToChain() {
-        GlobalScope.launch {
-            val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .connectTimeout(3, TimeUnit.SECONDS)
-                .readTimeout(3, TimeUnit.SECONDS)
-                .writeTimeout(3, TimeUnit.SECONDS)
-
-            val api = Api(Config.LOCAL_HOST_API_BASE_URL, okHttpClient.build())
-
-            try {
-                mFusedLocationClient?.lastLocation?.addOnSuccessListener { location ->
-                    if (location != null) {
-                        // GPS location can be null if GPS is switched off
-                        val currentLat = location.latitude
-                        val currentLong = location.longitude
-                        Toast.makeText(
-                            context,
-                            "lat " + currentLat + "\nlong " + currentLong,
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        NoteTransfer(api.chain).record(
-                            "lokchain",
-                            NoteTransfer.Args(
-                                account?.text.toString(),
-                                currentLat.toFloat(),
-                                currentLong.toFloat(),
-                                crn?.text.toString().toLong()
-                            ),
-                            TransactionContext(
-                                account?.text.toString(),
-                                EosPrivateKey(privateKey?.text.toString()),
-                                transactionDefaultExpiry()
-                            )
-                        ).blockingGet()
-                    }
-                    else {
-                        Toast.makeText(
-                            context,
-                            "GPS unavailable",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }?.addOnFailureListener { e -> e.printStackTrace() }
-            }
-            catch(e : SecurityException) {
-                e.printStackTrace()
-            }
-        }
     }
 }

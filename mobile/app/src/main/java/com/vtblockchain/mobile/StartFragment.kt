@@ -13,7 +13,7 @@ import androidx.navigation.Navigation
  * A simple [Fragment] subclass.
  *
  */
-class start : Fragment() {
+class StartFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
