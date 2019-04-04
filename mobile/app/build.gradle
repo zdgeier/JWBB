@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'kotlinx-serialization'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -62,4 +64,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.android.gms:play-services-nearby:16.0.0'
     implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.10.0"
 }
