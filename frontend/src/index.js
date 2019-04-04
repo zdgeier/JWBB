@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppHeaderComponent} from './pages/index';
+import App from './pages/App';
 
-ReactDOM.render(<AppHeaderComponent />, document.getElementById('root'));
+ReactDOM.render(<App/>, document.getElementById('root'));

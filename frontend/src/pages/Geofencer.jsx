@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
-import './Geofencer.css';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
+
+import './Geofencer.css';
 import './bootstrap.min.css';
-import Button from "@material-ui/core/Button";
+
 
 import {Api, JsonRpc, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
 import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import {TextDecoder, TextEncoder} from 'text-encoding';
+
+import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField/TextField";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import Slide from "@material-ui/core/Slide";
@@ -64,10 +67,6 @@ function DialogTransition(props) {
 }
 
 class SlidingFeedbackDialog extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Dialog open={this.props.open}
