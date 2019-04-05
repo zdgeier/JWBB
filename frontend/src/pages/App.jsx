@@ -9,8 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab";
 
-import Geofencer from './Geofencer.jsx'
+import Create from './Create.jsx'
 import Visualizer from "./Visualizer.jsx";
+import View from "./View";
 
 // const classes = [
 //     {"crn": "100", "bounds": "(0,0),(0, 100),(100,100),(100,0)"},
@@ -90,8 +91,8 @@ class App extends Component {
                         <Tab value={2} label="Visualize"/>
                     </Tabs>
                 </Paper>
-                {value === 0 && <Geofencer/>}
-                {value === 1 && <p>Ya haven't done this yet don't @ me</p>}
+                {value === 0 && <Create/>}
+                {value === 1 && <View/>}
                 {value === 2 && <Visualizer/>}
             </div>
         );

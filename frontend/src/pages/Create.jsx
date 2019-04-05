@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
-import './Geofencer.css';
+import './Create.css';
 import './bootstrap.min.css';
 
 
@@ -83,8 +83,7 @@ class SlidingFeedbackDialog extends Component {
 
 let CrnTextField = withStyles(crnTextFieldstyles)(outlinedTextField);
 
-class Geofencer extends Component {
-
+class Create extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -328,4 +327,4 @@ class Geofencer extends Component {
     }
 }
 
-export default Geofencer;
+export default Create;
