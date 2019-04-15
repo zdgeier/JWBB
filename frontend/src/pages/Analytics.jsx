@@ -35,7 +35,7 @@ const styles = theme => ({
     },
 });
 
-class Visualizer extends Component {
+class Analytics extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -117,4 +117,4 @@ class Visualizer extends Component {
 
 }
 
-export default withStyles(styles)(Visualizer);
+export default withStyles(styles)(Analytics);

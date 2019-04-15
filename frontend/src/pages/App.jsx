@@ -10,8 +10,8 @@ import Tabs from "@material-ui/core/Tabs/Tabs";
 import Tab from "@material-ui/core/Tab";
 
 import Create from './Create.jsx'
-import Visualizer from "./Visualizer.jsx";
-import View from "./View";
+import Analytics from "./Analytics.jsx";
+import Live from "./Live";
 
 // const classes = [
 //     {"crn": "100", "bounds": "(0,0),(0, 100),(100,100),(100,0)"},
@@ -86,14 +86,14 @@ class App extends Component {
                         textColor="primary"
                         centered
                     >
-                        <Tab value={0} label="Create"/>
-                        <Tab value={1} label="View"/>
-                        <Tab value={2} label="Visualize"/>
+                        <Tab value={0} label="Create new class"/>
+                        <Tab value={1} label="Live"/>
+                        <Tab value={2} label="Analytics"/>
                     </Tabs>
                 </Paper>
                 {value === 0 && <Create/>}
-                {value === 1 && <View/>}
-                {value === 2 && <Visualizer/>}
+                {value === 1 && <Live/>}
+                {value === 2 && <Analytics/>}
             </div>
         );
     }

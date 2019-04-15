@@ -74,7 +74,7 @@ class SlidingFeedbackDialog extends Component {
                     keepMounted
                     onClose={()=>{this.props.handleClose(this.props.success, false)}}>
                 <DialogContent>
-                    {this.props.success ? "huzzah!" : "Something didn't work. welp!"}
+                    {this.props.success ? "Success! Your class was created." : "Failure! A class with this CRN already exists, or your connection is broken."}
                 </DialogContent>
             </Dialog>
         );
