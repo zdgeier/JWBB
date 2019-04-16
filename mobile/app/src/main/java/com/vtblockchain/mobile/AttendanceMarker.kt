@@ -6,7 +6,7 @@ import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
 import com.vtblockchain.mobile.MainActivity.Companion.TAG
-import com.vtblockchain.mobile.actions.note.NoteTransfer
+import com.vtblockchain.mobile.actions.attend.AttendTransfer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
@@ -30,9 +30,9 @@ class AttendanceMarker {
             client?.lastLocation?.addOnSuccessListener { location ->
                 GlobalScope.launch {
                     if (location != null) {
-                        NoteTransfer(api.chain).record(
+                        AttendTransfer(api.chain).record(
                             CONTRACT_NAME,
-                            NoteTransfer.Args(
+                            AttendTransfer.Args(
                                 locationPayload.account,
                                 location.latitude.toFloat(),
                                 location.longitude.toFloat(),

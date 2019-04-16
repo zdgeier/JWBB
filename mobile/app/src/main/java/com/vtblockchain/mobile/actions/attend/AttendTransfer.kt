@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile.actions.note
+package com.vtblockchain.mobile.actions.attend
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse
@@ -12,7 +12,7 @@ import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
 import java.util.Arrays.asList
 
-class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
+class AttendTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
         val account: String,
@@ -41,9 +41,9 @@ class NoteTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
     }
 
     private fun transferBin(args: Args): String {
-        return AbiBinaryGenNoteWriter(CompressionType.NONE).squishNoteBody(
-            NoteBody(
-                NoteArgs(
+        return AbiBinaryGenAttendWriter(CompressionType.NONE).squishAttendBody(
+            AttendBody(
+                AttendArgs(
                     args.account,
                     args.xval,
                     args.yval,
