@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         var MY_PERMISSIONS_REQUEST_COURSE_LOCATION : Int = 0
         var MY_PERMISSIONS_REQUEST_FINE_LOCATION : Int = 0
-        const val LOCAL_HOST_API_BASE_URL = "http://192.168.1.14:8888/"
         const val SERVICE_ID = "vtblockchain"
         const val TAG = "JWBB"
 

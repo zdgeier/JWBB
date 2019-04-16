@@ -15,22 +15,20 @@ import java.util.concurrent.TimeUnit
 
 class AttendanceMarker {
     val CONTRACT_NAME : String = "lokchain"
-    var api : Api
 
-    init {
-        val okHttpClient = OkHttpClient.Builder()
+    var okHttpClient : OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .connectTimeout(3, TimeUnit.SECONDS)
             .readTimeout(3, TimeUnit.SECONDS)
             .writeTimeout(3, TimeUnit.SECONDS)
+            .build()
 
-        api = Api(MainActivity.LOCAL_HOST_API_BASE_URL, okHttpClient.build())
-    }
+    fun sendLocationToChain(baseUrl : String, locationPayload: LocationPayload, client : FusedLocationProviderClient?) {
+        val api = Api(baseUrl, okHttpClient)
 
-    fun sendLocationToChain(locationPayload: LocationPayload, client : FusedLocationProviderClient?) {
-        GlobalScope.launch {
-            try {
-                client?.lastLocation?.addOnSuccessListener { location ->
+        try {
+            client?.lastLocation?.addOnSuccessListener { location ->
+                GlobalScope.launch {
                     if (location != null) {
                         NoteTransfer(api.chain).record(
                             CONTRACT_NAME,
@@ -45,15 +43,15 @@ class AttendanceMarker {
                                 EosPrivateKey(locationPayload.privateKey),
                                 MainActivity.transactionDefaultExpiry()
                             )
-                        ).timeout(3, TimeUnit.SECONDS)
+                        ).blockingGet()
                     } else {
                         Log.d(TAG, "Location not found!")
                     }
                 }
             }
-            catch (e : SecurityException) {
-                e.printStackTrace()
-            }
+        }
+        catch (e : SecurityException) {
+            e.printStackTrace()
         }
     }
 }

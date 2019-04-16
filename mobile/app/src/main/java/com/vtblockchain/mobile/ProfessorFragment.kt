@@ -1,22 +1,27 @@
 package com.vtblockchain.mobile
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import com.vtblockchain.mobile.MainActivity.Companion.SERVICE_ID
+import com.vtblockchain.mobile.MainActivity.Companion.TAG
 import kotlinx.serialization.json.Json
 
 class ProfessorFragment : Fragment() {
     var nickname : String = "ProfessorFragment nickname"
     var status : TextView? = null
     var attendanceMarker : AttendanceMarker? = null
+    var ipAddress : EditText? = null
     var locationProviderClient : FusedLocationProviderClient? = null
 
     val payloadCallback = object : PayloadCallback() {
@@ -25,11 +30,12 @@ class ProfessorFragment : Fragment() {
             status?.text = "Received payload from $endPointID: ${payloadString}"
             Log.d("ProfessorFragment", payloadString)
             var locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
-            attendanceMarker?.sendLocationToChain(locationPayload, locationProviderClient)
+            val baseUrl = "http://${ipAddress?.text}:8888/"
+            Log.d(TAG, "Marking location at $baseUrl")
+            attendanceMarker?.sendLocationToChain(baseUrl, locationPayload, locationProviderClient)
         }
 
         override fun onPayloadTransferUpdate(endpointID: String, update: PayloadTransferUpdate) {
-            //TODO("not implemented")
         }
     }
 
@@ -80,6 +86,8 @@ class ProfessorFragment : Fragment() {
 
         attendanceMarker = AttendanceMarker()
         locationProviderClient = FusedLocationProviderClient(context!!)
+
+        ipAddress = v.findViewById(R.id.ipAddress)
 
         startAdvertising()
 
