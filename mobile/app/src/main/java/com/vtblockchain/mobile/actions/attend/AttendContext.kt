@@ -1,9 +1,9 @@
-package com.vtblockchain.mobile.actions.note
+package com.vtblockchain.mobile.actions.attend
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import java.util.Date
 
-data class NoteContext(
+data class AttendContext(
     val authorizingAccountName: String,
     val authorizingPrivateKey: EosPrivateKey,
     val expirationDate: Date
