@@ -96,7 +96,7 @@ CONTRACT lokchain : public eosio::contract {
       eosio::print("CRN ", crn, " doesn't exist...");
     }
 
-    ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys) {
+    ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys, uint64_t startTime, uint64_t endTime) {
     	// to sign the action with the given account
     	require_auth( user );
 
@@ -110,6 +110,8 @@ CONTRACT lokchain : public eosio::contract {
 			_classes.emplace( _self, [&]( auto& new_class ) {
 					new_class.crn    	   = crn;
 					new_class.coordinates  = coordinates;
+					new_class.startTime    = startTime;
+					new_class.endTime      = endTime;
 				});
 			eosio::print("New class created:  ", crn);
     }
