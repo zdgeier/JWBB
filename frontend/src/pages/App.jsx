@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Parallax} from "react-parallax";
-import ParticleAnimation from 'react-particle-animation';
 
 // material-ui dependencies
 import {withStyles} from '@material-ui/core/styles';
@@ -88,20 +87,28 @@ const clippedDrawerStyles = theme => ({
     },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
-        background: "#000000"
+        background: "#000000",
+        height: "0px",
+        'align-text': "center",
+        visibility: "hidden",
     },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
     },
     drawerItems: {
-        padding: 25,
+        padding: 35,
     },
     drawerPaper: {
         width: drawerWidth,
     },
     home: {
         flexGrow: 1,
+    },
+    logo: {
+        width: "60px",
+        height: "60px",
+        "justify-content": "center",
     },
     toolbar: theme.mixins.toolbar,
 });
@@ -285,7 +292,6 @@ class App extends React.Component {
             case "Create a class":
                 return (
                     <main className={classes.home}>
-                        <div className={classes.toolbar}/>
                         <div
                             style={{
                                 position: "absolute",
@@ -408,12 +414,11 @@ class App extends React.Component {
                                 }}
                             />
                         </div>
-                        <Create style={{position: "absolute", "padding-top": 35}}/>
+                        <Create style={{position: "absolute", "padding-top": 15}}/>
                     </main>);
             case "View Live Attendance":
                 return (
                     <main className={classes.home}>
-                        <div className={classes.toolbar}/>
                         <div
                             style={{
                                 position: "absolute",
@@ -536,7 +541,7 @@ class App extends React.Component {
                                 }}
                             />
                         </div>
-                        <Live style={{"padding-top": 35}}/>
+                        <Live style={{"padding-top": 15}}/>
                     </main>);
             case "About us":
                 return (
@@ -576,7 +581,18 @@ class App extends React.Component {
                         paper: classes.drawerPaper,
                     }}
                 >
-                    <div className={classes.toolbar}/>
+                    <List>
+                        <ListItem  style={{"justify-content": "center"}}>
+                            <p>Powered by</p>
+                        </ListItem>
+                        <ListItem  style={{"justify-content": "center"}}>
+                            <img className={classes.logo}
+                                 src="https://res.cloudinary.com/teepublic/image/private/s--e9T59x_f--/t_Preview/b_rgb:ffffff,c_limit,f_jpg,h_630,q_90,w_630/v1548201494/production/designs/4060539_0.jpg"
+                            />
+                        </ListItem>
+                    </List>
+                    {/*<div className={classes.toolbar}/>*/}
+                    <Divider/>
                     <List>
                         {['Home', 'Create a class', 'View Live Attendance', 'Attendance Analytics', 'About Us'].map((text, index) => (
                             <ListItem button key={text} className={classes.drawerItems} onClick={() => {
