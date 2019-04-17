@@ -18,6 +18,7 @@ import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import Divider from "@material-ui/core/Divider/Divider";
 import Fade from "@material-ui/core/Fade/Fade";
+import Particles from "react-particles-js";
 
 // const classes = [
 //     {"crn": "100", "bounds": "(0,0),(0, 100),(100,100),(100,0)"},
@@ -102,10 +103,6 @@ const clippedDrawerStyles = theme => ({
     home: {
         flexGrow: 1,
     },
-    nonhomePage: {
-        flexGrow: 1,
-        "padding-top": 65,
-    },
     toolbar: theme.mixins.toolbar,
 });
 
@@ -139,15 +136,128 @@ class App extends React.Component {
                 return (
                     <main className={classes.home}>
                         <div className={classes.toolbar}/>
-                        <ParticleAnimation
-                            interactive={false}
-                            numParticles={300}
+                        <div
                             style={{
-                                position: 'absolute',
-                                width: '100%',
-                                height: '100%'
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%"
                             }}
-                        />
+                        >
+                            <Particles
+                                params={{
+                                    "particles": {
+                                        "number": {
+                                            "value": 80,
+                                            "density": {
+                                                "enable": true,
+                                                "value_area": 800
+                                            }
+                                        },
+                                        "color": {
+                                            "value": "#000000"
+                                        },
+                                        "shape": {
+                                            "type": "circle",
+                                            "stroke": {
+                                                "width": 0,
+                                                "color": "#000000"
+                                            },
+                                            "polygon": {
+                                                "nb_sides": 5
+                                            },
+                                            "image": {
+                                                "src": "img/github.svg",
+                                                "width": 100,
+                                                "height": 100
+                                            }
+                                        },
+                                        "opacity": {
+                                            "value": 0.5,
+                                            "random": false,
+                                            "anim": {
+                                                "enable": false,
+                                                "speed": 1,
+                                                "opacity_min": 0.1,
+                                                "sync": false
+                                            }
+                                        },
+                                        "size": {
+                                            "value": 3,
+                                            "random": true,
+                                            "anim": {
+                                                "enable": false,
+                                                "speed": 40,
+                                                "size_min": 0.1,
+                                                "sync": false
+                                            }
+                                        },
+                                        "line_linked": {
+                                            "enable": true,
+                                            "distance": 150,
+                                            "color": "#111111",
+                                            "opacity": 0.4,
+                                            "width": 1
+                                        },
+                                        "move": {
+                                            "enable": true,
+                                            "speed": 6,
+                                            "direction": "none",
+                                            "random": false,
+                                            "straight": false,
+                                            "out_mode": "out",
+                                            "bounce": false,
+                                            "attract": {
+                                                "enable": false,
+                                                "rotateX": 600,
+                                                "rotateY": 1200
+                                            }
+                                        }
+                                    },
+                                    "interactivity": {
+                                        "detect_on": "canvas",
+                                        "events": {
+                                            "onhover": {
+                                                "enable": true,
+                                                "mode": "repulse"
+                                            },
+                                            "onclick": {
+                                                "enable": true,
+                                                "mode": "push"
+                                            },
+                                            "resize": true
+                                        },
+                                        "modes": {
+                                            "grab": {
+                                                "distance": 400,
+                                                "line_linked": {
+                                                    "opacity": 1
+                                                }
+                                            },
+                                            "bubble": {
+                                                "distance": 400,
+                                                "size": 40,
+                                                "duration": 2,
+                                                "opacity": 8,
+                                                "speed": 3
+                                            },
+                                            "repulse": {
+                                                "distance": 200,
+                                                "duration": 0.4
+                                            },
+                                            "push": {
+                                                "particles_nb": 4
+                                            },
+                                            "remove": {
+                                                "particles_nb": 2
+                                            }
+                                        }
+                                    },
+                                    "retina_detect": true
+                                }}
+                            />
+                        </div>
                         <Fade in={true} timeout={5000}>
                             <p style={{
                                 position: "absolute", "font-family": "Helvetica Neue",
@@ -174,13 +284,259 @@ class App extends React.Component {
                 );
             case "Create a class":
                 return (
-                    <main className={classes.nonhomePage}>
-                        <Create/>
+                    <main className={classes.home}>
+                        <div className={classes.toolbar}/>
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%"
+                            }}
+                        >
+                            <Particles
+                                params={{
+                                    "particles": {
+                                        "number": {
+                                            "value": 80,
+                                            "density": {
+                                                "enable": true,
+                                                "value_area": 800
+                                            }
+                                        },
+                                        "color": {
+                                            "value": "#000000"
+                                        },
+                                        "shape": {
+                                            "type": "circle",
+                                            "stroke": {
+                                                "width": 0,
+                                                "color": "#000000"
+                                            },
+                                            "polygon": {
+                                                "nb_sides": 5
+                                            },
+                                            "image": {
+                                                "src": "img/github.svg",
+                                                "width": 100,
+                                                "height": 100
+                                            }
+                                        },
+                                        "opacity": {
+                                            "value": 0.5,
+                                            "random": false,
+                                            "anim": {
+                                                "enable": false,
+                                                "speed": 1,
+                                                "opacity_min": 0.1,
+                                                "sync": false
+                                            }
+                                        },
+                                        "size": {
+                                            "value": 3,
+                                            "random": true,
+                                            "anim": {
+                                                "enable": false,
+                                                "speed": 40,
+                                                "size_min": 0.1,
+                                                "sync": false
+                                            }
+                                        },
+                                        "line_linked": {
+                                            "enable": true,
+                                            "distance": 150,
+                                            "color": "#111111",
+                                            "opacity": 0.4,
+                                            "width": 1
+                                        },
+                                        "move": {
+                                            "enable": true,
+                                            "speed": 6,
+                                            "direction": "none",
+                                            "random": false,
+                                            "straight": false,
+                                            "out_mode": "out",
+                                            "bounce": false,
+                                            "attract": {
+                                                "enable": false,
+                                                "rotateX": 600,
+                                                "rotateY": 1200
+                                            }
+                                        }
+                                    },
+                                    "interactivity": {
+                                        "detect_on": "canvas",
+                                        "events": {
+                                            "onhover": {
+                                                "enable": true,
+                                                "mode": "repulse"
+                                            },
+                                            "onclick": {
+                                                "enable": true,
+                                                "mode": "push"
+                                            },
+                                            "resize": true
+                                        },
+                                        "modes": {
+                                            "grab": {
+                                                "distance": 400,
+                                                "line_linked": {
+                                                    "opacity": 1
+                                                }
+                                            },
+                                            "bubble": {
+                                                "distance": 400,
+                                                "size": 40,
+                                                "duration": 2,
+                                                "opacity": 8,
+                                                "speed": 3
+                                            },
+                                            "repulse": {
+                                                "distance": 200,
+                                                "duration": 0.4
+                                            },
+                                            "push": {
+                                                "particles_nb": 4
+                                            },
+                                            "remove": {
+                                                "particles_nb": 2
+                                            }
+                                        }
+                                    },
+                                    "retina_detect": true
+                                }}
+                            />
+                        </div>
+                        <Create style={{position: "absolute", "padding-top": 35}}/>
                     </main>);
             case "View Live Attendance":
                 return (
-                    <main className={classes.nonhomePage}>
-                        <Live/>
+                    <main className={classes.home}>
+                        <div className={classes.toolbar}/>
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%"
+                            }}
+                        >
+                            <Particles
+                                params={{
+                                    "particles": {
+                                        "number": {
+                                            "value": 80,
+                                            "density": {
+                                                "enable": true,
+                                                "value_area": 800
+                                            }
+                                        },
+                                        "color": {
+                                            "value": "#000000"
+                                        },
+                                        "shape": {
+                                            "type": "circle",
+                                            "stroke": {
+                                                "width": 0,
+                                                "color": "#000000"
+                                            },
+                                            "polygon": {
+                                                "nb_sides": 5
+                                            },
+                                            "image": {
+                                                "src": "img/github.svg",
+                                                "width": 100,
+                                                "height": 100
+                                            }
+                                        },
+                                        "opacity": {
+                                            "value": 0.05,
+                                            "random": false,
+                                            "anim": {
+                                                "enable": false,
+                                                "speed": 1,
+                                                "opacity_min": 0.1,
+                                                "sync": false
+                                            }
+                                        },
+                                        "size": {
+                                            "value": 3,
+                                            "random": true,
+                                            "anim": {
+                                                "enable": false,
+                                                "speed": 40,
+                                                "size_min": 0.1,
+                                                "sync": false
+                                            }
+                                        },
+                                        "line_linked": {
+                                            "enable": true,
+                                            "distance": 150,
+                                            "color": "#111111",
+                                            "opacity": 0.05,
+                                            "width": 1
+                                        },
+                                        "move": {
+                                            "enable": true,
+                                            "speed": 6,
+                                            "direction": "none",
+                                            "random": false,
+                                            "straight": false,
+                                            "out_mode": "out",
+                                            "bounce": false,
+                                            "attract": {
+                                                "enable": false,
+                                                "rotateX": 600,
+                                                "rotateY": 1200
+                                            }
+                                        }
+                                    },
+                                    "interactivity": {
+                                        "detect_on": "canvas",
+                                        "events": {
+                                            "onhover": {
+                                                "enable": false,
+                                                "mode": "repulse"
+                                            },
+                                            "onclick": {
+                                                "enable": false,
+                                                "mode": "push"
+                                            },
+                                            "resize": true
+                                        },
+                                        "modes": {
+                                            "grab": {
+                                                "distance": 400,
+                                                "line_linked": {
+                                                    "opacity": 1
+                                                }
+                                            },
+                                            "bubble": {
+                                                "distance": 400,
+                                                "size": 40,
+                                                "duration": 2,
+                                                "opacity": 8,
+                                                "speed": 3
+                                            },
+                                            "repulse": {
+                                                "distance": 200,
+                                                "duration": 0.4
+                                            },
+                                            "push": {
+                                                "particles_nb": 4
+                                            },
+                                            "remove": {
+                                                "particles_nb": 2
+                                            }
+                                        }
+                                    },
+                                    "retina_detect": true
+                                }}
+                            />
+                        </div>
+                        <Live style={{"padding-top": 35}}/>
                     </main>);
             case "About us":
                 return (
@@ -197,6 +553,7 @@ class App extends React.Component {
                     <main className={classes.nonhomePage}>
                         <Live/>
                     </main>);
+
         }
     }
 
@@ -238,4 +595,9 @@ class App extends React.Component {
 
 }
 
-export default withStyles(clippedDrawerStyles)(App);
+export default withStyles(clippedDrawerStyles)
+
+(
+    App
+)
+;

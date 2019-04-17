@@ -55,7 +55,7 @@ class LiveAttendanceView extends Component {
     }
 
     refreshLiveAttendance() {
-        this.liveAttendancePollingId = setInterval(this.getAttendance.bind(this), 1000);
+        this.liveAttendancePollingId = setTimeout(this.getAttendance.bind(this), 1000);
     }
 
     getAttendance() {
