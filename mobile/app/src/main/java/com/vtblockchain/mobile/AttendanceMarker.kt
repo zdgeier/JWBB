@@ -36,7 +36,9 @@ class AttendanceMarker {
                                 locationPayload.account,
                                 location.latitude.toFloat(),
                                 location.longitude.toFloat(),
-                                locationPayload.crn
+                                locationPayload.crn,
+                                0,
+                                0
                             ),
                             TransactionContext(
                                 locationPayload.account,
