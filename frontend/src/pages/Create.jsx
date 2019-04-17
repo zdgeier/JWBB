@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
 import './Create.css';
+
 import './bootstrap.min.css';
 
 
@@ -291,12 +292,7 @@ class Create extends Component {
         return (
             <div className="container" style={{height: `100%`}}>
                 <br/>
-                <div className="page-header">
-                    <h1>Geofence</h1>
-                </div>
-                <p className="lead">
-                    Pick a CRN, pick a location, and create a geofenced class! Your students will hate you!
-                </p>
+
                 <CrnTextField onChangeHandler={this._handleCRNChange}/>
                 <AsyncTypeahead
                     align="justify"

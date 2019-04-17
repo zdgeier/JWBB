@@ -1,17 +1,23 @@
 import React, {Component} from 'react';
-
+import {Parallax} from "react-parallax";
+import ParticleAnimation from 'react-particle-animation';
 
 // material-ui dependencies
 import {withStyles} from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
-
-import Tabs from "@material-ui/core/Tabs/Tabs";
-import Tab from "@material-ui/core/Tab";
-
 import Create from './Create.jsx'
 import Analytics from "./Analytics.jsx";
 import Live from "./Live";
+import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
+import AppBar from "@material-ui/core/AppBar/AppBar";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import Typography from "@material-ui/core/Typography/Typography";
+import Drawer from "@material-ui/core/Drawer/Drawer";
+import List from "@material-ui/core/List/List";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import Divider from "@material-ui/core/Divider/Divider";
+import Fade from "@material-ui/core/Fade/Fade";
 
 // const classes = [
 //     {"crn": "100", "bounds": "(0,0),(0, 100),(100,100),(100,0)"},
@@ -57,6 +63,17 @@ import Live from "./Live";
 //     }
 // ];
 
+const image1 =
+    "https://media1.giphy.com/media/3oKIPpFhwsMNrRIjN6/giphy.gif?cid=790b76115cb678eb776f446a63c91bee";
+const image2 =
+    "https://img00.deviantart.net/2bd0/i/2009/276/c/9/magic_forrest_wallpaper_by_goergen.jpg";
+const image3 =
+    "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5297440765001_5280261645001-vs.jpg?pubId=5104226627001&videoId=5280261645001";
+const image4 =
+    "https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/empire-state-building-black-and-white-square-format-john-farnan.jpg";
+
+const drawerWidth = 240;
+
 const tabStyles = theme => ({
     root: {
         flexGrow: 1,
@@ -64,39 +81,161 @@ const tabStyles = theme => ({
     },
 });
 
-class App extends Component {
-    state = {
-        value: 0,
-    };
+const clippedDrawerStyles = theme => ({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        background: "#000000"
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerItems: {
+        padding: 25,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    home: {
+        flexGrow: 1,
+    },
+    nonhomePage: {
+        flexGrow: 1,
+        "padding-top": 65,
+    },
+    toolbar: theme.mixins.toolbar,
+});
 
-    handleChange = (event, value) => {
-        this.setState({value});
-    };
+const insideStyles = {
+    background: "white",
+    padding: 20,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%,-50%)"
+};
+
+const styles = {
+    fontFamily: "sans-serif",
+    textAlign: "center"
+};
+
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            page: "Home"
+        };
+    }
+
+    choosePage(pageName) {
+        const {classes} = this.props;
+        switch (pageName) {
+            case "Home":
+                return (
+                    <main className={classes.home}>
+                        <div className={classes.toolbar}/>
+                        <ParticleAnimation
+                            interactive={false}
+                            numParticles={300}
+                            style={{
+                                position: 'absolute',
+                                width: '100%',
+                                height: '100%'
+                            }}
+                        />
+                        <Fade in={true} timeout={5000}>
+                            <p style={{
+                                position: "absolute", "font-family": "Helvetica Neue",
+                                top: "35%",
+                                left: "50%",
+                                transform: "translate(-35%)",
+                                "white-space": "nowrap",
+                                "font-size": 50
+                            }}>Skipping class has never been harder.</p>
+                        </Fade>
+                        <Fade in={true} timeout={5000}>
+                            <p style={{
+                                position: "absolute", "font-family": "Helvetica Neue",
+                                top: "55%",
+                                left: "50%",
+                                transform: "translate(-35%)",
+                                "font-size": 20
+                            }}>Locachain brings the power of the blockchain to a robust peer-to-peer and geofencing
+                                based
+                                attendance
+                                validation scheme.</p>
+                        </Fade>
+                    </main>
+                );
+            case "Create a class":
+                return (
+                    <main className={classes.nonhomePage}>
+                        <Create/>
+                    </main>);
+            case "View Live Attendance":
+                return (
+                    <main className={classes.nonhomePage}>
+                        <Live/>
+                    </main>);
+            case "About us":
+                return (
+                    <main className={classes.nonhomePage}>
+                        <Live/>
+                    </main>);
+            case "Attendance Analytics":
+                return (
+                    <main className={classes.nonhomePage}>
+                        <Analytics/>
+                    </main>);
+            default:
+                return (
+                    <main className={classes.nonhomePage}>
+                        <Live/>
+                    </main>);
+        }
+    }
 
     render() {
         const {classes} = this.props;
-        const {value} = this.state;
-        return (
-            <div>
-                <Paper className={classes.root}>
-                    <Tabs
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                    >
-                        <Tab value={0} label="Create new class"/>
-                        <Tab value={1} label="Live"/>
-                        <Tab value={2} label="Analytics"/>
-                    </Tabs>
-                </Paper>
-                {value === 0 && <Create/>}
-                {value === 1 && <Live/>}
-                {value === 2 && <Analytics/>}
+        let page = this.choosePage(this.state.page);
+        return (<div className={classes.root}>
+                <CssBaseline/>
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit" noWrap>
+                            Locachain
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    className={classes.drawer}
+                    variant="permanent"
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                >
+                    <div className={classes.toolbar}/>
+                    <List>
+                        {['Home', 'Create a class', 'View Live Attendance', 'Attendance Analytics', 'About Us'].map((text, index) => (
+                            <ListItem button key={text} className={classes.drawerItems} onClick={() => {
+                                this.setState({page: text});
+                            }}>
+                                <ListItemText primary={text}/>
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Divider/>
+                </Drawer>
+                {page}
             </div>
         );
     }
+
 }
 
-export default withStyles(tabStyles)(App);
+export default withStyles(clippedDrawerStyles)(App);

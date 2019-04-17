@@ -10,9 +10,9 @@ import Typography from "@material-ui/core/Typography/Typography";
 import CardActions from "@material-ui/core/CardActions/CardActions";
 import Button from "@material-ui/core/Button/Button";
 import Card from "@material-ui/core/Card/Card";
-import LinearProgress from "@material-ui/core/LinearProgress/LinearProgress";
 
 import {JsonRpc} from "eosjs";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 const endpoint = "http://localhost:8888";
 
@@ -27,6 +27,8 @@ const styles = theme => ({
         color: theme.palette.text.secondary,
     },
     loading: {
+        top: "50%",
+        left: "50%",
         textAlign: 'center',
     }
 });
@@ -41,16 +43,15 @@ class LiveAttendanceView extends Component {
     }
 
     timeConverter(UNIX_timestamp) {
-        var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var hour = a.getHours();
-        var min = a.getMinutes();
-        var sec = a.getSeconds();
-        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-        return time;
+        let a = new Date(UNIX_timestamp * 1000);
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        let year = a.getFullYear();
+        let month = months[a.getMonth()];
+        let date = a.getDate();
+        let hour = a.getHours();
+        let min = a.getMinutes();
+        let sec = a.getSeconds();
+        return date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
     }
 
     refreshLiveAttendance() {
@@ -83,12 +84,20 @@ class LiveAttendanceView extends Component {
             return (
                 <div className={classes.loading}>
                     <br/>
-                    <Typography gutterBottom component="p" variant={"subtitle2"}> Grabbing live attendance... </Typography>
+                    <Typography gutterBottom component="p" variant={"subtitle2"}> Grabbing live
+                        attendance... </Typography>
                     <br/>
-                    <LinearProgress/>
-                    <LinearProgress/>
+                    <CircularProgress/>
                 </div>
             );
+        }
+        let heatmapData = [];
+        for (let record in this.state) {
+            heatmapData.push({
+                x: record.xval,
+                y: record.yval,
+                data: record.timestamp,
+            })
         }
         let attendeeCards = this.state.attendees.map((record) => {
             return (
