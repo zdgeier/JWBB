@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/start2">
+
+    <fragment android:id="@+id/studentButton" android:name="com.vtblockchain.mobile.StudentFragment" android:label="fragment_student"
+              tools:layout="@layout/fragment_student"/>
+    <fragment android:id="@+id/professorButton" android:name="com.vtblockchain.mobile.ProfessorFragment"
+              android:label="fragment_professor" tools:layout="@layout/fragment_professor"/>
+    <fragment android:id="@+id/start2" android:name="com.vtblockchain.mobile.StartFragment" android:label="fragment_start"
+              tools:layout="@layout/fragment_start">
+        <action android:id="@+id/action_start2_to_professor" app:destination="@id/professorButton"/>
+        <action android:id="@+id/action_start2_to_student" app:destination="@id/studentButton"/>
+    </fragment>
+</navigation>

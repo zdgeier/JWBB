@@ -41,13 +41,12 @@ CONTRACT lokchain : public eosio::contract {
     TABLE classes {
       uint64_t 		crn; //class crn
       std::list<std::pair<float,float>> coordinates; //list of coordinates
+      uint64_t    startTime;
+      uint64_t    endTime;
 
       // set crn as primary key
       auto primary_key() const { return crn; }
-    };
-
-    TABLE global {
-    	uint64_t primary_key() const { return 0; }
+      uint64_t get_by_starttime() const { return startTime; }
     };
 
     // create a multi-index table and support secondary key
@@ -55,13 +54,12 @@ CONTRACT lokchain : public eosio::contract {
       indexed_by< name("getbyuser"), const_mem_fun<attendance, uint64_t, &attendance::get_by_user> >
       > attendance_table;
 
-    typedef eosio::multi_index< name("classes"), classes> class_table;
-
-    typedef eosio::multi_index< name("global"), classes> global_table;
+    typedef eosio::multi_index< name("classes"), classes,
+      indexed_by< name("getbystime"), const_mem_fun<classes, uint64_t, &classes::get_by_starttime> >
+      > class_table;
 
     attendance_table _attendance;
     class_table _classes;
-    global_table _global;
 
   public:
     using contract::contract;
@@ -70,8 +68,7 @@ CONTRACT lokchain : public eosio::contract {
     lokchain( name receiver, name code, datastream<const char*> ds ):
                 contract( receiver, code, ds ),
                 _attendance( receiver, receiver.value ),
-                _classes( receiver, receiver.value ) ,
-                _global( receiver, receiver.value ) {}
+                _classes( receiver, receiver.value ) {}
 
     ACTION record( name user, float xval, float yval, uint64_t crn ) {
       // to sign the action with the given account
@@ -80,7 +77,6 @@ CONTRACT lokchain : public eosio::contract {
       for (auto& item : _classes) {
       	if(item.crn == crn) {
       		//check if the student is inside the class boundaries
-      		//TODO: Update so it work with all polygons
       		if(inside(item.coordinates, location)){
 		        _attendance.emplace( _self, [&]( auto& new_user ) {
 			        new_user.prim_key    = _attendance.available_primary_key();
@@ -100,7 +96,7 @@ CONTRACT lokchain : public eosio::contract {
       eosio::print("CRN ", crn, " doesn't exist...");
     }
 
-    ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys) {
+    ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys, uint64_t startTime, uint64_t endTime) {
     	// to sign the action with the given account
     	require_auth( user );
 
@@ -114,11 +110,14 @@ CONTRACT lokchain : public eosio::contract {
 			_classes.emplace( _self, [&]( auto& new_class ) {
 					new_class.crn    	   = crn;
 					new_class.coordinates  = coordinates;
+					new_class.startTime    = startTime;
+					new_class.endTime      = endTime;
 				});
 			eosio::print("New class created:  ", crn);
     }
 
     //populates to classes table with set values
+    //TODO:REMOVE FOR FINAL SUBMISSION
     ACTION populate(name user){
     	require_auth( user );
 
@@ -144,16 +143,22 @@ CONTRACT lokchain : public eosio::contract {
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 100;
 	        new_class.coordinates  = coordinates1;
+          new_class.startTime = 800;
+          new_class.endTime = 850;
       	});
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 200;
 	        new_class.coordinates  = coordinates2;
+          new_class.startTime = 1325;
+          new_class.endTime = 1415;
       	});
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 500;
 	        new_class.coordinates  = coordinates3;
+          new_class.startTime = 200;
+          new_class.endTime = 2300;
       	});
 
       	eosio::print("Classes populated");

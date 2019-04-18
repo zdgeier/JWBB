@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {AsyncTypeahead} from 'react-bootstrap-typeahead';
 
 import './Create.css';
+
 import './bootstrap.min.css';
 
 
@@ -52,7 +53,7 @@ class outlinedTextField extends Component {
             <TextField
                 open={this.props.open}
                 id="outlined-with-placeholder"
-                label="CRN"
+                label="2. CRN"
                 placeholder="e.g. 12345"
                 onChange={this.onChangeHandler}
                 margin="normal"
@@ -72,9 +73,11 @@ class SlidingFeedbackDialog extends Component {
             <Dialog open={this.props.open}
                     TransitionComponent={DialogTransition}
                     keepMounted
-                    onClose={()=>{this.props.handleClose(this.props.success, false)}}>
+                    onClose={() => {
+                        this.props.handleClose(this.props.success, false)
+                    }}>
                 <DialogContent>
-                    {this.props.success ? "huzzah!" : "Something didn't work. welp!"}
+                    {this.props.success ? "Success! Your class was created." : "Failure! A class with this CRN already exists, or your connection is broken."}
                 </DialogContent>
             </Dialog>
         );
@@ -291,13 +294,6 @@ class Create extends Component {
         return (
             <div className="container" style={{height: `100%`}}>
                 <br/>
-                <div className="page-header">
-                    <h1>Geofence</h1>
-                </div>
-                <p className="lead">
-                    Pick a CRN, pick a location, and create a geofenced class! Your students will hate you!
-                </p>
-                <CrnTextField onChangeHandler={this._handleCRNChange}/>
                 <AsyncTypeahead
                     align="justify"
                     multiple
@@ -305,7 +301,7 @@ class Create extends Component {
                     onSearch={this._handleSearch.bind(this)}
                     onChange={this._handleChange.bind(this)}
                     options={this.state.options}
-                    placeholder="Search area, ex: tomang or jakarta selatan..."
+                    placeholder="1. Search for class boundaries"
                     renderMenuItemChildren={(option, props, index) => (
                         <div>
                             <span>{option.display_name}</span>
@@ -313,15 +309,22 @@ class Create extends Component {
                     )}/>
 
                 <div className="maps" id="map"/>
-                <div className="createClassButtonContainer">
-                    <Button variant="contained" className="createClassButton" color="primary"
-                            onClick={this._createClass}>
-                        Create class
-                    </Button>
+                <div className={"createFields"}>
+                    <div className={"crnfield"}>
+                        <CrnTextField onChangeHandler={this._handleCRNChange}/>
+                    </div>
+                    <div className={"createClassButton"}>
+                        <Button variant="contained" color="#FFFFFF" style={{height: "55px"}}
+                                onClick={this._createClass}>
+                            Create class
+                        </Button>
+                    </div>
                 </div>
                 {console.log(this.state.successDialogOpen)}
-                <SlidingFeedbackDialog success={true} open={this.state.successDialogOpen} handleClose={this._handleDialog}/>
-                <SlidingFeedbackDialog success={false} open={this.state.failDialogOpen} handleClose={this._handleDialog}/>
+                <SlidingFeedbackDialog success={true} open={this.state.successDialogOpen}
+                                       handleClose={this._handleDialog}/>
+                <SlidingFeedbackDialog success={false} open={this.state.failDialogOpen}
+                                       handleClose={this._handleDialog}/>
             </div>
         );
     }

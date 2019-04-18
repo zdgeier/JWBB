@@ -1,13 +1,13 @@
-package com.vtblockchain.mobile.actions.note
+package com.vtblockchain.mobile.actions.attend
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.ChildCompress
 
 @Abi
-data class NoteBody (
-    val args: NoteArgs
+data class AttendBody (
+    val args: AttendArgs
 ) {
 
-    val getArgs: NoteArgs
+    val getArgs: AttendArgs
         @ChildCompress get() = args
 }

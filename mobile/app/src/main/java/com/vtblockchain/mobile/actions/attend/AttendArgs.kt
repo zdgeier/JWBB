@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile.actions.note
+package com.vtblockchain.mobile.actions.attend
 
 /**
  * Copyright 2013-present memtrip LTD.
@@ -19,7 +19,7 @@ package com.vtblockchain.mobile.actions.note
 import com.memtrip.eos.abi.writer.*
 
 @Abi
-data class NoteArgs (
+data class AttendArgs (
     val account: String,
     val xval: Float,
     val yval: Float,
