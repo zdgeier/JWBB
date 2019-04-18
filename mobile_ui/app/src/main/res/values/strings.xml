@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Capstone_Wireframe</string>
+    <string name="current_user_name">Big Zucc</string>
+
+    <string name="rolechoice_prompt">Please choose your role:\nAre you a professor or a student?</string>
+    <string name="student_checkin">"Class Detected!\nWould you like to check\ninto CLASS_NAME?"</string>
+    <string name="professor_checkin">"Class Detected!\nWould you like to start attendance\nfor CLASS_NAME?"</string>
+    <string name="student_searching">"DISCOVERING...\n\n#WhereYouAtBro\nYour device is searching for the\n host's
+        device."
+    </string>
+    <string name="professor_searching">"ADVERTISING...\n\nBeep.. Boop..\nYour device is getting ready for\n attendees to
+        find you."
+    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

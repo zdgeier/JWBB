@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:background="@drawable/checkin_bg"
+                                                   tools:context=".StudentCheckIn" android:id="@+id/constraintLayout">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#2699fb"
+            android:lineSpacingExtra="10sp"
+            android:gravity="center_horizontal"
+            tools:text="@string/student_checkin"
+            android:id="@+id/StudentCheckIn_Prompt"
+            app:layout_constraintStart_toStartOf="@+id/StudentCheckIn_CheckMark"
+            app:layout_constraintEnd_toEndOf="@+id/StudentCheckIn_CheckMark"
+            app:layout_constraintTop_toBottomOf="@+id/StudentCheckIn_CheckMark"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintBottom_toTopOf="@+id/linearLayout"/>
+    <ImageView
+            android:src="@drawable/checkmark"
+            android:layout_width="wrap_content"
+            android:layout_height="87dp"
+            android:id="@+id/StudentCheckIn_CheckMark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/StudentCheckIn_Prompt"
+            app:layout_constraintVertical_chainStyle="packed" android:layout_marginBottom="64dp"
+            android:layout_marginTop="32dp" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/StudentCheckIn_Prompt"
+            app:layout_constraintEnd_toEndOf="@+id/StudentCheckIn_Prompt" android:id="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/StudentCheckIn_Prompt"
+            android:layout_marginTop="32dp" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5">
+        <Button
+                android:layout_width="85dp"
+                android:layout_height="85dp" android:id="@+id/StudentCheckIn_YesButton"
+                android:layout_weight="1" android:background="@drawable/yes"
+                tools:layout_editor_absoluteY="428dp"
+                tools:layout_editor_absoluteX="121dp"/>
+        <ImageView
+                android:layout_width="45dp"
+                android:layout_height="85dp"
+                android:id="@+id/padding" android:layout_weight="1"/>
+        <Button
+                android:layout_width="85dp"
+                android:layout_height="85dp" android:id="@+id/StudentCheckIn_NoButton"
+                android:layout_weight="1" android:background="@drawable/no"
+                tools:layout_editor_absoluteY="428dp"
+                tools:layout_editor_absoluteX="206dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
