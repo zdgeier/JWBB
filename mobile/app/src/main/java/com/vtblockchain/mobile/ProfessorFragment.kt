@@ -7,9 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
@@ -18,20 +21,12 @@ import com.vtblockchain.mobile.MainActivity.Companion.TAG
 import kotlinx.serialization.json.Json
 
 class ProfessorFragment : Fragment() {
-    var nickname : String = "ProfessorFragment nickname"
-    var status : TextView? = null
-    var attendanceMarker : AttendanceMarker? = null
-    var ipAddress : EditText? = null
-    var locationProviderClient : FusedLocationProviderClient? = null
-
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endPointID: String, payload: Payload) {
-            var payloadString = String(payload.asBytes()!!)
+            val payloadString = String(payload.asBytes()!!)
             status?.text = "Received payload from $endPointID: ${payloadString}"
-            Log.d("ProfessorFragment", payloadString)
-            var locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
+            val locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
             val baseUrl = "http://${ipAddress?.text}:8888/"
-            Log.d(TAG, "Marking location at $baseUrl")
             attendanceMarker?.sendLocationToChain(baseUrl, locationPayload, locationProviderClient)
         }
 
@@ -48,16 +43,12 @@ class ProfessorFragment : Fragment() {
         override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
             when (result.status.statusCode) {
                 ConnectionsStatusCodes.STATUS_OK -> {
-                    Log.d("asdf", "Connection accepted")
                     status?.text = "Connection accepted ($endpointId)"
-
                 }
                 ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
-                    Log.d("asdf", "Connection rejected")
                     status?.text = "Connection rejected ($endpointId)"
                 }
                 ConnectionsStatusCodes.STATUS_ERROR -> {
-                    Log.d("asdf", "Connection error")
                     status?.text = "Connection error ($endpointId)"
                 }
             }
@@ -74,7 +65,6 @@ class ProfessorFragment : Fragment() {
             .startAdvertising(
                 nickname, SERVICE_ID, connectionLifecycleCallback, advertisingOptions
             )
-        status?.text = "Advertising $nickname"
     }
 
     override fun onCreateView(
@@ -82,7 +72,11 @@ class ProfessorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_professor, container, false)
-        status = v.findViewById(R.id.professorStatus)
+        val model = ViewModelProviders.of(this.activity!!).get(MyViewModel::class.java)
+
+        model.status.observe(this, Observer {
+            v.findViewById<Button>(R.id.professorStatus).text = it
+        })
 
         attendanceMarker = AttendanceMarker()
         locationProviderClient = FusedLocationProviderClient(context!!)
@@ -90,6 +84,7 @@ class ProfessorFragment : Fragment() {
         ipAddress = v.findViewById(R.id.ipAddress)
 
         startAdvertising()
+        attendanceMarker?.getChainClasses("http://${ipAddress?.text}:8888/")
 
         return v
     }

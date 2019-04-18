@@ -17,25 +17,11 @@ import kotlinx.serialization.json.Json
 import com.vtblockchain.mobile.MainActivity.Companion.SERVICE_ID
 
 class StudentFragment : Fragment() {
-    val TAG = "StudentFragment"
-
-    var nickname : String = "StudentFragment nickname"
-
-    var button : Button? = null
-    var status : TextView? = null
-    var account : TextInputEditText? = null
-    var privateKey : TextInputEditText? = null
-    var crn : EditText? = null
-
-    var professorId : String? = null
-
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endPointID: String, payload: Payload) {
-            status?.text = "Received payload from $endPointID: ${String(payload.asBytes()!!)}"
         }
 
         override fun onPayloadTransferUpdate(endpointID: String, update: PayloadTransferUpdate) {
-            //TODO("not implemented")
         }
     }
 
@@ -63,24 +49,17 @@ class StudentFragment : Fragment() {
         override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
             when (result.status.statusCode) {
                 ConnectionsStatusCodes.STATUS_OK -> {
-                    Log.d("asdf", "Connection accepted")
-                    status?.text = "Connection accepted ($endpointId)"
                     professorId = endpointId
                 }
                 ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
-                    Log.d("asdf", "Connection rejected")
-                    status?.text = "Connection rejected ($endpointId)"
                 }
                 ConnectionsStatusCodes.STATUS_ERROR -> {
-                    Log.d("asdf", "Connection error")
-                    status?.text = "Connection error ($endpointId)"
+                    professorId = null
                 }
             }
         }
 
         override fun onDisconnected(endpointId: String) {
-            status?.text = "Disconnected from $endpointId"
-            professorId = null
         }
     }
 
@@ -89,8 +68,6 @@ class StudentFragment : Fragment() {
             // An endpoint was found. We request a connection to it.
             Nearby.getConnectionsClient(context!!)
                 .requestConnection(nickname, endpointId, connectionLifecycleCallback)
-            status?.text = "Endpoint found ($endpointId)"
-            Log.d("StudentFragment", "Endpoint found ($endpointId)")
         }
 
         override fun onEndpointLost(endpointId: String) {
@@ -102,8 +79,6 @@ class StudentFragment : Fragment() {
         val discoveryOptions = DiscoveryOptions.Builder().setStrategy(Strategy.P2P_CLUSTER).build()
         Nearby.getConnectionsClient(context!!)
             .startDiscovery(SERVICE_ID, endpointDiscoveryCallback, discoveryOptions)
-        status?.text = "Starting discovery $nickname"
-        Log.d("StudentFragment", "Starting discovery $nickname")
     }
 
     override fun onCreateView(

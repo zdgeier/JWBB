@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Timeseries</title>
+
+    <link rel="stylesheet" href="resources/default.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.1.0/lodash.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+
+    <script src="timeseries.js"></script>
+
+</head>
+
+<body>
+    <div class="timeseries"></div>
+    <script>
+        window.onload = function() {
+          var domEl = 'timeseries';
+          var data = [{'value': 1380854103662},{'value': 1363641921283},
+          {'value': 1370854103672},{'value': 1377641921286},
+          {'value': 1368854103674},{'value': 1373641921383}];
+          var brushEnabled = true;
+          timeseries(domEl, data, brushEnabled);
+        }
+      </script>
+</body>
+
+</html>

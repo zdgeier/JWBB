@@ -23,7 +23,9 @@ data class AttendArgs (
     val account: String,
     val xval: Float,
     val yval: Float,
-    val crn: Long
+    val crn: Long,
+    val startTime: Int,
+    val endTime: Int
 ) {
 
     val getAccount: String
@@ -38,4 +40,9 @@ data class AttendArgs (
     val getCRN: Long
         @LongCompress get() = crn
 
+    val getStartTime : Int
+        @IntCompress get() = startTime
+
+    val getEndTime : Int
+        @IntCompress get() = endTime
 }
