@@ -34,6 +34,4 @@ class StartFragment : Fragment() {
 
         return v
     }
-
-
 }
