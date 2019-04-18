@@ -55,7 +55,7 @@ class LiveAttendanceView extends Component {
     }
 
     refreshLiveAttendance() {
-        this.liveAttendancePollingId = setTimeout(this.getAttendance.bind(this), 1000);
+        this.liveAttendancePollingId = setInterval(this.getAttendance.bind(this), 1000);
     }
 
     getAttendance() {
@@ -84,7 +84,7 @@ class LiveAttendanceView extends Component {
             return (
                 <div className={classes.loading}>
                     <br/>
-                    <Typography gutterBottom component="p" variant={"subtitle2"}> Grabbing live
+                    <Typography gutterBottom component="p" variant={"subtitle2"}> Streaming live
                         attendance... </Typography>
                     <br/>
                     <CircularProgress/>

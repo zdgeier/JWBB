@@ -10,12 +10,12 @@ import {Api, JsonRpc, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
 import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import {TextDecoder, TextEncoder} from 'text-encoding';
 
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField/TextField";
 import withStyles from "@material-ui/core/es/styles/withStyles";
 import Slide from "@material-ui/core/Slide";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import Button from "@material-ui/core/Button/Button";
 
 let map;
 let bounds = new window.google.maps.LatLngBounds();
@@ -53,11 +53,14 @@ class outlinedTextField extends Component {
             <TextField
                 open={this.props.open}
                 id="outlined-with-placeholder"
-                label="2. CRN"
-                placeholder="e.g. 12345"
+                label={this.props.label}
+                placeholder={this.props.placeholder}
                 onChange={this.onChangeHandler}
                 margin="normal"
                 variant="outlined"
+                style={{
+                    backgroundColor: 'white'
+                }}
             />
         );
     }
@@ -84,7 +87,7 @@ class SlidingFeedbackDialog extends Component {
     }
 }
 
-let CrnTextField = withStyles(crnTextFieldstyles)(outlinedTextField);
+let CreateField = withStyles(crnTextFieldstyles)(outlinedTextField);
 
 class Create extends Component {
     constructor(props) {
@@ -93,6 +96,8 @@ class Create extends Component {
             options: [],
             selectedOption: [],
             crn: -1,
+            startTime: -1,
+            endTime: -1,
             successDialogOpen: false,
             failDialogOpen: false,
         };
@@ -102,6 +107,8 @@ class Create extends Component {
         this._createClass = this._createClass.bind(this);
         this._handleCRNChange = this._handleCRNChange.bind(this);
         this._handleDialog = this._handleDialog.bind(this);
+        this._handleStartTimeChange = this._handleStartTimeChange.bind(this);
+        this._handleEndTimeChange = this._handleEndTimeChange.bind(this);
     }
 
     componentDidMount() {
@@ -110,8 +117,8 @@ class Create extends Component {
 
     _initMap() {
         map = new window.google.maps.Map(document.getElementById('map'), {
-            center: {lat: -6.226996, lng: 106.819894},
-            zoom: 10,
+            center: {lat: 37.227600, lng: -80.422005},
+            zoom: 16.9,
             zoomControl: true,
             zoomControlOptions: {
                 position: window.google.maps.ControlPosition.RIGHT_CENTER
@@ -208,6 +215,24 @@ class Create extends Component {
         });
     }
 
+    _handleStartTimeChange(event) {
+        let startTime = event.target.value;
+        this.setState((prevState) => {
+            let newState = Object.assign(prevState);
+            newState.startTime = startTime;
+            return newState;
+        });
+    }
+
+    _handleEndTimeChange(event) {
+        let endTime = event.target.value;
+        this.setState((prevState) => {
+            let newState = Object.assign(prevState);
+            newState.endTime = endTime;
+            return newState;
+        });
+    }
+
     _handleDialog(success, open) {
         this.setState((prevState) => {
             let newState = Object.assign(prevState);
@@ -235,6 +260,8 @@ class Create extends Component {
         let account = "useraaaaaaaa";
         let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5";
         let crn = this.state.crn;
+        let startTime = this.state.startTime;
+        let endTime = this.state.endTime;
 
         let x_bounds = [];
         let y_bounds = [];
@@ -249,6 +276,8 @@ class Create extends Component {
         let actionData = {
             user: account,
             crn: crn,
+            startTime: startTime,
+            endTime: endTime,
             xs: x_bounds,
             ys: y_bounds,
         };
@@ -291,30 +320,38 @@ class Create extends Component {
     }
 
     render() {
+        let {classes} = this.props;
         return (
-            <div className="container" style={{height: `100%`}}>
-                <br/>
-                <AsyncTypeahead
-                    align="justify"
-                    multiple
-                    labelKey="display_name"
-                    onSearch={this._handleSearch.bind(this)}
-                    onChange={this._handleChange.bind(this)}
-                    options={this.state.options}
-                    placeholder="1. Search for class boundaries"
-                    renderMenuItemChildren={(option, props, index) => (
-                        <div>
-                            <span>{option.display_name}</span>
-                        </div>
-                    )}/>
-
+            <div style={{position: "relative", height: '100%'}}>
+                <div>
+                    <AsyncTypeahead
+                        multiple
+                        labelKey="display_name"
+                        onSearch={this._handleSearch.bind(this)}
+                        onChange={this._handleChange.bind(this)}
+                        options={this.state.options}
+                        placeholder="Search for class boundaries"
+                        renderMenuItemChildren={(option, props, index) => (
+                            <div>
+                                <span>{option.display_name}</span>
+                            </div>
+                        )}/>
+                </div>
                 <div className="maps" id="map"/>
-                <div className={"createFields"}>
-                    <div className={"crnfield"}>
-                        <CrnTextField onChangeHandler={this._handleCRNChange}/>
+                <div style={{position: "absolute", marginLeft: '10px', top: '40px'}}>
+                    <div>
+                        <CreateField onChangeHandler={this._handleCRNChange} label={"CRN"} placeholder={"e.g. 12345"}/>
                     </div>
-                    <div className={"createClassButton"}>
-                        <Button variant="contained" color="#FFFFFF" style={{height: "55px"}}
+                    <div>
+                        <CreateField onChangeHandler={this._handleStartTimeChange} label={"Start Time"}
+                                     placeholder={"e.g. 12:00"}/>
+                    </div>
+                    <div>
+                        <CreateField onChangeHandler={this._handleEndTimeChange} label={"End Time"}
+                                     placeholder={"e.g. 2:00"}/>
+                    </div>
+                    <div style={{marginTop: '10px'}}>
+                        <Button variant="contained" style={{height: "55px"}}
                                 onClick={this._createClass}>
                             Create class
                         </Button>
