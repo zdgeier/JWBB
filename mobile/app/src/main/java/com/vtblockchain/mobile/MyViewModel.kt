@@ -5,11 +5,21 @@ import androidx.lifecycle.ViewModel
 
 class MyViewModel : ViewModel() {
     // Professor
-    lateinit var ipAddress : MutableLiveData<String>
+    val ipAddress = MutableLiveData<String>()
+    val studentName = MutableLiveData<String>()
 
     // Student
-    lateinit var status : MutableLiveData<String>
-    lateinit var account : MutableLiveData<String>
-    lateinit var privateKey : MutableLiveData<String>
-    lateinit var crn : MutableLiveData<String>
+    val status = MutableLiveData<String>()
+    val selectedCRN = MutableLiveData<Int>()
+    val professorId = MutableLiveData<String>()
+
+    // General
+    val classesCRN = MutableLiveData<List<String>>()
+    val isInClass = MutableLiveData<Boolean>()
+
+    init {
+        ipAddress.value = "192.168.1.242"
+        selectedCRN.value = 0
+        isInClass.value = false
+    }
 }
