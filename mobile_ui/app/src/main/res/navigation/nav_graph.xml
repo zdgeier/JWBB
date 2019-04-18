@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/roleChoice">
+
+    <fragment android:id="@+id/roleChoice" android:name="com.example.capstone_wireframe.RoleChoice"
+              android:label="fragment_role_choice" tools:layout="@layout/fragment_role_choice">
+        <action android:id="@+id/action_roleChoice_to_professorCheckIn" app:destination="@id/professorCheckIn"/>
+        <action android:id="@+id/action_roleChoice_to_professorModeChoice" app:destination="@id/professorModeChoice"/>
+        <action android:id="@+id/action_roleChoice_to_studentMode" app:destination="@id/studentMode"/>
+    </fragment>
+    <fragment android:id="@+id/advertiseMode" android:name="com.example.capstone_wireframe.AdvertiseMode"
+              android:label="fragment_advertise_mode" tools:layout="@layout/fragment_advertise_mode">
+        <action android:id="@+id/action_advertiseMode_to_professorModeChoice"
+                app:destination="@id/professorModeChoice"/>
+    </fragment>
+    <fragment android:id="@+id/professorModeChoice" android:name="com.example.capstone_wireframe.ProfessorModeChoice"
+              android:label="fragment_professor_mode_choice" tools:layout="@layout/fragment_professor_mode_choice">
+        <action android:id="@+id/action_professorModeChoice_to_advertiseMode" app:destination="@id/advertiseMode"/>
+        <action android:id="@+id/action_professorModeChoice_to_manualMode" app:destination="@id/manualMode"/>
+    </fragment>
+    <fragment android:id="@+id/manualMode" android:name="com.example.capstone_wireframe.ManualMode"
+              android:label="fragment_manual_mode" tools:layout="@layout/fragment_manual_mode">
+        <action android:id="@+id/action_manualMode_to_professorModeChoice" app:destination="@id/professorModeChoice"/>
+    </fragment>
+    <fragment android:id="@+id/studentMode" android:name="com.example.capstone_wireframe.StudentMode"
+              android:label="fragment_student_mode" tools:layout="@layout/fragment_student_mode"/>
+</navigation>

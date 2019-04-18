@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:background="@drawable/rolechoice_bg"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".RoleChoice" android:id="@+id/constraintLayout">
+
+    <me.ibrahimsn.particle.ParticleView
+            android:id="@+id/particleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:particleCount="40"
+            app:minParticleRadius="7"
+            app:maxParticleRadius="15"
+            app:particleColor="@color/major_blue_bg"
+            app:backgroundColor="@android:color/white"/>
+
+    <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.example.capstone_wireframe.StudentSelectionFragment"
+            android:id="@+id/fragment_professor"
+            app:layout_constraintTop_toBottomOf="@+id/particleView"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_student"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/particleView"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"/>
+    <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.example.capstone_wireframe.ProfessorSelectionFragment"
+            android:id="@+id/fragment_student"
+            app:layout_constraintStart_toStartOf="@+id/fragment_professor"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_professor"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_professor"
+            app:layout_constraintBottom_toTopOf="@+id/particleView"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" android:layout_marginTop="24dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
