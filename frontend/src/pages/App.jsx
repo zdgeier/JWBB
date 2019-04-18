@@ -1,6 +1,4 @@
-import React, {Component} from 'react';
-import {Parallax} from "react-parallax";
-import ParticleAnimation from 'react-particle-animation';
+import React from 'react';
 
 // material-ui dependencies
 import {withStyles} from '@material-ui/core/styles';
@@ -9,9 +7,6 @@ import Create from './Create.jsx'
 import Analytics from "./Analytics.jsx";
 import Live from "./Live";
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
-import AppBar from "@material-ui/core/AppBar/AppBar";
-import Toolbar from "@material-ui/core/Toolbar/Toolbar";
-import Typography from "@material-ui/core/Typography/Typography";
 import Drawer from "@material-ui/core/Drawer/Drawer";
 import List from "@material-ui/core/List/List";
 import ListItem from "@material-ui/core/ListItem/ListItem";
@@ -20,82 +15,19 @@ import Divider from "@material-ui/core/Divider/Divider";
 import Fade from "@material-ui/core/Fade/Fade";
 import Particles from "react-particles-js";
 
-// const classes = [
-//     {"crn": "100", "bounds": "(0,0),(0, 100),(100,100),(100,0)"},
-//     {"crn": "200", "bounds": "(200,200),(200,250),(250,250),(250,200)"},
-//     {"crn": "500", "bounds": "(500,500),(500,600),(600,600),(600,500)"}
-// ];
-//
-// const accounts = [
-//     {
-//         "name": "useraaaaaaaa",
-//         "privateKey": "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5",
-//         "publicKey": "EOS6kYgMTCh1iqpq9XGNQbEi8Q6k5GujefN9DSs55dcjVyFAq7B6b"
-//     },
-//     {
-//         "name": "useraaaaaaab",
-//         "privateKey": "5KLqT1UFxVnKRWkjvhFur4sECrPhciuUqsYRihc1p9rxhXQMZBg",
-//         "publicKey": "EOS78RuuHNgtmDv9jwAzhxZ9LmC6F295snyQ9eUDQ5YtVHJ1udE6p"
-//     },
-//     {
-//         "name": "useraaaaaaac",
-//         "privateKey": "5K2jun7wohStgiCDSDYjk3eteRH1KaxUQsZTEmTGPH4GS9vVFb7",
-//         "publicKey": "EOS5yd9aufDv7MqMquGcQdD6Bfmv6umqSuh9ru3kheDBqbi6vtJ58"
-//     },
-//     {
-//         "name": "useraaaaaaad",
-//         "privateKey": "5KNm1BgaopP9n5NqJDo9rbr49zJFWJTMJheLoLM5b7gjdhqAwCx",
-//         "publicKey": "EOS8LoJJUU3dhiFyJ5HmsMiAuNLGc6HMkxF4Etx6pxLRG7FU89x6X"
-//     },
-//     {
-//         "name": "useraaaaaaae",
-//         "privateKey": "5KE2UNPCZX5QepKcLpLXVCLdAw7dBfJFJnuCHhXUf61hPRMtUZg",
-//         "publicKey": "EOS7XPiPuL3jbgpfS3FFmjtXK62Th9n2WZdvJb6XLygAghfx1W7Nb"
-//     },
-//     {
-//         "name": "useraaaaaaaf",
-//         "privateKey": "5KaqYiQzKsXXXxVvrG8Q3ECZdQAj2hNcvCgGEubRvvq7CU3LySK",
-//         "publicKey": "EOS5btzHW33f9zbhkwjJTYsoyRzXUNstx1Da9X2nTzk8BQztxoP3H"
-//     },
-//     {
-//         "name": "useraaaaaaag",
-//         "privateKey": "5KFyaxQW8L6uXFB6wSgC44EsAbzC7ideyhhQ68tiYfdKQp69xKo",
-//         "publicKey": "EOS8Du668rSVDE3KkmhwKkmAyxdBd73B51FKE7SjkKe5YERBULMrw"
-//     }
-// ];
-
-const image1 =
-    "https://media1.giphy.com/media/3oKIPpFhwsMNrRIjN6/giphy.gif?cid=790b76115cb678eb776f446a63c91bee";
-const image2 =
-    "https://img00.deviantart.net/2bd0/i/2009/276/c/9/magic_forrest_wallpaper_by_goergen.jpg";
-const image3 =
-    "https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5297440765001_5280261645001-vs.jpg?pubId=5104226627001&videoId=5280261645001";
-const image4 =
-    "https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/empire-state-building-black-and-white-square-format-john-farnan.jpg";
-
 const drawerWidth = 240;
 
-const tabStyles = theme => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
-    },
-});
-
-const clippedDrawerStyles = theme => ({
+const styles = theme => ({
     root: {
         display: 'flex',
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        background: "#000000"
+        height: '100%',
     },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
     },
     drawerItems: {
-        padding: 25,
+        padding: 35,
     },
     drawerPaper: {
         width: drawerWidth,
@@ -103,22 +35,13 @@ const clippedDrawerStyles = theme => ({
     home: {
         flexGrow: 1,
     },
+    logo: {
+        width: "60px",
+        height: "60px",
+        "justify-content": "center",
+    },
     toolbar: theme.mixins.toolbar,
 });
-
-const insideStyles = {
-    background: "white",
-    padding: 20,
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%,-50%)"
-};
-
-const styles = {
-    fontFamily: "sans-serif",
-    textAlign: "center"
-};
 
 class App extends React.Component {
 
@@ -260,21 +183,21 @@ class App extends React.Component {
                         </div>
                         <Fade in={true} timeout={5000}>
                             <p style={{
-                                position: "absolute", "font-family": "Helvetica Neue",
+                                position: "absolute", "fontFamily": "Helvetica Neue",
                                 top: "35%",
                                 left: "50%",
                                 transform: "translate(-35%)",
-                                "white-space": "nowrap",
-                                "font-size": 50
+                                "whiteSpace": "nowrap",
+                                "fontSize": 50
                             }}>Skipping class has never been harder.</p>
                         </Fade>
                         <Fade in={true} timeout={5000}>
                             <p style={{
-                                position: "absolute", "font-family": "Helvetica Neue",
+                                position: "absolute", "fontFamily": "Helvetica Neue",
                                 top: "55%",
                                 left: "50%",
                                 transform: "translate(-35%)",
-                                "font-size": 20
+                                "fontSize": 20
                             }}>Locachain brings the power of the blockchain to a robust peer-to-peer and geofencing
                                 based
                                 attendance
@@ -285,7 +208,6 @@ class App extends React.Component {
             case "Create a class":
                 return (
                     <main className={classes.home}>
-                        <div className={classes.toolbar}/>
                         <div
                             style={{
                                 position: "absolute",
@@ -408,12 +330,11 @@ class App extends React.Component {
                                 }}
                             />
                         </div>
-                        <Create style={{position: "absolute", "padding-top": 35}}/>
+                        <Create style={{position: "absolute", "padding-top": 15}}/>
                     </main>);
             case "View Live Attendance":
                 return (
                     <main className={classes.home}>
-                        <div className={classes.toolbar}/>
                         <div
                             style={{
                                 position: "absolute",
@@ -536,7 +457,7 @@ class App extends React.Component {
                                 }}
                             />
                         </div>
-                        <Live style={{"padding-top": 35}}/>
+                        <Live style={{"padding-top": 15}}/>
                     </main>);
             case "About us":
                 return (
@@ -562,13 +483,6 @@ class App extends React.Component {
         let page = this.choosePage(this.state.page);
         return (<div className={classes.root}>
                 <CssBaseline/>
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" noWrap>
-                            Locachain
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
                 <Drawer
                     className={classes.drawer}
                     variant="permanent"
@@ -576,7 +490,18 @@ class App extends React.Component {
                         paper: classes.drawerPaper,
                     }}
                 >
-                    <div className={classes.toolbar}/>
+                    <List>
+                        <ListItem style={{justifyContent: "center"}}>
+                            <p>Powered by</p>
+                        </ListItem>
+                        <ListItem style={{justifyContent: "center"}}>
+                            <img alt={""} className={classes.logo}
+                                 src="https://res.cloudinary.com/teepublic/image/private/s--e9T59x_f--/t_Preview/b_rgb:ffffff,c_limit,f_jpg,h_630,q_90,w_630/v1548201494/production/designs/4060539_0.jpg"
+                            />
+                        </ListItem>
+                    </List>
+                    {/*<div className={classes.toolbar}/>*/}
+                    <Divider/>
                     <List>
                         {['Home', 'Create a class', 'View Live Attendance', 'Attendance Analytics', 'About Us'].map((text, index) => (
                             <ListItem button key={text} className={classes.drawerItems} onClick={() => {
@@ -592,12 +517,6 @@ class App extends React.Component {
             </div>
         );
     }
-
 }
 
-export default withStyles(clippedDrawerStyles)
-
-(
-    App
-)
-;
+export default withStyles(styles)(App);
