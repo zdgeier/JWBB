@@ -338,7 +338,7 @@ class Create extends Component {
                         )}/>
                 </div>
                 <div className="maps" id="map"/>
-                <div style={{position: "absolute", marginLeft: '10px', top: '40px'}}>
+                <div style={{position: "absolute", marginLeft: '10px', top: '50px'}}>
                     <div>
                         <CreateField onChangeHandler={this._handleCRNChange} label={"CRN"} placeholder={"e.g. 12345"}/>
                     </div>
