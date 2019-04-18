@@ -80,7 +80,7 @@ class SlidingFeedbackDialog extends Component {
                         this.props.handleClose(this.props.success, false)
                     }}>
                 <DialogContent>
-                    {this.props.success ? "Success! Your class was created." : "Failure! A class with this CRN already exists, or your connection is broken."}
+                    {this.props.success ? "Success! Your class was created." : "Failure! CRN already exists, invalid field entry or your connection broke!"}
                 </DialogContent>
             </Dialog>
         );
@@ -189,7 +189,6 @@ class Create extends Component {
                     });
 
                     sub_area.setMap(map);
-                    //map.setOptions({maxZoom: 15});
                     map.fitBounds(bounds);
                     this.setState({
                         options: [],
@@ -320,7 +319,6 @@ class Create extends Component {
     }
 
     render() {
-        let {classes} = this.props;
         return (
             <div style={{position: "relative", height: '100%'}}>
                 <div>
@@ -331,7 +329,7 @@ class Create extends Component {
                         onChange={this._handleChange.bind(this)}
                         options={this.state.options}
                         placeholder="Search for class boundaries"
-                        renderMenuItemChildren={(option, props, index) => (
+                        renderMenuItemChildren={(option) => (
                             <div>
                                 <span>{option.display_name}</span>
                             </div>
