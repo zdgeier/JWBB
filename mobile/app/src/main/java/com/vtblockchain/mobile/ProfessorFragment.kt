@@ -3,89 +3,90 @@ package com.vtblockchain.mobile
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.connection.*
-import com.vtblockchain.mobile.MainActivity.Companion.SERVICE_ID
-import com.vtblockchain.mobile.MainActivity.Companion.TAG
-import kotlinx.serialization.json.Json
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+
+
 
 class ProfessorFragment : Fragment() {
-    val payloadCallback = object : PayloadCallback() {
-        override fun onPayloadReceived(endPointID: String, payload: Payload) {
-            val payloadString = String(payload.asBytes()!!)
-            status?.text = "Received payload from $endPointID: ${payloadString}"
-            val locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
-            val baseUrl = "http://${ipAddress?.text}:8888/"
-            attendanceMarker?.sendLocationToChain(baseUrl, locationPayload, locationProviderClient)
-        }
-
-        override fun onPayloadTransferUpdate(endpointID: String, update: PayloadTransferUpdate) {
-        }
-    }
-
-    val connectionLifecycleCallback = object : ConnectionLifecycleCallback() {
-        override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
-            // Automatically accept the connection on both sides.
-            Nearby.getConnectionsClient(context!!).acceptConnection(endpointId, payloadCallback)
-        }
-
-        override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
-            when (result.status.statusCode) {
-                ConnectionsStatusCodes.STATUS_OK -> {
-                    status?.text = "Connection accepted ($endpointId)"
-                }
-                ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
-                    status?.text = "Connection rejected ($endpointId)"
-                }
-                ConnectionsStatusCodes.STATUS_ERROR -> {
-                    status?.text = "Connection error ($endpointId)"
-                }
-            }
-        }
-
-        override fun onDisconnected(endpointId: String) {
-            status?.text = "Disconnected from $endpointId"
-        }
-    }
-
-    fun startAdvertising() {
-        val advertisingOptions = AdvertisingOptions.Builder().setStrategy(Strategy.P2P_CLUSTER).build()
-        Nearby.getConnectionsClient(context!!)
-            .startAdvertising(
-                nickname, SERVICE_ID, connectionLifecycleCallback, advertisingOptions
-            )
-    }
+    private lateinit var model: MyViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_professor, container, false)
-        val model = ViewModelProviders.of(this.activity!!).get(MyViewModel::class.java)
+        model = activity?.run {
+            ViewModelProviders.of(this).get(MyViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
+        val professorStatusText = v.findViewById<TextView>(R.id.professorStatusText)
         model.status.observe(this, Observer {
-            v.findViewById<Button>(R.id.professorStatus).text = it
+            professorStatusText.text = it
         })
 
-        attendanceMarker = AttendanceMarker()
-        locationProviderClient = FusedLocationProviderClient(context!!)
+        val professorCRNSpinner = v.findViewById<Spinner>(R.id.professorCRNSpinner)
+        professorCRNSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                model.selectedCRN.value = position
+            }
+        }
+        model.classesCRN.observe(this, Observer {
+            val adapter = ArrayAdapter<String>(
+                context!!,
+                android.R.layout.simple_spinner_item,
+                it
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            professorCRNSpinner.adapter = adapter
+        })
+        model.selectedCRN.observe(this, Observer {
+            professorCRNSpinner.setSelection(it)
+        })
 
-        ipAddress = v.findViewById(R.id.ipAddress)
+        val startAdvertising = v.findViewById<Button>(R.id.startAdvertising)
+        startAdvertising.setOnClickListener {
+            model.isAdvertising.value = !model.isAdvertising.value!!
+        }
+        model.isAdvertising.observe(this, Observer {
+            if (it) startAdvertising.text = "Stop Advertising"
+            else startAdvertising.text = "Start Advertising"
+        })
 
-        startAdvertising()
-        attendanceMarker?.getChainClasses("http://${ipAddress?.text}:8888/")
+        val manualStudentAccountName = v.findViewById<EditText>(R.id.manualStudentAccountName)
+        manualStudentAccountName.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                model.studentName.value = s.toString()
+            }
+        })
+
+        val markButton = v.findViewById<Button>(R.id.markButton)
+        markButton.setOnClickListener {
+            (activity as MainActivity).submitStudentLocation()
+        }
 
         return v
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model.isStudent.value = true
+        model.isAdvertising.value = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        model.isStudent.value = false
+        model.isAdvertising.value = false
     }
 }
