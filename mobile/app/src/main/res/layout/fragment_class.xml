@@ -4,10 +4,4 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".ProfessorFragment"
-                                                   android:id="@+id/constraintLayout">
-    <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" tools:listitem="@layout/professor_class_card"
-            android:id="@+id/recyclerView"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                                                   tools:context=".Class" android:id="@+id/layout"/>

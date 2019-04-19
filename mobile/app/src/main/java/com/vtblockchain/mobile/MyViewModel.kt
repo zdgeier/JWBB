@@ -21,9 +21,10 @@ class MyViewModel : ViewModel() {
     val isInClass = MutableLiveData<Boolean>()
 
     init {
-        ipAddress.value = "192.168.1.242"
+        ipAddress.value = "192.168.1.153"
         professorEndpointId.value = ""
         selectedCRN.value = 0
+        classesCRN.value = emptyList()
         isInClass.value = false
         isStudent.value = false
         isDiscovering.value = false
