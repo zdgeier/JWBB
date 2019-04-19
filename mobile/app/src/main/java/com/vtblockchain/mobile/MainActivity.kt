@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
             model.status.value = "Received payload from $endPointID: ${payloadString}"
             val locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
 
+            model.addStudent(Student(locationPayload.account, endPointID))
             sendStudentLocation(locationPayload)
         }
 
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             when (result.status.statusCode) {
                 ConnectionsStatusCodes.STATUS_OK -> {
                     model.status.value = "Connection accepted ($endpointId)"
-                    if (model.isStudent.value!!) {
+                    if (model.isDiscovering.value!!) {
                         model.professorEndpointId.value = endpointId
                         model.status.value = "Sending student location"
                         sendLocation()
@@ -120,8 +122,9 @@ class MainActivity : AppCompatActivity() {
             .startAdvertising(nickname, SERVICE_ID, connectionLifecycleCallback, advertisingOptions)
     }
 
-    fun stopAdvertising() {
+    fun stopNetwork() {
         Nearby.getConnectionsClient(this@MainActivity).stopAdvertising()
+        Nearby.getConnectionsClient(this@MainActivity).stopAllEndpoints()
     }
 
     fun submitStudentLocation() {
@@ -172,10 +175,12 @@ class MainActivity : AppCompatActivity() {
             if (it) startDiscovery()
             else stopDiscovery()
         })
-
         model.isAdvertising.observe(this, Observer {
             if (it) startAdvertising()
-            else stopAdvertising()
+            else stopNetwork()
+        })
+        model.status.observe(this, Observer {
+            Log.d(TAG, "Status: $it")
         })
 
         fixedRateTimer(

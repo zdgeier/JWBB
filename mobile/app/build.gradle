@@ -11,6 +11,7 @@ apply plugin: 'kotlinx-serialization'
 android {
     compileSdkVersion 28
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.vtblockchain.mobile"
         minSdkVersion 24
         targetSdkVersion 28

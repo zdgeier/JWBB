@@ -1,22 +1,22 @@
 package com.vtblockchain.mobile
 
+
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.fragment.app.Fragment
+import android.widget.Button
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
-class ProfessorFragment : Fragment() {
+class ProfessorClassFragment : Fragment() {
     private lateinit var model: MyViewModel
 
-    class MyAdapter(var myDataset: Array<String>, var model: MyViewModel) :
+    class MyAdapter(var myDataset: Array<Student>, var model: MyViewModel) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
         open class MyViewHolder(parent: ViewGroup?, resId: Int)
@@ -26,11 +26,8 @@ class ProfessorFragment : Fragment() {
             MyViewHolder(parent, R.layout.professor_class_card)
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.itemView.findViewById<TextView>(R.id.student_name).text = myDataset[position]
-            holder.itemView.setOnClickListener {
-                model.selectedCRN.value = position
-                Navigation.findNavController(holder.itemView).navigate(R.id.action_professorButton_to_class1)
-            }
+            holder.itemView.findViewById<TextView>(R.id.student_name).text = myDataset[position].name
+            holder.itemView.findViewById<TextView>(R.id.student_sub).text = myDataset[position].connectionId
         }
 
         override fun getItemCount() = myDataset.size
@@ -40,21 +37,38 @@ class ProfessorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_professor, container, false)
+        // Inflate the layout for this fragment
+        val v = inflater.inflate(R.layout.fragment_professor_class, container, false)
         model = activity?.run {
             ViewModelProviders.of(this).get(MyViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        val viewManager = LinearLayoutManager(activity)
-        val viewAdapter = MyAdapter(model.classesCRN.value!!.toTypedArray(), model)
-
-        val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
+        val startAdvertising = v.findViewById<Button>(R.id.startAdvertising)
+        startAdvertising.setOnClickListener {
+            model.isAdvertising.value = !model.isAdvertising.value!!
         }
-        model.classesCRN.observe(this, Observer {
+        model.isAdvertising.observe(this, Observer {
+            if (it) startAdvertising.text = "Stop attendance"
+            else startAdvertising.text = "Start attendance"
+        })
+
+        val viewManager = LinearLayoutManager(activity)
+        val viewAdapter = MyAdapter(model.studentsHere.value!!.toTypedArray(), model)
+
+        val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView2)
+        recyclerView.apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            setHasFixedSize(true)
+
+            // use a linear layout manager
+            layoutManager = viewManager
+
+            // specify an viewAdapter (see also next example)
+            adapter = viewAdapter
+
+        }
+        model.studentsHere.observe(this, Observer {
             viewAdapter.myDataset = it.toTypedArray()
             viewAdapter.notifyDataSetChanged()
         })
@@ -62,15 +76,8 @@ class ProfessorFragment : Fragment() {
         return v
     }
 
-    override fun onResume() {
-        super.onResume()
-        model.isStudent.value = false
-        model.isAdvertising.value = false
-    }
-
     override fun onPause() {
         super.onPause()
-        model.isStudent.value = false
-        model.isAdvertising.value = false
+        model.studentsHere.value = mutableListOf()
     }
 }

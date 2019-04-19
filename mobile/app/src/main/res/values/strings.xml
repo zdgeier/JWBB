@@ -14,6 +14,8 @@
         that data file! Hey, you add a one and two zeros to that or we walk! You\'re going to do his laundry? I\'ve got
         to find a way to escape.
     </string>
+    <string name="student_name">Student name</string>
+    <string name="connection_id">Connection ID</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
