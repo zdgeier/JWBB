@@ -16,33 +16,29 @@ import android.widget.Spinner
 
 
 class ProfessorFragment : Fragment() {
+    private lateinit var model: MyViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_professor, container, false)
-        val model = ViewModelProviders.of(this.activity!!).get(MyViewModel::class.java)
+        model = activity?.run {
+            ViewModelProviders.of(this).get(MyViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
+        val professorStatusText = v.findViewById<TextView>(R.id.professorStatusText)
         model.status.observe(this, Observer {
-            v.findViewById<Button>(R.id.professorStatusText).text = it
+            professorStatusText.text = it
         })
 
-        v.findViewById<Spinner>(R.id.professorCRNSpinner).onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        val professorCRNSpinner = v.findViewById<Spinner>(R.id.professorCRNSpinner)
+        professorCRNSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) { }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 model.selectedCRN.value = position
-                (activity as MainActivity).startAdvertising()
             }
         }
-
-        v.findViewById<EditText>(R.id.manualStudentAccountName).addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                model.studentName.value = s.toString()
-            }
-        })
-
         model.classesCRN.observe(this, Observer {
             val adapter = ArrayAdapter<String>(
                 context!!,
@@ -50,17 +46,47 @@ class ProfessorFragment : Fragment() {
                 it
             )
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            v.findViewById<Spinner>(R.id.professorCRNSpinner).adapter = adapter
+            professorCRNSpinner.adapter = adapter
         })
-
         model.selectedCRN.observe(this, Observer {
-            v.findViewById<Spinner>(R.id.professorCRNSpinner).setSelection(it)
+            professorCRNSpinner.setSelection(it)
         })
 
-        v.findViewById<Button>(R.id.markButton).setOnClickListener {
+        val startAdvertising = v.findViewById<Button>(R.id.startAdvertising)
+        startAdvertising.setOnClickListener {
+            model.isAdvertising.value = !model.isAdvertising.value!!
+        }
+        model.isAdvertising.observe(this, Observer {
+            if (it) startAdvertising.text = "Stop Advertising"
+            else startAdvertising.text = "Start Advertising"
+        })
+
+        val manualStudentAccountName = v.findViewById<EditText>(R.id.manualStudentAccountName)
+        manualStudentAccountName.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                model.studentName.value = s.toString()
+            }
+        })
+
+        val markButton = v.findViewById<Button>(R.id.markButton)
+        markButton.setOnClickListener {
             (activity as MainActivity).submitStudentLocation()
         }
 
         return v
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model.isStudent.value = true
+        model.isAdvertising.value = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        model.isStudent.value = false
+        model.isAdvertising.value = false
     }
 }

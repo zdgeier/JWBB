@@ -1,6 +1,7 @@
 package com.vtblockchain.mobile
 
 import android.util.Log
+import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.core.crypto.EosPrivateKey
@@ -12,6 +13,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.lang.Exception
+import java.net.ConnectException
 import java.util.concurrent.TimeUnit
 
 class AttendanceMarker {
@@ -68,33 +71,41 @@ class AttendanceMarker {
                 }
             } catch (e: SecurityException) {
                 e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
 
         fun getChainClasses(baseUrl: String) : List<String> {
             val api = Api(baseUrl, okHttpClient)
 
-            val tableRows = api.chain.getTableRows(
-                GetTableRows(
-                    "lokchain",
-                    "lokchain",
-                    "classes",
-                    "",
-                    true,
-                    10,
-                    "",
-                    "",
-                    "",
-                    "",
-                    ""
-                )
-            ).blockingGet()
+            try {
+                val tableRows = api.chain.getTableRows(
+                    GetTableRows(
+                        "lokchain",
+                        "lokchain",
+                        "classes",
+                        "",
+                        true,
+                        10,
+                        "",
+                        "",
+                        "",
+                        "",
+                        ""
+                    )
+                ).blockingGet()
 
-            val rows =  tableRows.body()!!.rows.map {
-                (it["crn"] as Double).toInt().toString()
+
+                return tableRows.body()!!.rows.map {
+                    (it["crn"] as Double).toInt().toString()
+                }
+            }
+            catch (e : Exception) {
+                e.printStackTrace()
             }
 
-            return rows
+            return listOf()
         }
     }
 }

@@ -6,6 +6,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
+
+    <me.ibrahimsn.particle.ParticleView
+            android:id="@+id/particleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:particleCount="20"
+            app:minParticleRadius="5"
+            app:maxParticleRadius="10"
+            app:particleColor="#bdbdbd"
+            app:backgroundColor="#fafafa"/>
     <fragment
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
