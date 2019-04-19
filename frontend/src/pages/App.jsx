@@ -36,8 +36,8 @@ const styles = theme => ({
         flexGrow: 1,
     },
     logo: {
-        width: "60px",
-        height: "60px",
+        width: "70px",
+        height: "70px",
         "justify-content": "center",
     },
     toolbar: theme.mixins.toolbar,
@@ -491,10 +491,10 @@ class App extends React.Component {
                     }}
                 >
                     <List>
-                        <ListItem style={{justifyContent: "center"}}>
+                        <ListItem style={{justifyContent: "center", paddingBottom: '0'}}>
                             <p>Powered by</p>
                         </ListItem>
-                        <ListItem style={{justifyContent: "center"}}>
+                        <ListItem style={{justifyContent: "center", paddingTop: '0'}}>
                             <img alt={""} className={classes.logo}
                                  src="https://res.cloudinary.com/teepublic/image/private/s--e9T59x_f--/t_Preview/b_rgb:ffffff,c_limit,f_jpg,h_630,q_90,w_630/v1548201494/production/designs/4060539_0.jpg"
                             />
