@@ -29,6 +29,7 @@ CONTRACT lokchain : public eosio::contract {
       name          user;	   // name of user
       float         xval;      // current x-coord
       float         yval;      // current y-coord
+      uint64_t      crn;
       uint64_t      timestamp; // the store the last update block time
 
       // primary key
@@ -40,6 +41,7 @@ CONTRACT lokchain : public eosio::contract {
 
     TABLE classes {
       uint64_t 		crn; //class crn
+      std::string   courseName;
       std::list<std::pair<float,float>> coordinates; //list of coordinates
       uint64_t    startTime;
       uint64_t    endTime;
@@ -70,10 +72,10 @@ CONTRACT lokchain : public eosio::contract {
                 _attendance( receiver, receiver.value ),
                 _classes( receiver, receiver.value ) {}
 
-    ACTION record( name user, float xval, float yval, uint64_t crn ) {
+    ACTION record( name actor, name user, float xval, float yval, uint64_t crn) {
       // to sign the action with the given account
-      require_auth( user );
-			std::pair<float, float> location = std::make_pair(xval, yval);
+      require_auth( actor );
+	  std::pair<float, float> location = std::make_pair(xval, yval);
       for (auto& item : _classes) {
       	if(item.crn == crn) {
       		//check if the student is inside the class boundaries
@@ -84,6 +86,7 @@ CONTRACT lokchain : public eosio::contract {
 			        new_user.xval        = xval;
 			        new_user.yval        = yval;
 			        new_user.timestamp   = now();
+			        new_user.crn         = crn;
 		        });     
 		        eosio::print("Attendance recorded!"); 			
       		}
@@ -96,7 +99,7 @@ CONTRACT lokchain : public eosio::contract {
       eosio::print("CRN ", crn, " doesn't exist...");
     }
 
-    ACTION create(name user, uint64_t crn, std::vector<float> xs, std::vector<float> ys, uint64_t startTime, uint64_t endTime) {
+    ACTION create(name user, uint64_t crn, std::string courseName, std::vector<float> xs, std::vector<float> ys, uint64_t startTime, uint64_t endTime) {
     	// to sign the action with the given account
     	require_auth( user );
 
@@ -104,11 +107,12 @@ CONTRACT lokchain : public eosio::contract {
     	//Assumes every x has a matching y 
     	for (int i = 0; i < xs.size(); i++){
     		coordinates.push_back(std::make_pair(xs[i], ys[i]));
-        eosio::print("<", xs[i], " , ", ys[i], ">\n");
+        	eosio::print("<", xs[i], " , ", ys[i], ">\n");
     	}
 
 			_classes.emplace( _self, [&]( auto& new_class ) {
 					new_class.crn    	   = crn;
+					new_class.courseName   = courseName;
 					new_class.coordinates  = coordinates;
 					new_class.startTime    = startTime;
 					new_class.endTime      = endTime;
@@ -143,22 +147,25 @@ CONTRACT lokchain : public eosio::contract {
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 100;
 	        new_class.coordinates  = coordinates1;
-          new_class.startTime = 800;
-          new_class.endTime = 850;
+	        new_class.courseName   = "Cabbage Psychology";
+          	new_class.startTime    = 800;
+          	new_class.endTime      = 850;
       	});
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 200;
 	        new_class.coordinates  = coordinates2;
-          new_class.startTime = 1325;
-          new_class.endTime = 1415;
+	        new_class.courseName   = "Intro to Art";
+          	new_class.startTime    = 1325;
+          	new_class.endTime      = 1415;
       	});
 
     	_classes.emplace( _self, [&]( auto& new_class ) {
 	        new_class.crn    	   = 500;
 	        new_class.coordinates  = coordinates3;
-          new_class.startTime = 200;
-          new_class.endTime = 2300;
+	        new_class.courseName   = "Systems and Networking Capstone";
+	        new_class.startTime    = 200;
+	        new_class.endTime      = 2300;
       	});
 
       	eosio::print("Classes populated");
