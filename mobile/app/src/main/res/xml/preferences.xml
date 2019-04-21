@@ -4,7 +4,7 @@
 
     <PreferenceCategory app:title="Connections">
         <EditTextPreference
-                android:defaultValue="192.1.1.1"
+                android:defaultValue="192.168.1.153"
                 app:dialogTitle="Enter the ip address"
                 app:key="endpoint"
                 app:title="Set chain endpoint"

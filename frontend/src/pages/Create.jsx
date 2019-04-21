@@ -275,6 +275,7 @@ class Create extends Component {
         let actionData = {
             user: account,
             crn: crn,
+	    courseName: "Systems Capstone",
             startTime: startTime,
             endTime: endTime,
             xs: x_bounds,

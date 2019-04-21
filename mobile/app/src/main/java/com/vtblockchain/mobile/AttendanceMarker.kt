@@ -1,8 +1,10 @@
 package com.vtblockchain.mobile
 
+import android.accounts.NetworkErrorException
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.model.LatLng
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
@@ -76,7 +78,7 @@ class AttendanceMarker {
             }
         }
 
-        fun getChainClasses(baseUrl: String) : List<String> {
+        fun getChainClasses(baseUrl: String) : List<Class> {
             val api = Api(baseUrl, okHttpClient)
 
             try {
@@ -98,14 +100,29 @@ class AttendanceMarker {
 
 
                 return tableRows.body()!!.rows.map {
-                    (it["crn"] as Double).toInt().toString()
+                    rowToClass(it)
                 }
             }
-            catch (e : Exception) {
+            catch (e : NetworkErrorException) {
                 System.err.println("Error getting classes at $baseUrl")
             }
 
             return listOf()
+        }
+
+        private fun rowToClass(row: Map<String, Any>) : Class {
+
+            val coordinates: List<LatLng> = (row["coordinates"] as List<Map<String, String>>).map {
+                LatLng(it.getValue("first").toDouble(), it.getValue("second").toDouble())
+            }
+
+            return Class(
+                row["crn"].toString().toDouble().toInt(),
+                row["courseName"].toString(),
+                coordinates,
+                row["startTime"].toString().toDouble().toInt(),
+                row["endTime"].toString().toDouble().toInt()
+            )
         }
     }
 }

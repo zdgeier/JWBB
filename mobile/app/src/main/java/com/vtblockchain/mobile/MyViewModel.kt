@@ -17,7 +17,7 @@ class MyViewModel : ViewModel() {
     val isDiscovering = MutableLiveData<Boolean>()
 
     // General
-    val classesCRN = MutableLiveData<List<String>>()
+    val classesCRN = MutableLiveData<List<Class>>()
     val isInClass = MutableLiveData<Boolean>()
 
     fun addStudent(s: Student) {

@@ -128,15 +128,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun submitStudentLocation() {
-        sendStudentLocation(LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].toLong()))
+        sendStudentLocation(LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong()))
         model.addStudent(Student("useraaaaaaaa", "Manually marked"))
     }
 
     fun updateClassesCRN() {
         GlobalScope.launch {
-            val receivedClasses: List<String> = AttendanceMarker.getChainClasses(getBaseURL())
+            val receivedClasses: List<Class> = AttendanceMarker.getChainClasses(getBaseURL())
             if (receivedClasses != model.classesCRN.value) {
-                Log.d(TAG, "hi")
                 val tempSelected = model.selectedCRN.value
                 model.classesCRN.postValue(receivedClasses)
                 model.selectedCRN.postValue(tempSelected)
@@ -145,7 +144,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendLocation() {
-        val locationPayload = LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].toLong())
+        val locationPayload = LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong())
         val jsonData = Json.stringify(LocationPayload.serializer(), locationPayload)
 
         val payload : Payload = Payload.fromBytes(jsonData.toByteArray())

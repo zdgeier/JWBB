@@ -24,10 +24,10 @@ class ProfessorClassFragment : Fragment() {
             : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(resId, parent, false))
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-            MyViewHolder(parent, R.layout.professor_class_card)
+            MyViewHolder(parent, R.layout.student_card)
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.itemView.findViewById<TextView>(R.id.student_name).text = myDataset[position].name
+            holder.itemView.findViewById<TextView>(R.id.class_crn).text = myDataset[position].name
             holder.itemView.findViewById<TextView>(R.id.student_sub).text = myDataset[position].connectionId
         }
 

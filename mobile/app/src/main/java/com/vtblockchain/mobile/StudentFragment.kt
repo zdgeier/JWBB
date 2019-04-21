@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 class StudentFragment : Fragment() {
     private lateinit var model: MyViewModel
 
-    class MyAdapter(var myDataset: Array<String>, var model: MyViewModel) :
+    class MyAdapter(var myDataset: Array<Class>, var model: MyViewModel) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
         open class MyViewHolder(parent: ViewGroup?, resId: Int)
@@ -25,7 +25,7 @@ class StudentFragment : Fragment() {
             MyViewHolder(parent, R.layout.professor_class_card)
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.itemView.findViewById<TextView>(R.id.student_name).text = myDataset[position]
+            holder.itemView.findViewById<TextView>(R.id.class_crn).text = myDataset[position].crn.toString()
             holder.itemView.setOnClickListener {
                 model.selectedCRN.value = position
                 Navigation.findNavController(holder.itemView).navigate(R.id.action_studentButton_to_studentClassFragment)

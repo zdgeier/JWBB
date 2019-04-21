@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:id="@+id/student_name"
+                android:id="@+id/class_crn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -35,7 +35,7 @@
                 android:text="@string/connection_id"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintTop_toBottomOf="@+id/student_name"
+                app:layout_constraintTop_toBottomOf="@+id/class_crn"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
