@@ -4,7 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".StudentClassFragment" android:id="@+id/layout">
+                                                   tools:context=".StudentClassFragment" android:id="@+id/startLayout">
     <ImageView
             android:id="@+id/media_image"
             android:layout_width="0dp"

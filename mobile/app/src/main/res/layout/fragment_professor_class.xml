@@ -4,7 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
-                                                   tools:context=".ProfessorClassFragment" android:id="@+id/layout">
+                                                   tools:context=".ProfessorClassFragment" android:id="@+id/startLayout">
     <Button
             android:text="Take attendance"
             android:layout_width="269dp"

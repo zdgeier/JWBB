@@ -19,7 +19,7 @@ import java.util.*
 import com.vtblockchain.mobile.AttendanceMarker.Companion.LocationPayload
 import kotlinx.coroutines.GlobalScope
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.activity_main.view.*
+import androidx.navigation.Navigation
 import kotlinx.coroutines.launch
 import me.ibrahimsn.particle.ParticleView
 import kotlin.concurrent.fixedRateTimer
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                         model.professorEndpointId.value = endpointId
                         model.status.value = "Sending student location"
                         sendLocation()
-                        Toast.makeText(this@MainActivity, "Marked location!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "Marked location!", Toast.LENGTH_LONG).show()
                         model.isDiscovering.value = false
                     }
                 }
@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity() {
     fun updateClassesCRN() {
         GlobalScope.launch {
             val receivedClasses: List<String> = AttendanceMarker.getChainClasses(getBaseURL())
-
             if (receivedClasses != model.classesCRN.value) {
+                Log.d(TAG, "hi")
                 val tempSelected = model.selectedCRN.value
                 model.classesCRN.postValue(receivedClasses)
                 model.selectedCRN.postValue(tempSelected)
@@ -183,6 +183,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "Status: $it")
         })
 
+        updateClassesCRN()
         fixedRateTimer(
             name = "crn-updater",
             initialDelay = 0L,
