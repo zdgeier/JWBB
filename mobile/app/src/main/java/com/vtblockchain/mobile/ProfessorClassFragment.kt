@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ProfessorClassFragment : Fragment() {
     private lateinit var model: MyViewModel
 
-    class MyAdapter(var myDataset: Array<Student>, var model: MyViewModel) :
+    class MyAdapter(var myDataset: Array<Student>) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
         open class MyViewHolder(parent: ViewGroup?, resId: Int)
@@ -53,8 +53,9 @@ class ProfessorClassFragment : Fragment() {
             else startAdvertising.text = "Start attendance"
         })
 
+        val emptyView = v.findViewById<TextView>(R.id.noStudentsMarked)
         val viewManager = LinearLayoutManager(activity)
-        val viewAdapter = MyAdapter(model.studentsHere.value!!.toTypedArray(), model)
+        val viewAdapter = MyAdapter(model.studentsHere.value!!.toTypedArray())
 
         val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView2)
         recyclerView.apply {
@@ -70,6 +71,15 @@ class ProfessorClassFragment : Fragment() {
 
         }
         model.studentsHere.observe(this, Observer {
+            if (it.isEmpty()) {
+                recyclerView.visibility = View.GONE
+                emptyView.visibility = View.VISIBLE
+            }
+            else {
+                recyclerView.visibility = View.VISIBLE
+                emptyView.visibility = View.GONE
+            }
+
             viewAdapter.myDataset = it.toTypedArray()
             viewAdapter.notifyDataSetChanged()
         })
