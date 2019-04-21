@@ -27,6 +27,7 @@ CONTRACT lokchain : public eosio::contract {
 
         auto primary_key() const { return prim_key; }
         uint64_t get_by_user() const { return user.value; }
+        uint64_t get_by_crn() const { return crn; }
     };
 
     TABLE classes {
@@ -44,7 +45,8 @@ CONTRACT lokchain : public eosio::contract {
     typedef eosio::multi_index<
         name("attendance"), attendance,
         indexed_by<name("getbyuser"), const_mem_fun<attendance, uint64_t,
-                                                    &attendance::get_by_user>>>
+                                                    &attendance::get_by_user>>,
+        indexed_by<name("getbycrn"), const_mem_fun<attendance, uint64_t, &attendance::get_by_crn>>>
         attendance_table;
 
     typedef eosio::multi_index<
