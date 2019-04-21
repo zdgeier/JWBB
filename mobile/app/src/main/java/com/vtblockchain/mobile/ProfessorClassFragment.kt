@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -72,6 +73,11 @@ class ProfessorClassFragment : Fragment() {
             viewAdapter.myDataset = it.toTypedArray()
             viewAdapter.notifyDataSetChanged()
         })
+
+        val fab: View = v.findViewById(R.id.floatingActionButton2)
+        fab.setOnClickListener {
+            Navigation.findNavController(v).navigate(R.id.action_class1_to_manualStudentFragment)
+        }
 
         return v
     }

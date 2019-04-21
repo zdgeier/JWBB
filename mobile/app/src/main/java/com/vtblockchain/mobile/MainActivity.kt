@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             model.status.value = "Received payload from $endPointID: ${payloadString}"
             val locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
 
-            model.addStudent(Student(locationPayload.account, endPointID))
+            model.addStudent(Student(locationPayload.account, "Device ID: $endPointID"))
             sendStudentLocation(locationPayload)
         }
 
@@ -129,6 +129,7 @@ class MainActivity : AppCompatActivity() {
 
     fun submitStudentLocation() {
         sendStudentLocation(LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].toLong()))
+        model.addStudent(Student("useraaaaaaaa", "Manually marked"))
     }
 
     fun updateClassesCRN() {
