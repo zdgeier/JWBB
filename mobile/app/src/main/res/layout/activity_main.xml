@@ -9,16 +9,35 @@
 
     <me.ibrahimsn.particle.ParticleView
             android:id="@+id/particleView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:particleCount="20"
             app:minParticleRadius="5"
             app:maxParticleRadius="10"
             app:particleColor="#bdbdbd"
-            app:backgroundColor="#fafafa"/>
+            app:backgroundColor="#fafafa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintVertical_bias="1.0"/>
     <fragment
             android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" app:navGraph="@navigation/nav_graph" app:defaultNavHost="true"
-            android:id="@+id/fragment"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp" app:navGraph="@navigation/nav_graph" app:defaultNavHost="true"
+            android:id="@+id/navHostFragment"
+            app:layout_constraintStart_toStartOf="@+id/particleView"
+            app:layout_constraintEnd_toEndOf="@+id/particleView"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+            app:layout_constraintBottom_toBottomOf="@+id/particleView"/>
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:id="@+id/toolbar2" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

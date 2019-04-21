@@ -102,7 +102,7 @@ class AttendanceMarker {
                 }
             }
             catch (e : Exception) {
-                e.printStackTrace()
+                System.err.println("Error getting classes at $baseUrl")
             }
 
             return listOf()

@@ -2,7 +2,6 @@ package com.vtblockchain.mobile
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,11 +18,12 @@ import java.util.*
 import com.vtblockchain.mobile.AttendanceMarker.Companion.LocationPayload
 import kotlinx.coroutines.GlobalScope
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import kotlinx.coroutines.launch
 import me.ibrahimsn.particle.ParticleView
 import kotlin.concurrent.fixedRateTimer
-
+import android.view.Menu
+import android.view.MenuItem
+import androidx.navigation.Navigation
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -166,6 +166,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(findViewById(R.id.toolbar2))
 
         particleView = findViewById(R.id.particleView)
 

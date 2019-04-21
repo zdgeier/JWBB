@@ -2,10 +2,8 @@ package com.vtblockchain.mobile
 
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +18,8 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_start, container, false)
+        setHasOptionsMenu(true)
+
         model = activity?.run {
             ViewModelProviders.of(this).get(MyViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
@@ -42,6 +42,21 @@ class StartFragment : Fragment() {
         }
 
         return v
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater : MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_settings -> {
+            Navigation.findNavController(view!!).navigate(R.id.action_start2_to_settingsFragment)
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onStart() {

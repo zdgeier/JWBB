@@ -18,6 +18,7 @@
         <action android:id="@+id/action_start2_to_professor" app:destination="@id/professorButton"/>
         <action android:id="@+id/action_start2_to_student" app:destination="@id/studentButton"/>
         <action android:id="@+id/action_start2_to_noClassesFragment" app:destination="@id/noClassesFragment"/>
+        <action android:id="@+id/action_start2_to_settingsFragment" app:destination="@id/settingsFragment"/>
     </fragment>
     <fragment android:id="@+id/class1" android:name="com.vtblockchain.mobile.ProfessorClassFragment" android:label="fragment_class"
               tools:layout="@layout/fragment_professor_class">
@@ -29,4 +30,6 @@
               android:label="fragment_no_classes" tools:layout="@layout/fragment_no_classes"/>
     <fragment android:id="@+id/manualStudentFragment" android:name="com.vtblockchain.mobile.ManualStudentFragment"
               android:label="fragment_manual_student" tools:layout="@layout/fragment_manual_student"/>
+    <fragment android:id="@+id/settingsFragment" android:name="com.vtblockchain.mobile.SettingsFragment"
+              android:label="SettingsFragment"/>
 </navigation>

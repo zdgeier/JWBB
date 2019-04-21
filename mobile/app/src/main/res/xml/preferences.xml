@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Connections">
+        <EditTextPreference
+                android:defaultValue="192.1.1.1"
+                app:dialogTitle="Enter the ip address"
+                app:key="endpoint"
+                app:title="Set chain endpoint"
+                app:summary="Change the ip address of the chain"/>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>
