@@ -22,7 +22,8 @@ let bounds = new window.google.maps.LatLngBounds();
 let sub_area;
 let coordinates = [];
 let color = ['#FF0000', '#4286f4', '#ffff00', '#ff00b2', '#bb00ff', '#00ffff', '#26ff00', '#00ff87'];
-const endpoint = "http://localhost:8888";
+//const endpoint = "http://localhost:8888";
+const endpoint = "http://172.29.5.63:8888";
 
 const crnTextFieldstyles = theme => ({
     container: {

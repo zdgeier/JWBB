@@ -14,7 +14,8 @@ import Card from "@material-ui/core/Card/Card";
 import {JsonRpc} from "eosjs";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
-const endpoint = "http://localhost:8888";
+//const endpoint = "http://localhost:8888";
+const endpoint = "http://172.29.5.63:8888";
 
 const styles = theme => ({
     root: {
