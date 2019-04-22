@@ -197,4 +197,4 @@ CONTRACT attendit : public eosio::contract {
 };
 
 // specify the contract name, and export a public action: update and create
-EOSIO_DISPATCH(attendit, (record)(create)(populate))
+EOSIO_DISPATCH(attendit, (record)(frecord)(create)(populate))
