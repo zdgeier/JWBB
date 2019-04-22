@@ -19,7 +19,8 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 
-const endpoint = "http://localhost:8888";
+//const endpoint = "http://localhost:8888";
+const endpoint = "http://172.29.5.63:8888";
 
 const styles = theme => ({
     card: {
@@ -57,7 +58,7 @@ class Analytics extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            noteTable: [] // to store the table rows from smart contract
+            attendees: [] // to store the table rows from smart contract
         };
         this.downloadTable = this.downloadTable.bind(this);
     }
@@ -68,15 +69,28 @@ class Analytics extends Component {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
-            "code": "lokchain",   // contract who owns the table
-            "scope": "lokchain",  // scope of the table
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
             "table": "attendance",    // name of the table as specified by the contract abi
             "limit": 100,
         }).then(result => this.setState({ attendance_table: result.rows }));
     }
 
+    getAttendance() {
+        const rpc = new JsonRpc(endpoint);
+        rpc.get_table_rows({
+            "json": true,
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
+            "table": "attendance",    // name of the table as specified by the contract abi
+            "limit": 1000,
+        }).then(result => this.setState({
+            attendees: result.rows
+        }));
+    }
+
     exportToCsvFile(jsonData) {
-        const fields = ['prim_key', 'user', 'xval', 'yval', 'timestamp'];
+        const fields = ['prim_key', 'user', 'xval', 'yval', 'crn','timestamp'];
         const opts = { fields };
 
         try {
@@ -98,8 +112,8 @@ class Analytics extends Component {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
-            "code": "lokchain",   // contract who owns the table
-            "scope": "lokchain",  // scope of the table
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
             "table": "attendance",    // name of the table as specified by the contract abi
             "limit": 100,
         }).then(result => this.exportToCsvFile(result.rows));
@@ -109,8 +123,28 @@ class Analytics extends Component {
         this.getTable();
     }
 
+    timeConverter(UNIX_timestamp, last7Dates) {
+        let a = new Date(UNIX_timestamp * 1000);
+        let a_date = a.getDate();
+        let a_month = a.getMonth() + 1;
+        let a_year = a.getFullYear();
+        for(var i = 0; i < 7; i++){
+            let date = last7Dates[i].getDate();
+            let month = last7Dates[i].getMonth() + 1;
+            let year = last7Dates[i].getFullYear();
+            if(a_year == year && a_month == month && a_date == date){
+                return i;
+            }
+        }
+        return -1; //not in range of 7 days
+    }
+
     render() {
+        this.getAttendance();
         const { classes } = this.props;
+
+        // Get the latest 7 days:
+        const last7Dates = []
         const last7DatesString = []
         for (var i = 0; i < 7; i++) {
             let today = new Date();
@@ -118,14 +152,32 @@ class Analytics extends Component {
             let date = today.getDate();
             let month = today.getMonth() + 1;
             let year = today.getFullYear();
+            last7Dates.push(today);
             last7DatesString.push(year + '/' + month + '/' + date);
         }
 
+        var last7Population = [0, 0, 0, 0, 0, 0, 0]
+        // Get the population for latest 7 days:
+        this.state.attendees.map((record) => {
+            var index = this.timeConverter(record.timestamp, last7Dates)
+            if(index != -1){
+                last7Population[index] = last7Population[index] + 1;
+            }
+        })
+
+        // Get CRNS:
+        var crnList = []
+        this.state.attendees.map((record) => {
+            if(crnList.indexOf(record.crn) == -1){
+                crnList.push(record.crn);}
+        })
+
+        // Generate data for graphing: 
         var data = [
             {
                 label: 'Attended',
-                values: [{ x: last7DatesString[6], y: 6 }, { x: last7DatesString[5], y: 8 }, { x: last7DatesString[4], y: 5 },
-                { x: last7DatesString[3], y: 6 }, { x: last7DatesString[2], y: 8 }, { x: last7DatesString[1], y: 5 }, { x: last7DatesString[0], y: 5 }]
+                values: [{ x: last7DatesString[6], y: last7Population[6] }, { x: last7DatesString[5], y: last7Population[5] }, { x: last7DatesString[4], y: last7Population[4] },
+                { x: last7DatesString[3], y: last7Population[3] }, { x: last7DatesString[2], y: last7Population[2] }, { x: last7DatesString[1], y: last7Population[1] }, { x: last7DatesString[0], y: last7Population[0] }]
             }
         ];
 
@@ -141,23 +193,6 @@ class Analytics extends Component {
 
                 <div className={classes.graphic_display}>
                     <Paper className={classes.paper}>
-                        <FormControl required className={classes.formControl}>
-                            <InputLabel htmlFor="crn-required">CRN</InputLabel>
-                            <Select
-                                value={this.state.crn}
-                                onChange={this.handleChange}
-                                name="crn"
-                                inputProps={{
-                                    id: 'crn-required',
-                                }}
-                                className={classes.selectEmpty}>
-                                <MenuItem value={0}>All CRNs</MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                            <FormHelperText>Required</FormHelperText>
-                        </FormControl>
                         <BarChart
                             groupedBars
                             data={data}
