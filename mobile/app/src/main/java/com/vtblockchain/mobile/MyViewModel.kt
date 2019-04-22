@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 
 class MyViewModel : ViewModel() {
     // Professor
-    val ipAddress = MutableLiveData<String>()
     val isAdvertising = MutableLiveData<Boolean>()
     val studentsHere = MutableLiveData<MutableList<Student>>()
+    val manualStudent = MutableLiveData<String>()
 
     // Student
     val status = MutableLiveData<String>()
@@ -20,14 +20,22 @@ class MyViewModel : ViewModel() {
     val classesCRN = MutableLiveData<List<Class>>()
     val isInClass = MutableLiveData<Boolean>()
 
+    // Preferences
+    val ipAddress = MutableLiveData<String>()
+    val studentUsername = MutableLiveData<String>()
+    val professorUsername = MutableLiveData<String>()
+
     fun addStudent(s: Student) {
         val temp = studentsHere.value
         temp?.add(s)
-        studentsHere.value = temp
+        studentsHere.postValue(temp)
     }
 
     init {
         ipAddress.value = "192.168.1.153"
+        studentUsername.value = "jiayiwanglee"
+        professorUsername.value = "kirkkcameron"
+        manualStudent.value = ""
         professorEndpointId.value = ""
         selectedCRN.value = 0
         classesCRN.value = emptyList()

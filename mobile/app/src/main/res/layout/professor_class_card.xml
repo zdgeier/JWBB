@@ -16,7 +16,7 @@
 
         <TextView
                 android:id="@+id/class_crn"
-                android:layout_width="363dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/primary_short"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -24,18 +24,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/lite_listrow_map"
                 app:layout_constraintBottom_toTopOf="@+id/student_sub" android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"/>
 
         <TextView
                 android:id="@+id/student_sub"
-                android:layout_width="363dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/subtext"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toBottomOf="@+id/class_crn"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="32dp"/>
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="32dp"
+                android:layout_marginStart="24dp" android:layout_marginEnd="24dp"/>
 
         <com.google.android.gms.maps.MapView
                 android:id="@+id/lite_listrow_map"

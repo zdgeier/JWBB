@@ -25,14 +25,14 @@
     </androidx.recyclerview.widget.RecyclerView>
     <TextView
             android:text="Start attendance to begin marking students."
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/noStudentsMarked"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="32dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
             app:layout_constraintHorizontal_bias="0.508" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/startAdvertising" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" android:textSize="18sp"
-            app:layout_constraintVertical_bias="0.437"/>
+            app:layout_constraintVertical_bias="0.437" android:textAlignment="center"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:src="@drawable/ic_add_black_24dp"

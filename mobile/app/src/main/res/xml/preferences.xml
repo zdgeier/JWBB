@@ -2,6 +2,25 @@
 <androidx.preference.PreferenceScreen
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceCategory app:title="Users">
+        <ListPreference
+                android:key="student_username"
+                android:title="Student"
+                app:summary="Change the student username"
+                android:entries="@array/usernames"
+                android:entryValues="@array/usernames">
+        </ListPreference>
+        <ListPreference
+                android:key="professor_username"
+                android:title="Professor"
+                app:summary="Change the professor username"
+                android:entries="@array/usernames"
+                android:entryValues="@array/usernames">
+        </ListPreference>
+    </PreferenceCategory>
+
+
+
     <PreferenceCategory app:title="Connections">
         <EditTextPreference
                 android:defaultValue="192.168.1.153"

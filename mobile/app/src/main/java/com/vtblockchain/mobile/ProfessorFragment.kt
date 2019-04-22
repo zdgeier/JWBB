@@ -19,28 +19,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 class ProfessorFragment : Fragment() {
     private lateinit var model: MyViewModel
 
-    /*
-    class MyAdapter(var myDataset: Array<String>, var model: MyViewModel) :
-        RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-
-        open class MyViewHolder(parent: ViewGroup?, resId: Int)
-            : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(resId, parent, false))
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-            MyViewHolder(parent, R.layout.professor_class_card)
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.itemView.findViewById<TextView>(R.id.student_name).text = myDataset[position]
-            holder.itemView.setOnClickListener {
-                model.selectedCRN.value = position
-                Navigation.findNavController(holder.itemView).navigate(R.id.action_professorButton_to_class1)
-            }
-        }
-
-        override fun getItemCount() = myDataset.size
-    }
-    */
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

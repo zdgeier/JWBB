@@ -18,12 +18,14 @@ import java.util.*
 import com.vtblockchain.mobile.AttendanceMarker.Companion.LocationPayload
 import kotlinx.coroutines.GlobalScope
 import androidx.lifecycle.Observer
+import com.vtblockchain.mobile.AttendanceMarker.Companion.makeLocationPayload
 import kotlinx.coroutines.launch
 import me.ibrahimsn.particle.ParticleView
 import kotlin.concurrent.fixedRateTimer
-import android.view.Menu
-import android.view.MenuItem
-import androidx.navigation.Navigation
+import android.content.DialogInterface
+import android.content.DialogInterface.BUTTON_NEUTRAL
+import androidx.appcompat.app.AlertDialog
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         const val SERVICE_ID = "vtblockchain"
         const val TAG = "JWBB"
         const val nickname = "AttendItNetwork"
+        const val professorUsername = "kirkkcameron"
+        const val professorPrivateKey = "5K7pqGyfh1LDGAA83cCfN3D2Mbp9Ys6KtXJ1ckALnsHywDwpm84" // TODO: DON'T USE IN PRODUCTION THIS IS REALLY DUMB
 
         fun transactionDefaultExpiry(): Date = with(Calendar.getInstance()) {
             set(Calendar.MINUTE, get(Calendar.MINUTE) + 2)
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     fun getBaseURL() = "http://${model.ipAddress.value}:8888/"
 
     fun sendStudentLocation(locationPayload: LocationPayload) =
-        AttendanceMarker.sendLocationToChain(getBaseURL(), locationPayload, fusedLocationClient)
+        AttendanceMarker.sendLocationToChain(getBaseURL(), professorUsername, locationPayload, fusedLocationClient)
 
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endPointID: String, payload: Payload) {
@@ -54,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             model.status.value = "Received payload from $endPointID: ${payloadString}"
             val locationPayload = Json.parse(LocationPayload.serializer(), payloadString)
 
-            model.addStudent(Student(locationPayload.account, "Device ID: $endPointID"))
+            model.addStudent(Student(locationPayload.user, "Device ID: $endPointID"))
             sendStudentLocation(locationPayload)
         }
 
@@ -76,7 +80,12 @@ class MainActivity : AppCompatActivity() {
                         model.professorEndpointId.value = endpointId
                         model.status.value = "Sending student location"
                         sendLocation()
-                        Toast.makeText(this@MainActivity, "Marked location!", Toast.LENGTH_LONG).show()
+                        val alertDialog = AlertDialog.Builder(this@MainActivity).create()
+                        alertDialog.setTitle("Marked!")
+                        alertDialog.setMessage("Your attendance has been recorded")
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+                        alertDialog.show()
                         model.isDiscovering.value = false
                     }
                 }
@@ -127,9 +136,15 @@ class MainActivity : AppCompatActivity() {
         Nearby.getConnectionsClient(this@MainActivity).stopAllEndpoints()
     }
 
-    fun submitStudentLocation() {
-        sendStudentLocation(LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong()))
-        model.addStudent(Student("useraaaaaaaa", "Manually marked"))
+    fun submitStudentLocation(username : String) {
+        if (username != "") {
+            GlobalScope.launch {
+                val payload: LocationPayload? =
+                    makeLocationPayload(username, model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong(), fusedLocationClient)
+                sendStudentLocation(payload!!)
+                model.addStudent(Student(username, "Manually marked"))
+            }
+        }
     }
 
     fun updateClassesCRN() {
@@ -144,12 +159,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun sendLocation() {
-        val locationPayload = LocationPayload("useraaaaaaaa", "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5", model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong())
-        val jsonData = Json.stringify(LocationPayload.serializer(), locationPayload)
+        GlobalScope.launch {
+            val locationPayload : LocationPayload? = makeLocationPayload(
+                model.studentUsername.value!!,
+                model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong(),
+                fusedLocationClient
+            )
 
-        val payload : Payload = Payload.fromBytes(jsonData.toByteArray())
-        Nearby.getConnectionsClient(this@MainActivity).sendPayload(model.professorEndpointId.value!!, payload)
-        model.status.value = "Sent ${String(payload.asBytes()!!)} to ${model.professorEndpointId.value}"
+            val jsonData = Json.stringify(LocationPayload.serializer(), locationPayload!!)
+
+            val payload : Payload = Payload.fromBytes(jsonData.toByteArray())
+            Nearby.getConnectionsClient(this@MainActivity).sendPayload(model.professorEndpointId.value!!, payload)
+            model.status.postValue("Sent ${String(payload.asBytes()!!)} to ${model.professorEndpointId.value}")
+        }
     }
 
     override fun onResume() {
