@@ -50,8 +50,8 @@ class Analytics extends Component {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
-            "code": "lokchain",   // contract who owns the table
-            "scope": "lokchain",  // scope of the table
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
             "table": "attendance",    // name of the table as specified by the contract abi
             "limit": 100,
         }).then(result => this.setState({attendance_table: result.rows}));
@@ -80,8 +80,8 @@ class Analytics extends Component {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
-            "code": "lokchain",   // contract who owns the table
-            "scope": "lokchain",  // scope of the table
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
             "table": "attendance",    // name of the table as specified by the contract abi
             "limit": 100,
         }).then(result => this.exportToCsvFile(result.rows));
