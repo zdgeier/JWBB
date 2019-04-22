@@ -15,11 +15,11 @@ import java.util.Arrays.asList
 class AttendTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
-        val account: String,
+        val actor : String,
         val user : String,
-        val crn: Long,
         val xval: Float,
-        val yval: Float
+        val yval: Float,
+        val crn: Long
     )
 
     fun record(
@@ -45,11 +45,11 @@ class AttendTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
         return AbiBinaryGenAttendWriter(CompressionType.NONE).squishAttendBody(
             AttendBody(
                 AttendArgs(
-                    args.account,
+                    args.actor,
                     args.user,
-                    args.crn,
                     args.xval,
-                    args.yval
+                    args.yval,
+                    args.crn
                 )
             )
         ).toHex()
