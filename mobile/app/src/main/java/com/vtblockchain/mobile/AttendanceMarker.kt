@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 class AttendanceMarker {
     companion object {
         @kotlinx.serialization.Serializable
-        data class LocationPayload(var account : String, var privateKey: String, var crn : Long)
+        data class LocationPayload(var account : String, var user: String, var crn : Long)
 
         val CONTRACT_NAME : String = "lokchain"
 
@@ -54,11 +54,10 @@ class AttendanceMarker {
                                 CONTRACT_NAME,
                                 AttendTransfer.Args(
                                     locationPayload.account,
-                                    location.latitude.toFloat(),
-                                    location.longitude.toFloat(),
+                                    locationPayload.user,
                                     locationPayload.crn,
-                                    0,
-                                    0
+                                    location.latitude.toFloat(),
+                                    location.longitude.toFloat()
                                 ),
                                 TransactionContext(
                                     locationPayload.account,

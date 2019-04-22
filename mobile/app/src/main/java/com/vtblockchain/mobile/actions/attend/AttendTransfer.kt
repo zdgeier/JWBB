@@ -16,11 +16,10 @@ class AttendTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
         val account: String,
-        val xval: Float,
-        val yval: Float,
+        val user : String,
         val crn: Long,
-        val startTime: Int,
-        val endTime: Int
+        val xval: Float,
+        val yval: Float
     )
 
     fun record(
@@ -47,11 +46,10 @@ class AttendTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
             AttendBody(
                 AttendArgs(
                     args.account,
-                    args.xval,
-                    args.yval,
+                    args.user,
                     args.crn,
-                    args.startTime,
-                    args.endTime
+                    args.xval,
+                    args.yval
                 )
             )
         ).toHex()
