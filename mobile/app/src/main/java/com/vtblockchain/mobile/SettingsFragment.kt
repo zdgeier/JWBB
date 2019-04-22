@@ -3,10 +3,8 @@ package com.vtblockchain.mobile
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceFragmentCompat
-import com.vtblockchain.mobile.MainActivity.Companion.TAG
 
 class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
     private lateinit var model: MyViewModel
@@ -20,9 +18,16 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == "endpoint") {
-            Log.d(TAG, sharedPreferences?.getString(key, ""))
-            model.ipAddress.value = sharedPreferences?.getString(key, "")
+        when(key) {
+            "endpoint" -> {
+                model.ipAddress.value = sharedPreferences?.getString(key, resources.getString(R.string.defaultEndpoint))
+            }
+            "student_username" -> {
+                model.studentUsername.value = sharedPreferences?.getString(key, resources.getString(R.string.defaultStudentUsername))
+            }
+            "professor_username" -> {
+                model.professorUsername.value = sharedPreferences?.getString(key, resources.getString(R.string.defaultProfessorUsername))
+            }
         }
     }
 

@@ -22,7 +22,8 @@ class MyViewModel : ViewModel() {
 
     // Preferences
     val ipAddress = MutableLiveData<String>()
-    val currentStudentUsername = MutableLiveData<String>()
+    val studentUsername = MutableLiveData<String>()
+    val professorUsername = MutableLiveData<String>()
 
     fun addStudent(s: Student) {
         val temp = studentsHere.value
@@ -32,6 +33,8 @@ class MyViewModel : ViewModel() {
 
     init {
         ipAddress.value = "192.168.1.153"
+        studentUsername.value = "jiayiwanglee"
+        professorUsername.value = "kirkkcameron"
         manualStudent.value = ""
         professorEndpointId.value = ""
         selectedCRN.value = 0

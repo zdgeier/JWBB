@@ -56,6 +56,7 @@ class AttendanceMarker {
 
         fun sendLocationToChain(
             baseUrl: String,
+            actor : String,
             locationPayload: LocationPayload,
             client: FusedLocationProviderClient?
         ) {
@@ -68,7 +69,7 @@ class AttendanceMarker {
                             AttendTransfer(api.chain).record(
                                 CONTRACT_NAME,
                                 AttendTransfer.Args(
-                                    professorUsername,
+                                    actor,
                                     locationPayload.user,
                                     locationPayload.xval,
                                     locationPayload.yval,

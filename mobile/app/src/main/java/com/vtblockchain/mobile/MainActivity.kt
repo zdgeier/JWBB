@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     fun getBaseURL() = "http://${model.ipAddress.value}:8888/"
 
     fun sendStudentLocation(locationPayload: LocationPayload) =
-        AttendanceMarker.sendLocationToChain(getBaseURL(), locationPayload, fusedLocationClient)
+        AttendanceMarker.sendLocationToChain(getBaseURL(), professorUsername, locationPayload, fusedLocationClient)
 
     val payloadCallback = object : PayloadCallback() {
         override fun onPayloadReceived(endPointID: String, payload: Payload) {
@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity() {
     fun sendLocation() {
         GlobalScope.launch {
             val locationPayload : LocationPayload? = makeLocationPayload(
-                model.currentStudentUsername.value!!,
+                model.studentUsername.value!!,
                 model.classesCRN.value!![model.selectedCRN.value!!].crn.toLong(),
                 fusedLocationClient
             )
