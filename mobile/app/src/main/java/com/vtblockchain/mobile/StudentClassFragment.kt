@@ -26,7 +26,7 @@ class StudentClassFragment : Fragment() {
         val studentCRN = v.findViewById<TextView>(R.id.studentCRN)
         model.selectedCRN.observe(this, Observer {
             if (model.classesCRN.value!!.isNotEmpty()) {
-                studentCRN.text = "CRN: ${model.classesCRN.value!![it]}"
+                studentCRN.text = "${model.classesCRN.value!![it].courseName}"
             }
         })
 
