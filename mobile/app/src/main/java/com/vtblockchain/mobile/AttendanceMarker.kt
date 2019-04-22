@@ -28,7 +28,7 @@ class AttendanceMarker {
         @kotlinx.serialization.Serializable
         data class LocationPayload(var user: String,  var xval : Float, var yval : Float, var crn : Long)
 
-        val CONTRACT_NAME : String = "lokchain"
+        val CONTRACT_NAME : String = "attendit"
 
         var okHttpClientVerbose : OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
@@ -99,8 +99,8 @@ class AttendanceMarker {
             try {
                 val tableRows = api.chain.getTableRows(
                     GetTableRows(
-                        "lokchain",
-                        "lokchain",
+                        "attendit",
+                        "attendit",
                         "classes",
                         "",
                         true,

@@ -6,7 +6,7 @@
 #include <vector>
 using namespace eosio;
 
-// Smart Contract Name: lokchain
+// Smart Contract Name: attendit
 // Tables:
 //   attendance: multi index table to store attendance records
 //   classes: multi-index table to store class and boundaries
@@ -15,7 +15,7 @@ using namespace eosio;
 //   createClass => create a class with given CRN and coordinate bounds
 //   populate => debug action to create a default set of classes
 
-CONTRACT lokchain : public eosio::contract {
+CONTRACT attendit : public eosio::contract {
   private:
     TABLE attendance {
         uint64_t prim_key;  // primary key
@@ -63,7 +63,7 @@ CONTRACT lokchain : public eosio::contract {
     using contract::contract;
 
     // constructor
-    lokchain(name receiver, name code, datastream<const char *> ds)
+    attendit(name receiver, name code, datastream<const char *> ds)
         : contract(receiver, code, ds), _attendance(receiver, receiver.value),
           _classes(receiver, receiver.value) {}
 
@@ -81,6 +81,33 @@ CONTRACT lokchain : public eosio::contract {
                         new_user.xval     = xval;
                         new_user.yval     = yval;
                         new_user.timestamp = now();
+                        new_user.crn       = crn;
+                    });
+                    eosio::print("Attendance recorded!");
+                }
+                else {
+                    eosio::print("Outside of class bounds!");
+                }
+                return;
+            }
+        }
+        eosio::print("CRN ", crn, " doesn't exist...");
+    }
+
+    ACTION frecord(name actor, name user, float xval, float yval, uint64_t crn, uint64_t time) {
+        // make sure the actor is a professor
+        //require_auth2(actor.value, name("professor").value);
+        std::pair<float, float> location = std::make_pair(xval, yval);
+        for (auto &item : _classes) {
+            if (item.crn == crn) {
+                // check if the student is inside the class boundaries
+                if (inside(item.coordinates, location)) {
+                    _attendance.emplace(_self, [&](auto &new_user) {
+                        new_user.prim_key = _attendance.available_primary_key();
+                        new_user.user     = user;
+                        new_user.xval     = xval;
+                        new_user.yval     = yval;
+                        new_user.timestamp = time;
                         new_user.crn       = crn;
                     });
                     eosio::print("Attendance recorded!");
@@ -170,4 +197,4 @@ CONTRACT lokchain : public eosio::contract {
 };
 
 // specify the contract name, and export a public action: update and create
-EOSIO_DISPATCH(lokchain, (record)(create)(populate))
+EOSIO_DISPATCH(attendit, (record)(frecord)(create)(populate))
