@@ -1,15 +1,19 @@
 package com.vtblockchain.mobile
 
 import android.accounts.NetworkErrorException
+import android.location.Location
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.Tasks
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.model.contract.request.GetTableRows
 import com.vtblockchain.mobile.MainActivity.Companion.TAG
+import com.vtblockchain.mobile.MainActivity.Companion.professorPrivateKey
+import com.vtblockchain.mobile.MainActivity.Companion.professorUsername
 import com.vtblockchain.mobile.actions.attend.AttendTransfer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,7 +26,7 @@ import java.util.concurrent.TimeUnit
 class AttendanceMarker {
     companion object {
         @kotlinx.serialization.Serializable
-        data class LocationPayload(var account : String, var user: String, var crn : Long)
+        data class LocationPayload(var user: String,  var xval : Float, var yval : Float, var crn : Long)
 
         val CONTRACT_NAME : String = "lokchain"
 
@@ -39,6 +43,17 @@ class AttendanceMarker {
             .writeTimeout(3, TimeUnit.SECONDS)
             .build()
 
+        fun makeLocationPayload(user : String, crn : Long, client: FusedLocationProviderClient?) : LocationPayload {
+            try {
+                val location : Location? = Tasks.await(client?.lastLocation!!)
+                return LocationPayload(user, location?.latitude?.toFloat()!!, location.longitude.toFloat(), crn)
+            }
+            catch (e: SecurityException) {
+                throw e
+            }
+        }
+
+
         fun sendLocationToChain(
             baseUrl: String,
             locationPayload: LocationPayload,
@@ -53,15 +68,15 @@ class AttendanceMarker {
                             AttendTransfer(api.chain).record(
                                 CONTRACT_NAME,
                                 AttendTransfer.Args(
-                                    locationPayload.account,
+                                    professorUsername,
                                     locationPayload.user,
-                                    locationPayload.crn,
-                                    location.latitude.toFloat(),
-                                    location.longitude.toFloat()
+                                    locationPayload.xval,
+                                    locationPayload.yval,
+                                    locationPayload.crn
                                 ),
                                 TransactionContext(
-                                    locationPayload.account,
-                                    EosPrivateKey(locationPayload.privateKey),
+                                    professorUsername,
+                                    EosPrivateKey(professorPrivateKey),
                                     MainActivity.transactionDefaultExpiry()
                                 )
                             ).blockingGet()

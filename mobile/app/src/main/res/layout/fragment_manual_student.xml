@@ -13,7 +13,7 @@
             android:id="@+id/textView2"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:layout_constraintBottom_toTopOf="@+id/editText" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/manualStudentName" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
             android:text="Manual Attendance"
@@ -32,7 +32,7 @@
             android:inputType="textPersonName"
             android:text="useraaaaaaa"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/manualStudentName"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintBottom_toTopOf="@+id/markAction" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
@@ -43,6 +43,6 @@
             android:clickable="true"
             android:id="@+id/markAction"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/manualStudentName" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

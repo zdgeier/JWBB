@@ -20,24 +20,24 @@ import com.memtrip.eos.abi.writer.*
 
 @Abi
 data class AttendArgs (
-    val account: String,
+    val actor : String,
     val user: String,
-    val crn: Long,
     val xval: Float,
-    val yval: Float
+    val yval: Float,
+    val crn: Long
 ) {
-    val getAccount: String
-        @AccountNameCompress get() = account
+    val getActor : String
+        @AccountNameCompress get() = user
 
     val getUser: String
         @AccountNameCompress get() = user
-
-    val getCRN: Long
-        @LongCompress get() = crn
 
     val getXVal: Float
         @FloatCompress get() = xval
 
     val getYVal: Float
         @FloatCompress get() = yval
+
+    val getCRN: Long
+        @LongCompress get() = crn
 }
