@@ -7,11 +7,8 @@ import { JsonRpc } from 'eosjs'; // https://github.com/EOSIO/eosjs
 import { Parser as Json2csvParser } from 'json2csv';
 
 // Materials-ui dependencies
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {Api, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
+import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
