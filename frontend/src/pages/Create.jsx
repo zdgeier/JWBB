@@ -22,8 +22,7 @@ let bounds = new window.google.maps.LatLngBounds();
 let sub_area;
 let coordinates = [];
 let color = ['#FF0000', '#4286f4', '#ffff00', '#ff00b2', '#bb00ff', '#00ffff', '#26ff00', '#00ff87'];
-//const endpoint = "http://localhost:8888";
-const endpoint = "http://172.29.5.63:8888";
+const endpoint = "http://localhost:8888";
 
 const crnTextFieldstyles = theme => ({
     container: {
@@ -99,6 +98,7 @@ class Create extends Component {
             crn: -1,
             startTime: -1,
             endTime: -1,
+            courseName: "",
             successDialogOpen: false,
             failDialogOpen: false,
         };
@@ -110,6 +110,7 @@ class Create extends Component {
         this._handleDialog = this._handleDialog.bind(this);
         this._handleStartTimeChange = this._handleStartTimeChange.bind(this);
         this._handleEndTimeChange = this._handleEndTimeChange.bind(this);
+        this._handleCourseNameChange = this._handleCourseNameChange.bind(this);
     }
 
     componentDidMount() {
@@ -233,6 +234,15 @@ class Create extends Component {
         });
     }
 
+    _handleCourseNameChange(event) {
+        let courseName = event.target.value;
+        this.setState((prevState) => {
+            let newState = Object.assign(prevState);
+            newState.courseName = courseName;
+            return newState;
+        });
+    }
+
     _handleDialog(success, open) {
         this.setState((prevState) => {
             let newState = Object.assign(prevState);
@@ -262,6 +272,7 @@ class Create extends Component {
         let crn = this.state.crn;
         let startTime = this.state.startTime;
         let endTime = this.state.endTime;
+        let courseName = this.state.courseName;
 
         let x_bounds = [];
         let y_bounds = [];
@@ -276,9 +287,9 @@ class Create extends Component {
         let actionData = {
             user: account,
             crn: crn,
-	    courseName: "Systems Capstone",
             startTime: startTime,
             endTime: endTime,
+            courseName: courseName,
             xs: x_bounds,
             ys: y_bounds,
         };
@@ -290,7 +301,7 @@ class Create extends Component {
         try {
             var trans = {
                 actions: [{
-                    account: "attendit",
+                    account: "lokchain",
                     name: actionName,
                     authorization: [{
                         actor: account,
@@ -349,6 +360,10 @@ class Create extends Component {
                     <div>
                         <CreateField onChangeHandler={this._handleEndTimeChange} label={"End Time"}
                                      placeholder={"e.g. 2:00"}/>
+                    </div>
+                    <div>
+                        <CreateField onChangeHandler={this._handleCourseNameChange} label={"Course Name"}
+                                     placeholder={"e.g. Statistics"}/>
                     </div>
                     <div style={{marginTop: '10px'}}>
                         <Button variant="contained" style={{height: "55px"}}

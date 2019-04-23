@@ -462,7 +462,7 @@ class App extends React.Component {
                     </main>);
             case "About Us":
                 return (
-                    <main className={classes.nonhomePage}>
+                    <main className={classes.home}>
                         <div
                             style={{
                                 position: "absolute",
@@ -585,7 +585,7 @@ class App extends React.Component {
                                 }}
                             />
                         </div>
-                            <About/>
+                        <About/>
                     </main>);
             case "Attendance Analytics":
                 return (
@@ -623,10 +623,9 @@ class App extends React.Component {
                             />
                         </ListItem>
                     </List>
-                    {/*<div className={classes.toolbar}/>*/}
                     <Divider/>
                     <List>
-                        {['Home', 'Create a class', 'View Live Attendance', 'Attendance Analytics', 'About Us'].map((text, index) => (
+                        {['Home', 'Create a class', 'View Live Attendance', 'Attendance Analytics', 'About Us'].map((text) => (
                             <ListItem button key={text} className={classes.drawerItems} onClick={() => {
                                 this.setState({page: text});
                             }}>
