@@ -301,7 +301,7 @@ class Create extends Component {
         try {
             var trans = {
                 actions: [{
-                    account: "lokchain",
+                    account: "attendit",
                     name: actionName,
                     authorization: [{
                         actor: account,

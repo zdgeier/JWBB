@@ -16,8 +16,7 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 
-//const endpoint = "http://localhost:8888";
-const endpoint = "http://172.29.5.63:8888";
+const endpoint = "http://localhost:8888";
 
 const styles = theme => ({
     card: {

@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="483d64dc-b603-4e50-9aa8-ae6e5bd611ee" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/About.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/App.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Create.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/D3/TimeLine/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/D3/TimeLine/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/D3/TimeLine/timeseries.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Live.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Live.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Live.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/test.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/test.mjs" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,7 +20,7 @@
     <session id="-274369845">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -36,15 +31,17 @@
           <entry key="css" value="1" />
           <entry key="html" value="3" />
           <entry key="js" value="9" />
-          <entry key="jsx" value="6" />
+          <entry key="jsx" value="13" />
+          <entry key="mjs" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="C++" value="1" />
           <entry key="CSS" value="1" />
+          <entry key="ECMAScript 6" value="1" />
           <entry key="HTML" value="3" />
-          <entry key="JSX Harmony" value="6" />
+          <entry key="JSX Harmony" value="13" />
           <entry key="JavaScript" value="9" />
         </counts>
       </usages-collector>
@@ -53,16 +50,16 @@
           <entry key="cpp" value="2" />
           <entry key="html" value="15" />
           <entry key="js" value="361" />
-          <entry key="jsx" value="1151" />
-          <entry key="mjs" value="2" />
+          <entry key="jsx" value="1452" />
+          <entry key="mjs" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="C++" value="2" />
-          <entry key="ECMAScript 6" value="2" />
+          <entry key="ECMAScript 6" value="10" />
           <entry key="HTML" value="15" />
-          <entry key="JSX Harmony" value="1151" />
+          <entry key="JSX Harmony" value="1452" />
           <entry key="JavaScript" value="361" />
         </counts>
       </usages-collector>
@@ -79,11 +76,41 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/pages/About.jsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
               <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/src/pages/Live.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="145">
+              <caret line="88" column="55" lean-forward="true" selection-start-line="88" selection-start-column="55" selection-end-line="88" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/pages/App.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1612">
+              <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/pages/Analytics.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2468">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+              <folding>
+                <element signature="e#357#413#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,6 +148,10 @@
       <find>huzzah</find>
       <find>jssig</find>
       <find>result</find>
+      <find>lokchai</find>
+      <find>lokchan</find>
+      <find>lokchain</find>
+      <find>rpc</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -132,13 +163,13 @@
         <option value="$PROJECT_DIR$/frontend/src/test.js" />
         <option value="$PROJECT_DIR$/frontend/src/pages/test.js" />
         <option value="$PROJECT_DIR$/frontend/src/pages/test.html" />
-        <option value="$PROJECT_DIR$/frontend/src/pages/test.mjs" />
         <option value="$PROJECT_DIR$/eosio_docker/contracts/lokchain/lokchain.cpp" />
-        <option value="$PROJECT_DIR$/frontend/src/pages/Create.jsx" />
-        <option value="$PROJECT_DIR$/frontend/src/pages/Live.jsx" />
-        <option value="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/App.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/About.jsx" />
+        <option value="$PROJECT_DIR$/frontend/src/pages/Create.jsx" />
+        <option value="$PROJECT_DIR$/frontend/src/pages/test.mjs" />
+        <option value="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" />
+        <option value="$PROJECT_DIR$/frontend/src/pages/Live.jsx" />
       </list>
     </option>
   </component>
@@ -2336,7 +2367,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10674000" />
+    <option name="totallyTimeSpent" value="12340000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="77" y="29" width="1440" height="797" extended-state="0" />
@@ -2354,8 +2385,8 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.34042552" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49964765" weight="0.34042552" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="10" sideWeight="0.5003524" side_tool="true" visible="true" weight="0.34042552" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -2433,13 +2464,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Analytics.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/D3/TimeLine/timeseries.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -2456,29 +2480,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/test.mjs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="54" column="1" selection-start-line="5" selection-end-line="54" selection-end-column="1" />
+        <state relative-caret-position="145">
+          <caret line="27" column="33" lean-forward="true" selection-start-line="27" selection-start-column="33" selection-end-line="27" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/Create.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-711">
-          <caret line="291" column="35" selection-start-line="291" selection-start-column="35" selection-end-line="291" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/pages/App.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="627" column="97" selection-start-line="627" selection-start-column="97" selection-end-line="627" selection-end-column="97" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Live.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="573">
-          <caret line="121" column="28" selection-start-line="121" selection-start-column="28" selection-end-line="121" selection-end-column="28" />
+        <state relative-caret-position="105">
+          <caret line="318" lean-forward="true" selection-start-line="318" selection-end-line="318" />
         </state>
       </provider>
     </entry>
@@ -2486,6 +2496,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/pages/App.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1612">
+          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Analytics.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2468">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+          <folding>
+            <element signature="e#357#413#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Live.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="145">
+          <caret line="88" column="55" lean-forward="true" selection-start-line="88" selection-start-column="55" selection-end-line="88" selection-end-column="55" />
         </state>
       </provider>
     </entry>

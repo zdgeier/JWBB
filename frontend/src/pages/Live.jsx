@@ -46,7 +46,7 @@ const styles = theme => ({
     selectFormControl: {
         margin: "auto",
         width: "45%",
-        minWidth: 520,
+        minWidth: 440,
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2
@@ -85,8 +85,8 @@ class LiveAttendanceView extends Component {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
-            "code": "lokchain",   // contract who owns the table
-            "scope": "lokchain",  // scope of the table
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
             "table": "attendance",    // name of the table as specified by the contract abi,
             "limit": 100,
         }).then(result => {
@@ -168,13 +168,29 @@ class SelectLiveClass extends React.Component {
         this.state = {
             crn: "",
             name: "hai",
-            labelWidth: 0
+            labelWidth: 0,
+            choices: [],
         };
     }
 
     componentDidMount() {
         this.setState({
             labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
+        });
+        const rpc = new JsonRpc(endpoint);
+        rpc.get_table_rows({
+            "json": true,
+            "code": "attendit",   // contract who owns the table
+            "scope": "attendit",  // scope of the table
+            "table": "classes",    // name of the table as specified by the contract abi,
+            "limit": 100,
+        }).then(result => {
+            console.log(result);
+            this.setState((prevState => {
+                let newState = Object.assign(prevState);
+                newState.choices = result.rows;
+                return newState;
+            }))
         });
 
     }
@@ -184,6 +200,10 @@ class SelectLiveClass extends React.Component {
     };
 
     render() {
+        let {choices} = this.state;
+        let choicesMenuComponents = choices.map((choice) => {
+            return (<MenuItem value={choice.crn}>{choice.courseName}</MenuItem>);
+        });
         const {classes} = this.props;
         return (
             <div className={classes.chooseClassRoot}>
@@ -191,7 +211,7 @@ class SelectLiveClass extends React.Component {
                     <FormControl className={classes.selectFormControl}>
                         <InputLabel ref={ref => {
                             this.InputLabelRef = ref;
-                        }} htmlFor="crn">Select the CRN of the class for which you wish to view live
+                        }} htmlFor="crn">Select the class for which you wish to view live
                             attendance</InputLabel>
                         <Select
                             value={this.state.crn}
@@ -204,7 +224,7 @@ class SelectLiveClass extends React.Component {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={12345}>12345</MenuItem>
+                            {choicesMenuComponents}
                         </Select>
                     </FormControl>
                 </form>
