@@ -69,7 +69,13 @@ CONTRACT attendit : public eosio::contract {
 
     ACTION record(name actor, name user, float xval, float yval, uint64_t crn) {
         // make sure the actor is a professor
-        //require_auth2(actor.value, name("professor").value);
+        if(!has_auth(actor)){
+            eosio::print("You are not authorized to perform this action!");
+            return;
+        }
+        //would like to have somthing like has_auth2, but it doesn't
+        //look like that exists right noe
+        require_auth2(actor.value, name("professor").value);
         std::pair<float, float> location = std::make_pair(xval, yval);
         for (auto &item : _classes) {
             if (item.crn == crn) {
@@ -96,7 +102,7 @@ CONTRACT attendit : public eosio::contract {
 
     ACTION frecord(name actor, name user, float xval, float yval, uint64_t crn, uint64_t time) {
         // make sure the actor is a professor
-        //require_auth2(actor.value, name("professor").value);
+        require_auth2(actor.value, name("professor").value);
         std::pair<float, float> location = std::make_pair(xval, yval);
         for (auto &item : _classes) {
             if (item.crn == crn) {

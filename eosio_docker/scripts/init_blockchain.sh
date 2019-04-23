@@ -61,5 +61,6 @@ echo "=== end of setup blockchain accounts and smart contract ==="
 # create a file to indicate the blockchain has been initialized
 touch "/mnt/dev/data/initialized"
 
+setup_bios.sh
 # put the background nodeos job to foreground for docker run
 fg %1
