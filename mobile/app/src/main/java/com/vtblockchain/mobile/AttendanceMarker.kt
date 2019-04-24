@@ -113,13 +113,17 @@ class AttendanceMarker {
                     )
                 ).blockingGet()
 
+                Log.d(TAG, "DONE")
 
                 return tableRows.body()!!.rows.map {
                     rowToClass(it)
                 }
             }
             catch (e : NetworkErrorException) {
-                System.err.println("Error getting classes at $baseUrl")
+                Log.e(TAG, "Error getting classes at $baseUrl")
+            }
+            catch (e : Exception) {
+                Log.e(TAG, "Exception getting rows")
             }
 
             return listOf()

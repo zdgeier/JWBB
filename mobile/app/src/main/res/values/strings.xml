@@ -29,7 +29,7 @@
         <item>jiayiwanglee</item>
     </string-array>
 
-    <string name="defaultEndpoint">192.168.1.134</string>
+    <string name="defaultEndpoint">192.168.1.153</string>
     <string name="defaultStudentUsername">jiayiwanglee</string>
     <string name="defaultProfessorUsername">kirkkcameron</string>
 </resources>

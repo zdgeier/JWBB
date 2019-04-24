@@ -32,7 +32,7 @@ class MyViewModel : ViewModel() {
     }
 
     init {
-        ipAddress.value = "192.168.1.134"
+        ipAddress.value = "192.168.1.153"
         studentUsername.value = "jiayiwanglee"
         professorUsername.value = "kirkkcameron"
         manualStudent.value = ""
