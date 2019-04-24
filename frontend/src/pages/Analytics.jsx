@@ -17,14 +17,11 @@ import InputLabel from "@material-ui/core/InputLabel/InputLabel";
 import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import FormControl from "@material-ui/core/FormControl/FormControl";
+import Fade from "@material-ui/core/Fade/Fade";
 
 const endpoint = "http://localhost:8888";
 
 const styles = theme => ({
-    graphic_display: {
-        display: "flex",
-        width: "100%",
-    },
     paper: {
         ...theme.mixins.gutters(),
         paddingTop: theme.spacing.unit * 2,
@@ -221,25 +218,30 @@ class LiveAnalyticsView extends Component {
         ];
 
         return (
-            <div style={{width: "100%"}}>
-                <AppBar position="static" color="default">
-                    <Toolbar>
-                        <Typography variant="title" color="inherit">
-                            Attendance History of Past 7 Days
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+            <div style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexWrap: "wrap",
+            }}>
 
-                <div className={classes.graphic_display}>
-                    <Paper className={classes.paper}>
+                {/*<Typography style={{fontSize: 20, fontFamily: "Helvetica Neue", width: "100%"}}>*/}
+                    {/*Attendance History (7 days)*/}
+                {/*</Typography>*/}
+
+                <Fade in={true} timeout={2000}>
+                    <Paper className={classes.paper} style={{display: "flex", width: "100%", height: "100%",}}>
                         <BarChart
                             groupedBars
                             data={data}
                             width={700}
                             height={400}
-                            margin={{top: 30, bottom: 50, left: 50, right: 10}}/>
+                            margin={{top: 10, bottom: 30, left: 30, right: 30}}/>
                     </Paper>
-                </div>
+                </Fade>
+
             </div>
         );
     }

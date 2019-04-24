@@ -199,7 +199,7 @@ class App extends React.Component {
                                 left: "50%",
                                 transform: "translate(-35%)",
                                 "fontSize": 20
-                            }}>Locachain brings the power of the blockchain to a robust peer-to-peer and geofencing
+                            }}>Attend.it brings the power of the blockchain to a robust peer-to-peer and geofencing
                                 based
                                 attendance
                                 validation scheme.</p>
