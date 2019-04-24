@@ -16,6 +16,6 @@ start_frontend.sh     -- start frontend
 
 **Thanks to:**  
 Block.one  
-Serguei lastname  
+Serguei Vinnitskii  
 Zachary Butler  
 
