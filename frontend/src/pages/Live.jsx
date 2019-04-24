@@ -105,7 +105,10 @@ class LiveAttendanceView extends Component {
 
     render() {
         const {classes} = this.props;
-        if (this.state.attendees.length === 0) {
+        let attendees = this.state.attendees.filter((record) => {
+            return record.crn === this.props.crn;
+        });
+        if (attendees.length === 0) {
             return (
                 <div className={classes.loading}>
                     <br/>
@@ -116,9 +119,6 @@ class LiveAttendanceView extends Component {
                 </div>
             );
         }
-        let attendees = this.state.attendees.filter((record) => {
-            return record.crn === this.props.crn;
-        });
         let attendeeCards = attendees.map((record) => {
             return (
                 <Fade in={true} timeout={500}>

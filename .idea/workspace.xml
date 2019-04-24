@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="483d64dc-b603-4e50-9aa8-ae6e5bd611ee" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Live.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Live.jsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -48,7 +49,7 @@
           <entry key="cpp" value="2" />
           <entry key="html" value="15" />
           <entry key="js" value="361" />
-          <entry key="jsx" value="2245" />
+          <entry key="jsx" value="2247" />
           <entry key="mjs" value="10" />
         </counts>
       </usages-collector>
@@ -57,7 +58,7 @@
           <entry key="C++" value="2" />
           <entry key="ECMAScript 6" value="10" />
           <entry key="HTML" value="15" />
-          <entry key="JSX Harmony" value="2245" />
+          <entry key="JSX Harmony" value="2247" />
           <entry key="JavaScript" value="361" />
         </counts>
       </usages-collector>
@@ -83,20 +84,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/pages/Create.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
+            <state relative-caret-position="667">
               <caret line="361" column="58" selection-start-line="361" selection-start-column="58" selection-end-line="361" selection-end-column="58" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frontend/src/pages/Live.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="97" column="5" selection-start-line="83" selection-start-column="3" selection-end-line="97" selection-end-column="5" />
+            <state relative-caret-position="201">
+              <caret line="114" column="62" selection-start-line="114" selection-start-column="62" selection-end-line="114" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -157,10 +158,10 @@
         <option value="$PROJECT_DIR$/eosio_docker/contracts/lokchain/lokchain.cpp" />
         <option value="$PROJECT_DIR$/frontend/src/pages/About.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/test.mjs" />
-        <option value="$PROJECT_DIR$/frontend/src/pages/Live.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/App.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/Create.jsx" />
+        <option value="$PROJECT_DIR$/frontend/src/pages/Live.jsx" />
       </list>
     </option>
   </component>
@@ -264,13 +265,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18929000" />
+    <option name="totallyTimeSpent" value="19457000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="797" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="797" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -282,7 +283,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49964765" visible="true" weight="0.34042552" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49964765" visible="true" weight="0.34042552" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5003524" side_tool="true" visible="true" weight="0.34042552" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -383,13 +384,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Live.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="97" column="5" selection-start-line="83" selection-start-column="3" selection-end-line="97" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/Analytics.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3435">
@@ -406,8 +400,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/Create.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
+        <state relative-caret-position="667">
           <caret line="361" column="58" selection-start-line="361" selection-start-column="58" selection-end-line="361" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Live.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="114" column="62" selection-start-line="114" selection-start-column="62" selection-end-line="114" selection-end-column="62" />
         </state>
       </provider>
     </entry>
