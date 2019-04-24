@@ -18,6 +18,7 @@ import Select from "@material-ui/core/Select/Select";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import FormControl from "@material-ui/core/FormControl/FormControl";
 import Fade from "@material-ui/core/Fade/Fade";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 const endpoint = "http://localhost:8888";
 
@@ -44,7 +45,12 @@ const styles = theme => ({
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2
-    }
+    },
+    loading: {
+        top: "50%",
+        left: "50%",
+        textAlign: 'center',
+    },
 });
 
 class SelectLiveClass extends React.Component {
@@ -195,6 +201,19 @@ class LiveAnalyticsView extends Component {
             return record.crn === this.props.crn;
         });
 
+        if (attendees.length === 0) {
+            return (
+                <div className={classes.loading}>
+                    <br/>
+                    <Typography gutterBottom component="p" variant={"subtitle2"}>
+                        Streaming graphed attendance data for the past week...
+                    </Typography>
+                    <br/>
+                    <CircularProgress/>
+                </div>
+            );
+        }
+
         for (let record of attendees) {
             let index = this.timeConverter(record.timestamp, last7Dates);
             if (index != -1) {
@@ -203,7 +222,7 @@ class LiveAnalyticsView extends Component {
         }
 
         // Generate data for graphing:
-        let data = [
+        let data =
             {
                 label: 'Attended',
                 values: [{x: last7DatesString[6], y: last7Population[6]}, {
@@ -213,35 +232,37 @@ class LiveAnalyticsView extends Component {
                     {x: last7DatesString[3], y: last7Population[3]}, {
                         x: last7DatesString[2],
                         y: last7Population[2]
-                    }, {x: last7DatesString[1], y: last7Population[1]}, {x: last7DatesString[0], y: last7Population[0]}]
+                    }, {x: last7DatesString[1], y: last7Population[1]}, {
+                        x: last7DatesString[0],
+                        y: last7Population[0]
+                    }],
             }
-        ];
+        ;
+
 
         return (
             <div style={{
                 width: "100%",
                 height: "100%",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
                 flexWrap: "wrap",
             }}>
-
-                {/*<Typography style={{fontSize: 20, fontFamily: "Helvetica Neue", width: "100%"}}>*/}
-                    {/*Attendance History (7 days)*/}
-                {/*</Typography>*/}
-
-                <Fade in={true} timeout={2000}>
-                    <Paper className={classes.paper} style={{display: "flex", width: "100%", height: "100%",}}>
-                        <BarChart
-                            groupedBars
-                            data={data}
-                            width={700}
-                            height={400}
-                            margin={{top: 10, bottom: 30, left: 30, right: 30}}/>
-                    </Paper>
-                </Fade>
-
+                <div style={{display: "flex", width: "100%", height: "100%",}}>
+                    <Fade in={true} timeout={2000}>
+                        <Paper className={classes.paper} style={{
+                            display: "flex", width: "100%", height: "100%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}>
+                            <BarChart
+                                groupedBars
+                                data={data}
+                                width={1000}
+                                height={600}
+                                margin={{top: 10, bottom: 30, left: 40, right: 30}}/>
+                        </Paper>
+                    </Fade>
+                </div>
             </div>
         );
     }
