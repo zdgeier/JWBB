@@ -1,27 +1,26 @@
 // React dependencies
-import React, { Component } from 'react';
-import { BarChart } from 'react-d3-components';
+import React, {Component} from 'react';
+import {BarChart} from 'react-d3-components';
 
 // EOS-IO dependencies
-import { JsonRpc } from 'eosjs'; // https://github.com/EOSIO/eosjs
-import { Parser as Json2csvParser } from 'json2csv';
+import {JsonRpc} from 'eosjs';
 
 // Materials-ui dependencies
-import {Api, RpcError} from 'eosjs'; // https://github.com/EOSIO/eosjs
-import JsSignatureProvider from 'eosjs/dist/eosjs-jssig'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
+import * as ReactDOM from "react-dom";
+import InputLabel from "@material-ui/core/InputLabel/InputLabel";
+import Select from "@material-ui/core/Select/Select";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
+import FormControl from "@material-ui/core/FormControl/FormControl";
 
 const endpoint = "http://localhost:8888";
 
 const styles = theme => ({
-    card: {
-        margin: 20,
-    },
     graphic_display: {
         display: "flex",
         width: "100%",
@@ -35,41 +34,103 @@ const styles = theme => ({
         marginTop: theme.spacing.unit,
         width: "100%",
     },
-    pre: {
-        background: "#ccc",
-        padding: 10,
-        marginBottom: 0,
+    chooseClassRoot: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "60%"
     },
-    formControl: {
-        margin: theme.spacing.unit,
-        minWidth: 120,
+    selectFormControl: {
+        margin: "auto",
+        width: "45%",
+        minWidth: 440,
     },
     selectEmpty: {
-        marginTop: theme.spacing.unit * 2,
-    },
+        marginTop: theme.spacing.unit * 2
+    }
 });
 
-//edit render method
-class Analytics extends Component {
+class SelectLiveClass extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            attendees: [] // to store the table rows from smart contract
+            crn: "",
+            name: "hai",
+            labelWidth: 0,
+            choices: [],
         };
-        this.downloadTable = this.downloadTable.bind(this);
     }
 
-    // gets table data from the blockchain
-    // and saves it into the component state: "attendanceTable"
-    getTable() {
+    componentDidMount() {
+        this.setState({
+            labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
+        });
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
             "code": "attendit",   // contract who owns the table
             "scope": "attendit",  // scope of the table
-            "table": "attendance",    // name of the table as specified by the contract abi
+            "table": "classes",    // name of the table as specified by the contract abi,
             "limit": 100,
-        }).then(result => this.setState({ attendance_table: result.rows }));
+        }).then(result => {
+            console.log(result);
+            this.setState((prevState => {
+                let newState = Object.assign(prevState);
+                newState.choices = result.rows;
+                return newState;
+            }))
+        });
+    }
+
+    handleChange = event => {
+        this.setState({[event.target.name]: event.target.value});
+    };
+
+    render() {
+        let {choices} = this.state;
+        let choicesMenuComponents = choices.map((choice) => {
+            return (<MenuItem value={choice.crn}>{choice.courseName}</MenuItem>);
+        });
+        const {classes} = this.props;
+        return (
+            <div className={classes.chooseClassRoot}>
+                <form autoComplete="off">
+                    <FormControl className={classes.selectFormControl}>
+                        <InputLabel ref={ref => {
+                            this.InputLabelRef = ref;
+                        }} htmlFor="crn">Select the class for which you wish to view live
+                            attendance</InputLabel>
+                        <Select
+                            value={this.state.crn}
+                            onChange={this.handleChange}
+                            inputProps={{
+                                name: "crn",
+                                id: "crn"
+                            }}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {choicesMenuComponents}
+                        </Select>
+                    </FormControl>
+                </form>
+                <Button style={{marginTop: 15, marginLeft: 20}} variant={"outlined"}
+                        onClick={() => {
+                            this.props.setClass(this.state.crn);
+                        }}>Go Live</Button>
+            </div>
+        );
+    }
+}
+
+//edit render method
+class LiveAnalyticsView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            attendees: [] // to store the table rows from smart contract
+        };
     }
 
     getAttendance() {
@@ -85,38 +146,16 @@ class Analytics extends Component {
         }));
     }
 
-    exportToCsvFile(jsonData) {
-        const fields = ['prim_key', 'user', 'xval', 'yval', 'crn','timestamp'];
-        const opts = { fields };
-
-        try {
-            const parser = new Json2csvParser(opts);
-            const csv = parser.parse(jsonData);
-
-            let dataUri = 'data:application/json;charset=utf-8,' + csv;
-            let exportFileDefaultName = 'data.csv';
-            let linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-    downloadTable() {
-        const rpc = new JsonRpc(endpoint);
-        rpc.get_table_rows({
-            "json": true,
-            "code": "attendit",   // contract who owns the table
-            "scope": "attendit",  // scope of the table
-            "table": "attendance",    // name of the table as specified by the contract abi
-            "limit": 100,
-        }).then(result => this.exportToCsvFile(result.rows));
-    }
-
     componentDidMount() {
-        this.getTable();
+        this.liveAttendancePollingId = setInterval(() => {
+            this.getAttendance.bind(this)();
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        if (this.liveAttendancePollingId) {
+            clearInterval(this.liveAttendancePollingId);
+        }
     }
 
     timeConverter(UNIX_timestamp, last7Dates) {
@@ -124,11 +163,11 @@ class Analytics extends Component {
         let a_date = a.getDate();
         let a_month = a.getMonth() + 1;
         let a_year = a.getFullYear();
-        for(var i = 0; i < 7; i++){
+        for (let i = 0; i < 7; i++) {
             let date = last7Dates[i].getDate();
             let month = last7Dates[i].getMonth() + 1;
             let year = last7Dates[i].getFullYear();
-            if(a_year == year && a_month == month && a_date == date){
+            if (a_year === year && a_month === month && a_date === date) {
                 return i;
             }
         }
@@ -136,13 +175,12 @@ class Analytics extends Component {
     }
 
     render() {
-        this.getAttendance();
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         // Get the latest 7 days:
-        const last7Dates = []
+        const last7Dates = [];
         const last7DatesString = []
-        for (var i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
             let today = new Date();
             today.setDate(today.getDate() - i);
             let date = today.getDate();
@@ -152,33 +190,35 @@ class Analytics extends Component {
             last7DatesString.push(year + '/' + month + '/' + date);
         }
 
-        var last7Population = [0, 0, 0, 0, 0, 0, 0]
         // Get the population for latest 7 days:
-        this.state.attendees.map((record) => {
-            var index = this.timeConverter(record.timestamp, last7Dates)
-            if(index != -1){
+        let last7Population = [0, 0, 0, 0, 0, 0, 0];
+        let attendees = this.state.attendees.filter((record) => {
+            return record.crn === this.props.crn;
+        });
+        for (let record in attendees) {
+            let index = this.timeConverter(record.timestamp, last7Dates)
+            if (index !== -1) {
                 last7Population[index] = last7Population[index] + 1;
             }
-        })
-
-        // Get CRNS:
-        var crnList = []
-        this.state.attendees.map((record) => {
-            if(crnList.indexOf(record.crn) == -1){
-                crnList.push(record.crn);}
-        })
+        }
 
         // Generate data for graphing: 
-        var data = [
+        let data = [
             {
                 label: 'Attended',
-                values: [{ x: last7DatesString[6], y: last7Population[6] }, { x: last7DatesString[5], y: last7Population[5] }, { x: last7DatesString[4], y: last7Population[4] },
-                { x: last7DatesString[3], y: last7Population[3] }, { x: last7DatesString[2], y: last7Population[2] }, { x: last7DatesString[1], y: last7Population[1] }, { x: last7DatesString[0], y: last7Population[0] }]
+                values: [{x: last7DatesString[6], y: last7Population[6]}, {
+                    x: last7DatesString[5],
+                    y: last7Population[5]
+                }, {x: last7DatesString[4], y: last7Population[4]},
+                    {x: last7DatesString[3], y: last7Population[3]}, {
+                        x: last7DatesString[2],
+                        y: last7Population[2]
+                    }, {x: last7DatesString[1], y: last7Population[1]}, {x: last7DatesString[0], y: last7Population[0]}]
             }
         ];
 
         return (
-            <div style={{ width: "100%" }}>
+            <div style={{width: "100%"}}>
                 <AppBar position="static" color="default">
                     <Toolbar>
                         <Typography variant="title" color="inherit">
@@ -194,20 +234,40 @@ class Analytics extends Component {
                             data={data}
                             width={700}
                             height={400}
-                            margin={{ top: 30, bottom: 50, left: 50, right: 10 }} />
+                            margin={{top: 30, bottom: 50, left: 50, right: 10}}/>
                     </Paper>
                 </div>
-
-                <Paper className={classes.paper}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.formButton}
-                        onClick={() => this.downloadTable()}>
-                        Download Full Attendance History
-                        </Button>
-                </Paper>
             </div>
+        );
+    }
+}
+
+let LiveAnalyticsViewStyled = withStyles(styles)(LiveAnalyticsView);
+let SelectLiveClassStyled = withStyles(styles)(SelectLiveClass);
+
+
+class Analytics extends React.Component {
+    constructor(props) {
+        super(props);
+        this.setClass = this.setClass.bind(this);
+        this.state = {
+            classCrn: -1,
+        }
+    }
+
+    setClass(crn) {
+        this.setState((prevState => {
+            let newState = Object.assign(prevState);
+            newState.classCrn = crn;
+            return newState;
+        }));
+    }
+
+    render() {
+        let {classCrn} = this.state;
+        return (
+            classCrn === -1 ? <SelectLiveClassStyled setClass={this.setClass}/> :
+                <LiveAnalyticsViewStyled crn={parseInt(this.state.classCrn)}/>
         );
     }
 }

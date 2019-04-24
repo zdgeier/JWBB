@@ -77,11 +77,11 @@ class LiveAttendanceView extends Component {
 
     refreshLiveAttendance() {
         this.liveAttendancePollingId = setInterval(() => {
-            this.getAttendance.bind(this)(this.props.crn)
+            this.getAttendance.bind(this)()
         }, 1000);
     }
 
-    getAttendance(crn) {
+    getAttendance() {
         const rpc = new JsonRpc(endpoint);
         rpc.get_table_rows({
             "json": true,
