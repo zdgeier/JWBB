@@ -69,7 +69,7 @@ class AttendanceMarker {
                             AttendTransfer(api.chain).record(
                                 CONTRACT_NAME,
                                 AttendTransfer.Args(
-                                    actor,
+                                    professorUsername,
                                     locationPayload.user,
                                     locationPayload.xval,
                                     locationPayload.yval,

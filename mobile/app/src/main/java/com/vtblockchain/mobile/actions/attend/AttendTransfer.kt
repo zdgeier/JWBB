@@ -34,7 +34,7 @@ class AttendTransfer(chainApi: ChainApi) : ChainTransaction(chainApi) {
                 "record",
                 asList(TransactionAuthorizationAbi(
                     transactionContext.authorizingAccountName,
-                    "active")),
+                    "professor")),
                 transferBin(args)
             )),
             transactionContext.authorizingPrivateKey
