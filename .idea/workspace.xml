@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="483d64dc-b603-4e50-9aa8-ae6e5bd611ee" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Create.jsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,7 +29,7 @@
           <entry key="css" value="1" />
           <entry key="html" value="3" />
           <entry key="js" value="9" />
-          <entry key="jsx" value="16" />
+          <entry key="jsx" value="17" />
           <entry key="mjs" value="1" />
         </counts>
       </usages-collector>
@@ -41,7 +39,7 @@
           <entry key="CSS" value="1" />
           <entry key="ECMAScript 6" value="1" />
           <entry key="HTML" value="3" />
-          <entry key="JSX Harmony" value="16" />
+          <entry key="JSX Harmony" value="17" />
           <entry key="JavaScript" value="9" />
         </counts>
       </usages-collector>
@@ -50,7 +48,7 @@
           <entry key="cpp" value="2" />
           <entry key="html" value="15" />
           <entry key="js" value="361" />
-          <entry key="jsx" value="2243" />
+          <entry key="jsx" value="2245" />
           <entry key="mjs" value="10" />
         </counts>
       </usages-collector>
@@ -59,7 +57,7 @@
           <entry key="C++" value="2" />
           <entry key="ECMAScript 6" value="10" />
           <entry key="HTML" value="15" />
-          <entry key="JSX Harmony" value="2243" />
+          <entry key="JSX Harmony" value="2245" />
           <entry key="JavaScript" value="361" />
         </counts>
       </usages-collector>
@@ -76,11 +74,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/pages/App.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
+            <state relative-caret-position="-8189">
               <caret line="201" column="40" selection-start-line="201" selection-start-column="40" selection-end-line="201" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/src/pages/Create.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="361" column="58" selection-start-line="361" selection-start-column="58" selection-end-line="361" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -106,7 +113,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>unmoun</find>
       <find>proptype</find>
       <find>prop</find>
       <find>setstate</find>
@@ -136,6 +142,7 @@
       <find>download</find>
       <find>timeconverter</find>
       <find>attendees</find>
+      <find>locachain</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,11 +156,11 @@
         <option value="$PROJECT_DIR$/frontend/src/pages/test.html" />
         <option value="$PROJECT_DIR$/eosio_docker/contracts/lokchain/lokchain.cpp" />
         <option value="$PROJECT_DIR$/frontend/src/pages/About.jsx" />
-        <option value="$PROJECT_DIR$/frontend/src/pages/Create.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/test.mjs" />
         <option value="$PROJECT_DIR$/frontend/src/pages/Live.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/Analytics.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/pages/App.jsx" />
+        <option value="$PROJECT_DIR$/frontend/src/pages/Create.jsx" />
       </list>
     </option>
   </component>
@@ -257,7 +264,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18753000" />
+    <option name="totallyTimeSpent" value="18929000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="6" />
@@ -362,13 +369,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Create.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="318" lean-forward="true" selection-start-line="318" selection-end-line="318" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/About.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -399,8 +399,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/pages/App.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
+        <state relative-caret-position="-8189">
           <caret line="201" column="40" selection-start-line="201" selection-start-column="40" selection-end-line="201" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/pages/Create.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="361" column="58" selection-start-line="361" selection-start-column="58" selection-end-line="361" selection-end-column="58" />
         </state>
       </provider>
     </entry>
