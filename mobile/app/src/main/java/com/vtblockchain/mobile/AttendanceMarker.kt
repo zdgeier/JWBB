@@ -95,7 +95,6 @@ class AttendanceMarker {
 
         fun getChainClasses(baseUrl: String) : List<Class> {
             val api = Api(baseUrl, okHttpClient)
-            Log.d(TAG, "getting classes")
 
             try {
                 val tableRows = api.chain.getTableRows(
@@ -121,10 +120,10 @@ class AttendanceMarker {
                 }
             }
             catch (e : NetworkErrorException) {
-                Log.d(TAG, "Error getting classes at $baseUrl")
+                Log.e(TAG, "Error getting classes at $baseUrl")
             }
             catch (e : Exception) {
-                Log.d(TAG, "Exception getting rows")
+                Log.e(TAG, "Exception getting rows")
             }
 
             return listOf()
