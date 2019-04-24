@@ -5,8 +5,8 @@
 Location verification app using EOSIO. 
 
 Requirements: 
-[Docker](https://docker.com)
-[Node.js](https://nodejs.org)
+[Docker](https://docker.com)  
+[Node.js](https://nodejs.org)  
 
 !!Run quick_start.sh for first time setup
 
@@ -14,8 +14,12 @@ Requirements:
 start_eosio_docker.sh -- starts eosio docker from saved image  
 start_frontend.sh     -- start frontend  
 
-**Thanks to:**  
+<h6>Thanks to:</h6>  
 Block.one  
+VT  
+Kirk Cameron
+  
+*and especially*    
 Serguei Vinnitskii  
 Zachary Butler  
 
