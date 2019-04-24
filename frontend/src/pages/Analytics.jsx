@@ -139,11 +139,13 @@ class LiveAnalyticsView extends Component {
             "json": true,
             "code": "attendit",   // contract who owns the table
             "scope": "attendit",  // scope of the table
-            "table": "attendance",    // name of the table as specified by the contract abi
-            "limit": 1000,
-        }).then(result => this.setState({
-            attendees: result.rows
-        }));
+            "table": "attendance",    // name of the table as specified by the contract abi,
+            "limit": 100,
+        }).then(result => {
+            this.setState({
+                attendees: result.rows
+            })
+        });
     }
 
     componentDidMount() {
@@ -167,7 +169,7 @@ class LiveAnalyticsView extends Component {
             let date = last7Dates[i].getDate();
             let month = last7Dates[i].getMonth() + 1;
             let year = last7Dates[i].getFullYear();
-            if (a_year === year && a_month === month && a_date === date) {
+            if (a_year == year && a_month == month && a_date == date) {
                 return i;
             }
         }
@@ -195,14 +197,15 @@ class LiveAnalyticsView extends Component {
         let attendees = this.state.attendees.filter((record) => {
             return record.crn === this.props.crn;
         });
-        for (let record in attendees) {
-            let index = this.timeConverter(record.timestamp, last7Dates)
-            if (index !== -1) {
+
+        for (let record of attendees) {
+            let index = this.timeConverter(record.timestamp, last7Dates);
+            if (index != -1) {
                 last7Population[index] = last7Population[index] + 1;
             }
         }
 
-        // Generate data for graphing: 
+        // Generate data for graphing:
         let data = [
             {
                 label: 'Attended',
