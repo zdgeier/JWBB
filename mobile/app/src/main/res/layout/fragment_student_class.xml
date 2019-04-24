@@ -18,8 +18,8 @@
 
     <TextView
             android:text="CRN"
-            android:layout_width="103dp"
-            android:layout_height="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/studentCRN"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textAlignment="center"

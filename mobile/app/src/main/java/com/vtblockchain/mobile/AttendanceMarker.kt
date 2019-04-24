@@ -95,6 +95,7 @@ class AttendanceMarker {
 
         fun getChainClasses(baseUrl: String) : List<Class> {
             val api = Api(baseUrl, okHttpClient)
+            Log.d(TAG, "getting classes")
 
             try {
                 val tableRows = api.chain.getTableRows(
@@ -113,13 +114,17 @@ class AttendanceMarker {
                     )
                 ).blockingGet()
 
+                Log.d(TAG, "DONE")
 
                 return tableRows.body()!!.rows.map {
                     rowToClass(it)
                 }
             }
             catch (e : NetworkErrorException) {
-                System.err.println("Error getting classes at $baseUrl")
+                Log.d(TAG, "Error getting classes at $baseUrl")
+            }
+            catch (e : Exception) {
+                Log.d(TAG, "Exception getting rows")
             }
 
             return listOf()

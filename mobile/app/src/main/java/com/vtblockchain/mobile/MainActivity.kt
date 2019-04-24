@@ -24,7 +24,10 @@ import me.ibrahimsn.particle.ParticleView
 import kotlin.concurrent.fixedRateTimer
 import android.content.DialogInterface
 import android.content.DialogInterface.BUTTON_NEUTRAL
+import android.content.SharedPreferences
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.preference.PreferenceManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -187,7 +190,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar2))
+        val toolbar : Toolbar = findViewById(R.id.toolbar2)
+        toolbar.title = ""
+        setSupportActionBar(toolbar)
+        toolbar.title = "Attend.it!"
 
         particleView = findViewById(R.id.particleView)
 

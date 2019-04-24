@@ -30,12 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="useraaaaaaa"
             android:ems="10"
             android:id="@+id/manualStudentName"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintBottom_toTopOf="@+id/markAction" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/student_name"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:src="@drawable/ic_check_black_24dp"
             android:layout_width="wrap_content"
