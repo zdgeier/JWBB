@@ -62,5 +62,6 @@ echo "=== end of setup blockchain accounts and smart contract ==="
 touch "/mnt/dev/data/initialized"
 
 setup_bios.sh
+professor_setup.sh
 # put the background nodeos job to foreground for docker run
 fg %1
