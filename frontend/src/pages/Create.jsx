@@ -355,11 +355,11 @@ class Create extends Component {
                     </div>
                     <div>
                         <CreateField onChangeHandler={this._handleStartTimeChange} label={"Start Time"}
-                                     placeholder={"e.g. 12:00"}/>
+                                     placeholder={"e.g. 1200"}/>
                     </div>
                     <div>
                         <CreateField onChangeHandler={this._handleEndTimeChange} label={"End Time"}
-                                     placeholder={"e.g. 2:00"}/>
+                                     placeholder={"e.g. 1400"}/>
                     </div>
                     <div>
                         <CreateField onChangeHandler={this._handleCourseNameChange} label={"Course Name"}
