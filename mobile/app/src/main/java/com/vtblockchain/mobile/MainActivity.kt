@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         const val TAG = "JWBB"
         const val nickname = "AttendItNetwork"
         const val professorUsername = "kirkkcameron"
-        const val professorPrivateKey = "5K7pqGyfh1LDGAA83cCfN3D2Mbp9Ys6KtXJ1ckALnsHywDwpm84" // TODO: DON'T USE IN PRODUCTION THIS IS REALLY DUMB
+        const val professorPrivateKey = "5KCi3BQBXzk7maHmzeaiHRjUCmcT74Qe2qMv6kQy17u9m42g1sP" // TODO: DON'T USE IN PRODUCTION THIS IS REALLY DUMB
 
         fun transactionDefaultExpiry(): Date = with(Calendar.getInstance()) {
             set(Calendar.MINUTE, get(Calendar.MINUTE) + 2)

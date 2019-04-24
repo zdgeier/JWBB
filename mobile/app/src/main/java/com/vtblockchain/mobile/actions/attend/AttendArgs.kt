@@ -27,7 +27,7 @@ data class AttendArgs (
     val crn: Long
 ) {
     val getActor : String
-        @AccountNameCompress get() = user
+        @AccountNameCompress get() = actor
 
     val getUser: String
         @AccountNameCompress get() = user
