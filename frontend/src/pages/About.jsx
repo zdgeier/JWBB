@@ -33,28 +33,35 @@ class About extends Component {
                         Meet the team.
                     </p>
                     <Parallax bgImage={groupImg}>
-                        <div style={{height: 500}}>
+                        <div style={{height: 550}}>
                         </div>
                     </Parallax>
-                    <div style={{height: 350}}>
+                    <div style={{height: 410}}>
                         <p style={{paddingTop: 35}}>
-                            What the fuck did you just fucking say about me, you little bitch? I'll have you know I
-                            graduated top of my class in the Navy Seals, and I've been involved in numerous secret raids
-                            on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm
-                            the top sniper in the entire US armed forces. You are nothing to me but just another target.
-                            I will wipe you the fuck out with precision the likes of which has never been seen before on
-                            this Earth, mark my fucking words. You think you can get away with saying that shit to me
-                            over the Internet? Think again, fucker. As we speak I am contacting my secret network of
-                            spies across the USA and your IP is being traced right now so you better prepare for the
-                            storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're
-                            fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred
-                            ways, and that's just with my bare hands. Not only am I extensively trained in unarmed
-                            combat, but I have access to the entire arsenal of the United States Marine Corps and I will
-                            use it to its full extent to wipe your miserable ass off the face of the continent, you
-                            little shit. If only you could have known what unholy retribution your little "clever"
-                            comment was about to bring down upon you, maybe you would have held your fucking tongue. But
-                            you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit
-                            fury all over you and you will drown in it. You're fucking dead, kiddo.
+                        
+                        JW and the Blockchain Bois is a team competing in the VT Blockchain Challenge. 
+                        <br/>
+                        <br/>
+                        We are 4 passionate Virginia Tech Computer Science undergraduate students aiming to design and implement 
+                        <br/>
+                        an application using the EOS platform that truly benefits the VT community. To learn more about 
+                        <br/>
+                         our development process, check out our Twitter handle @JWBlockChainBo1.
+                        <br/>
+                        <br/>
+                        <b>Special Thanks To:</b>
+                        <br/>
+                        <br/>
+                        Dr. Kirk Cameron (CS@VT)
+                        <br/>
+                        Serguei and Zach (Block.one)
+                        <br/>
+                        Julia Costello and Amy (CS@VT)
+                        <br/>
+                        Greg (Block.one)
+                        <br/>
+                        An, Ryan, Bucky, John, and everyone from Block.one
+                        <br/>
                         </p>
                     </div>
                     <Parallax bgImage={nealImg} bgImageStyle={{maxHeight: "150%", maxWidth: "100%"}}>
@@ -173,31 +180,18 @@ class About extends Component {
                         <div style={{height: 550}}>
                         </div>
                     </Parallax>
-                    <div style={{height: 350}}>
+                    <div style={{height: 210}}>
                         <p style={{paddingTop: 35}}>
-                            <b>Nicolas Hardy (General Back-end + EOS)</b>
+                            <b>Serguei and Zach (Block.one Engineers)</b>
                             <br/>
                             <br/>
-                            Back-end Power: ⚔⚔⚔⚔⚔ ⚔⚔⚔⚔⚔
+                            Serguei and Zach are our biggest supporters.
+                            We really appreciate everything they have taught us --
                             <br/>
-                            EOS Power: 🛡️🛡️🛡️🛡️🛡️ 🛡️🛡️🛡️🛡️🛡️
-                            <br/>
-                            🔰 Computer Science undergraduate at Virginia Tech
-                            <br/>
-                            🔰 Soon-to-be: Computer Science graduate at Virginia Tech
-                            <br/>
-                            🔰 Research Assistance for Dr. Kirk Cameron
-                            <br/>
-                            🔰 Level 21 Specialist: EOS Specialist, amazing back-end support
-                            <br/>
-                            🔰 Most reputable CS3214(System and Networking) Teaching Assistant
-                            <br/>
-                            🔰 Not a gym boi, drinks a concerning amount of Mountain Dew
-                            <br/>
-                            🔰 Has an anime addiction problem
+                            their unique insights on Blockchain and valuable industry experience were essential throughout the development process.
                         </p>
                     </div>
-                </div>
+                </div>  
             </Fade>
         );
     }
