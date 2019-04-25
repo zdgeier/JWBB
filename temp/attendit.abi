@@ -1,0 +1,218 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Apr 25 01:32:47 2019",
+    "version": "eosio::abi/1.1",
+    "structs": [
+        {
+            "name": "attendance",
+            "base": "",
+            "fields": [
+                {
+                    "name": "prim_key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "xval",
+                    "type": "float32"
+                },
+                {
+                    "name": "yval",
+                    "type": "float32"
+                },
+                {
+                    "name": "crn",
+                    "type": "uint64"
+                },
+                {
+                    "name": "timestamp",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "classes",
+            "base": "",
+            "fields": [
+                {
+                    "name": "crn",
+                    "type": "uint64"
+                },
+                {
+                    "name": "courseName",
+                    "type": "string"
+                },
+                {
+                    "name": "coordinates",
+                    "type": "pair_float32_float32[]"
+                },
+                {
+                    "name": "startTime",
+                    "type": "uint64"
+                },
+                {
+                    "name": "endTime",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "create",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "crn",
+                    "type": "uint64"
+                },
+                {
+                    "name": "courseName",
+                    "type": "string"
+                },
+                {
+                    "name": "xs",
+                    "type": "float32[]"
+                },
+                {
+                    "name": "ys",
+                    "type": "float32[]"
+                },
+                {
+                    "name": "startTime",
+                    "type": "uint64"
+                },
+                {
+                    "name": "endTime",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "frecord",
+            "base": "",
+            "fields": [
+                {
+                    "name": "actor",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "xval",
+                    "type": "float32"
+                },
+                {
+                    "name": "yval",
+                    "type": "float32"
+                },
+                {
+                    "name": "crn",
+                    "type": "uint64"
+                },
+                {
+                    "name": "time",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "pair_float32_float32",
+            "base": "",
+            "fields": [
+                {
+                    "name": "first",
+                    "type": "float32"
+                },
+                {
+                    "name": "second",
+                    "type": "float32"
+                }
+            ]
+        },
+        {
+            "name": "populate",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "record",
+            "base": "",
+            "fields": [
+                {
+                    "name": "actor",
+                    "type": "name"
+                },
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "xval",
+                    "type": "float32"
+                },
+                {
+                    "name": "yval",
+                    "type": "float32"
+                },
+                {
+                    "name": "crn",
+                    "type": "uint64"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "create",
+            "type": "create",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "frecord",
+            "type": "frecord",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "populate",
+            "type": "populate",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "record",
+            "type": "record",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "attendance",
+            "type": "attendance",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "classes",
+            "type": "classes",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "abi_extensions": []
+}
