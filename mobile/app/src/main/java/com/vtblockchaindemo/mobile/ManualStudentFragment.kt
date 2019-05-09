@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import com.google.android.material.snackbar.Snackbar
 
 class ManualStudentFragment : Fragment() {
 

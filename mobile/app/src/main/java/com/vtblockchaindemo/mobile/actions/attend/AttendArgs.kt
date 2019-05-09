@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile.actions.attend
+package com.vtblockchaindemo.mobile.actions.attend
 
 /**
  * Copyright 2013-present memtrip LTD.

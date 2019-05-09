@@ -1,11 +1,10 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
@@ -15,19 +14,16 @@ import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.*
 import kotlinx.serialization.json.Json
 import java.util.*
-import com.vtblockchain.mobile.AttendanceMarker.Companion.LocationPayload
+import com.vtblockchaindemo.mobile.AttendanceMarker.Companion.LocationPayload
 import kotlinx.coroutines.GlobalScope
 import androidx.lifecycle.Observer
-import com.vtblockchain.mobile.AttendanceMarker.Companion.makeLocationPayload
+import com.vtblockchaindemo.mobile.AttendanceMarker.Companion.makeLocationPayload
 import kotlinx.coroutines.launch
 import me.ibrahimsn.particle.ParticleView
 import kotlin.concurrent.fixedRateTimer
 import android.content.DialogInterface
-import android.content.DialogInterface.BUTTON_NEUTRAL
-import android.content.SharedPreferences
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.preference.PreferenceManager
 
 
 class MainActivity : AppCompatActivity() {

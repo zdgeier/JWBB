@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,7 +32,7 @@ class MyViewModel : ViewModel() {
     }
 
     init {
-        ipAddress.value = "192.168.1.153"
+        ipAddress.value = "localhost"
         studentUsername.value = "jiayiwanglee"
         professorUsername.value = "kirkkcameron"
         manualStudent.value = ""

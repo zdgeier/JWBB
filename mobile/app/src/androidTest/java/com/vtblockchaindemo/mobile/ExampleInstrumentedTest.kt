@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

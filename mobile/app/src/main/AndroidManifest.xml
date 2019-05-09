@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:dist="http://schemas.android.com/apk/distribution"
-          package="com.vtblockchain.mobile">
+          package="com.vtblockchaindemo.mobile">
 
     <dist:module dist:instant="true"/>
 
@@ -25,7 +25,7 @@
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.vtblockchaindemo.mobile.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

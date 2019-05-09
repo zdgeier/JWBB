@@ -1,11 +1,11 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
@@ -15,36 +15,15 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class StudentFragment : Fragment() {
+
+class ProfessorFragment : Fragment() {
     private lateinit var model: MyViewModel
-
-    /*
-    class MyAdapter(var myDataset: Array<Class>, var model: MyViewModel) :
-        RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-
-        open class MyViewHolder(parent: ViewGroup?, resId: Int)
-            : RecyclerView.ViewHolder(LayoutInflater.from(parent?.context).inflate(resId, parent, false))
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
-            MyViewHolder(parent, R.layout.professor_class_card)
-
-        override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.itemView.findViewById<TextView>(R.id.class_crn).text = myDataset[position].crn.toString()
-            holder.itemView.setOnClickListener {
-                model.selectedCRN.value = position
-                Navigation.findNavController(holder.itemView).navigate(R.id.action_studentButton_to_studentClassFragment)
-            }
-        }
-
-        override fun getItemCount() = myDataset.size
-    }
-    */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.fragment_student, container, false)
+        val v = inflater.inflate(R.layout.fragment_professor, container, false)
         model = activity?.run {
             ViewModelProviders.of(this).get(MyViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
@@ -68,12 +47,14 @@ class StudentFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        model.isStudent.value = true
+        model.isStudent.value = false
+        model.isAdvertising.value = false
     }
 
     override fun onPause() {
         super.onPause()
         model.isStudent.value = false
+        model.isAdvertising.value = false
     }
 
     /**
@@ -85,7 +66,7 @@ class StudentFragment : Fragment() {
 
         private fun handleClick(position : Int, holder : ViewHolder) {
             model.selectedCRN.value = position
-            Navigation.findNavController(holder.itemView).navigate(R.id.action_studentButton_to_studentClassFragment)
+            Navigation.findNavController(holder.itemView).navigate(R.id.action_professorButton_to_class1)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {

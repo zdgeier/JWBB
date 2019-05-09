@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VTBlockchain</string>
+    <string name="app_name">VTBlockchainDemo</string>
 
     <string name="supporting">Greyhound divisively hello coldly wonderfully marginally far upon excluding.</string>
     <string name="title">CRN</string>
@@ -29,7 +29,7 @@
         <item>jiayiwanglee</item>
     </string-array>
 
-    <string name="defaultEndpoint">192.168.1.153</string>
+    <string name="defaultEndpoint">localhost</string>
     <string name="defaultStudentUsername">jiayiwanglee</string>
     <string name="defaultProfessorUsername">kirkkcameron</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 import com.google.android.gms.maps.model.LatLng
 

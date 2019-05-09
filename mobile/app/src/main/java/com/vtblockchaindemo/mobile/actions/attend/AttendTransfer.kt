@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile.actions.attend
+package com.vtblockchaindemo.mobile.actions.attend
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse

@@ -1,9 +1,8 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 import android.accounts.NetworkErrorException
 import android.location.Location
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.Tasks
@@ -11,16 +10,15 @@ import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.model.contract.request.GetTableRows
-import com.vtblockchain.mobile.MainActivity.Companion.TAG
-import com.vtblockchain.mobile.MainActivity.Companion.professorPrivateKey
-import com.vtblockchain.mobile.MainActivity.Companion.professorUsername
-import com.vtblockchain.mobile.actions.attend.AttendTransfer
+import com.vtblockchaindemo.mobile.MainActivity.Companion.TAG
+import com.vtblockchaindemo.mobile.MainActivity.Companion.professorPrivateKey
+import com.vtblockchaindemo.mobile.MainActivity.Companion.professorUsername
+import com.vtblockchaindemo.mobile.actions.attend.AttendTransfer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.lang.Exception
-import java.net.ConnectException
 import java.util.concurrent.TimeUnit
 
 class AttendanceMarker {

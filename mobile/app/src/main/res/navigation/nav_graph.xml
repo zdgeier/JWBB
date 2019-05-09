@@ -4,32 +4,32 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
             app:startDestination="@id/start2">
 
-    <fragment android:id="@+id/studentButton" android:name="com.vtblockchain.mobile.StudentFragment" android:label="fragment_student"
+    <fragment android:id="@+id/studentButton" android:name="com.vtblockchaindemo.mobile.StudentFragment" android:label="fragment_student"
               tools:layout="@layout/fragment_student">
         <action android:id="@+id/action_studentButton_to_studentClassFragment"
                 app:destination="@id/studentClassFragment"/>
     </fragment>
-    <fragment android:id="@+id/professorButton" android:name="com.vtblockchain.mobile.ProfessorFragment"
+    <fragment android:id="@+id/professorButton" android:name="com.vtblockchaindemo.mobile.ProfessorFragment"
               android:label="fragment_professor" tools:layout="@layout/fragment_professor">
         <action android:id="@+id/action_professorButton_to_class1" app:destination="@id/class1"/>
     </fragment>
-    <fragment android:id="@+id/start2" android:name="com.vtblockchain.mobile.StartFragment" android:label="fragment_start"
+    <fragment android:id="@+id/start2" android:name="com.vtblockchaindemo.mobile.StartFragment" android:label="fragment_start"
               tools:layout="@layout/fragment_start">
         <action android:id="@+id/action_start2_to_professor" app:destination="@id/professorButton"/>
         <action android:id="@+id/action_start2_to_student" app:destination="@id/studentButton"/>
         <action android:id="@+id/action_start2_to_noClassesFragment" app:destination="@id/noClassesFragment"/>
         <action android:id="@+id/action_start2_to_settingsFragment" app:destination="@id/settingsFragment"/>
     </fragment>
-    <fragment android:id="@+id/class1" android:name="com.vtblockchain.mobile.ProfessorClassFragment" android:label="fragment_class"
+    <fragment android:id="@+id/class1" android:name="com.vtblockchaindemo.mobile.ProfessorClassFragment" android:label="fragment_class"
               tools:layout="@layout/fragment_professor_class">
         <action android:id="@+id/action_class1_to_manualStudentFragment" app:destination="@id/manualStudentFragment"/>
     </fragment>
-    <fragment android:id="@+id/studentClassFragment" android:name="com.vtblockchain.mobile.StudentClassFragment"
+    <fragment android:id="@+id/studentClassFragment" android:name="com.vtblockchaindemo.mobile.StudentClassFragment"
               android:label="fragment_student_class" tools:layout="@layout/fragment_student_class"/>
-    <fragment android:id="@+id/noClassesFragment" android:name="com.vtblockchain.mobile.NoClassesFragment"
+    <fragment android:id="@+id/noClassesFragment" android:name="com.vtblockchaindemo.mobile.NoClassesFragment"
               android:label="fragment_no_classes" tools:layout="@layout/fragment_no_classes"/>
-    <fragment android:id="@+id/manualStudentFragment" android:name="com.vtblockchain.mobile.ManualStudentFragment"
+    <fragment android:id="@+id/manualStudentFragment" android:name="com.vtblockchaindemo.mobile.ManualStudentFragment"
               android:label="fragment_manual_student" tools:layout="@layout/fragment_manual_student"/>
-    <fragment android:id="@+id/settingsFragment" android:name="com.vtblockchain.mobile.SettingsFragment"
+    <fragment android:id="@+id/settingsFragment" android:name="com.vtblockchaindemo.mobile.SettingsFragment"
               android:label="SettingsFragment"/>
 </navigation>

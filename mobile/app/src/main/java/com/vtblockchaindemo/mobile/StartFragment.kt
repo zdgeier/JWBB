@@ -1,14 +1,12 @@
-package com.vtblockchain.mobile
+package com.vtblockchaindemo.mobile
 
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import kotlinx.android.synthetic.main.activity_main.*
 
 class StartFragment : Fragment() {
     private lateinit var model: MyViewModel

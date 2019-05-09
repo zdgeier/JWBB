@@ -1,4 +1,4 @@
-package com.vtblockchain.mobile.actions.attend
+package com.vtblockchaindemo.mobile.actions.attend
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import java.util.Date
